@@ -1,8 +1,9 @@
-const {model} = require('mongoose')
 const {TestCaseItemSchema} = require('./shemas')
 
-const testCase = model('testCaseItem', TestCaseItemSchema)
+function createTestCaseItemModel(mongoose) {
+  return mongoose.model('testCaseItem', TestCaseItemSchema)
+}
 
 module.exports = {
-  testCase
+  createTestCaseItemModel
 }
