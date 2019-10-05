@@ -1,0 +1,39 @@
+const {testCase} = require('./models')
+
+async function setToStorage(testCaseData) {
+  await testCase(testCaseData).save()
+}
+
+async function getStorageData(offset = 0, limit = 0) {
+  return new Promise((res) => {
+
+    const testCasesData = []
+
+    testCase.find({}, function(errr, testCases) {
+      if(errr) {
+        res(errr)
+      }
+      /**
+        *
+        * @param {object<{id: string, date: string, build: string, stack: string|object}>} item
+        * @returns undefined
+        * @example item
+        * {
+        *  id: 'Test case 1',
+        *  date: 1569677669693,
+        *  build: 'Some build description',
+        *  stack: 'Some stack trace'
+        * }
+        */
+      for(const {_id, ...rest} of testCases) {
+        testCasesData.push(rest)
+      }
+      res(testCasesData.slice(offset, limit || testCasesData.length))
+    })
+  })
+}
+
+module.exports = {
+  setToStorage,
+  getStorageData
+}
