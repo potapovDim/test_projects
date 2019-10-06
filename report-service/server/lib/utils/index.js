@@ -1,5 +1,4 @@
 /**
- *
  * @param {any} arg
  * @returns {undefined|number}
  */
@@ -12,6 +11,17 @@ function parseInt(arg) {
   }
 }
 
+class ReportServiceError extends Error {
+  constructor(...args) {
+    super(...args)
+
+    this.name = 'ReportServiceError'
+
+    Error.captureStackTrace(this, ReportServiceError)
+  }
+}
+
 module.exports = {
-  parseInt
+  parseInt,
+  ReportServiceError
 }
