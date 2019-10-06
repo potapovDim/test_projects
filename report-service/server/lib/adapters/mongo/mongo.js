@@ -9,9 +9,9 @@ async function getStorageData(offset = 0, limit = 0) {
 
     const testCasesData = []
 
-    testCase.find({}, function(errr, testCases) {
-      if(errr) {
-        res(errr)
+    testCase.find({}, function(err, testCases) {
+      if(err) {
+        res(err)
       }
       /**
         *

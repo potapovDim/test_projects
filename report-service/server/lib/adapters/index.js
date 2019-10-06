@@ -1,9 +1,3 @@
-const memory = require('./memory')
-const mongo = require('./mongo')
-const mysql = require('./mysql')
+const {ADDAPTER = 'memory'} = process.env
 
-module.exports = {
-  memory,
-  mongo,
-  mysql
-}
+module.exports = require(`./${ADDAPTER}`)

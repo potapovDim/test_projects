@@ -32,7 +32,7 @@ router.get('/script/index.js', (ctx) => {
 })
 
 
-router.post('/add-new-case', (ctx) => {
+router.post('/add-new-case', async (ctx) => {
   /**
    * @data
    * @example
@@ -46,7 +46,7 @@ router.post('/add-new-case', (ctx) => {
    */
   const {data} = ctx.request.body
 
-  storage.setToStorage(data)
+  await storage.setToStorage(data)
 
   ctx.status = 200
   ctx.body = {data: 'OK'}
@@ -54,9 +54,14 @@ router.post('/add-new-case', (ctx) => {
   return ctx
 })
 
-router.get('/get-test-cases', (ctx) => {
+router.get('/get-test-cases', async (ctx) => {
+
+  const offset = parseInt(ctx.request.query.offset)
+  const limit = parseInt(ctx.request.query.limit)
+
   ctx.status = 200
-  ctx.body = storage.getStorageData(parseInt(ctx.request.query.offset), parseInt(ctx.request.query.limit))
+  ctx.body = await storage.getStorageData(offset, limit)
+
   return ctx
 })
 
