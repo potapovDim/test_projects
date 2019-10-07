@@ -33,11 +33,11 @@ function formReqHeader(headers, token, basicAuth, body) {
   if(headers.noNeeded) {
     headers = {}
   }
-
+  console.log(headers)
   return headers
 }
 
-function formReqUrl(host, path, queries) {
+function formReqUrl(host, path = '', queries) {
   if(queries) {
     if(typeof queries === 'string') {
       queries = queries.startsWith('?') ? queries : `?${queries}`
@@ -51,7 +51,7 @@ function formReqUrl(host, path, queries) {
 }
 
 function formReqBody(body) {
-  return body
+  return stringify(body)
 }
 
 module.exports = {

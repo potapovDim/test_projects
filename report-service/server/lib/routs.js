@@ -5,9 +5,7 @@ const {parseInt} = require('./utils')
 const Router = require('koa-router')
 const router = new Router()
 
-const {ADDAPTER = 'memory'} = process.env
-
-const storage = require('./adapters')[ADDAPTER]
+const storage = require('./adapters')
 
 // view rout return index.html
 router.get('/view', (ctx) => {
@@ -43,7 +41,7 @@ router.post('/add-new-case', async (ctx) => {
    *  stackTrace: string
    * }
    *
-   */
+  */
   const {data} = ctx.request.body
 
   await storage.setToStorage(data)

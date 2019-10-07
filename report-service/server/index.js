@@ -10,7 +10,7 @@ app
   .use(bodyParser())
   .use(router.routes())
 
-if(process.env.NODE_ENV = 'debug') {
+if(process.env.NODE_ENV === 'debug') {
   const logger = require('koa-logger')
   app.use(logger())
 }

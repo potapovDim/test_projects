@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 
-const {formReqBody, formReqHeader, formReqUrl, logRequest} = require('./util')
+const {formReqBody, formReqHeader, formReqUrl, logRequest} = require('./request_helpers')
 
 /**
  *
@@ -17,7 +17,6 @@ async function _fetchy(method, host, {path, body = null, headers = {}, queries, 
   const reqUrl = formReqUrl(host, path, queries)
   const reqBody = formReqBody(body)
   const reqHeaders = formReqHeader(headers, token, basicAuth, body, reqUrl, method)
-
 
   const respData = await fetch(reqUrl, {method, headers: reqHeaders, body: reqBody})
 

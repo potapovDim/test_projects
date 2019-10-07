@@ -3,7 +3,7 @@ function isObject(item) {
 }
 
 function stringify(item) {
-  typeof item !== 'string' ? JSON.stringify(item, null, '\t') : item
+  return typeof item !== 'string' ? JSON.stringify(item, null, '\t') : item
 }
 
 module.exports = {
