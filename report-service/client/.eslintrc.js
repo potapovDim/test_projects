@@ -1,11 +1,11 @@
 module.exports = {
   "env": {
+    "browser": true,
     "commonjs": true,
     "es6": true,
     "node": true,
     "mocha": true
   },
-
   "globals": {
     "describe:": "readonly"
   },
@@ -17,6 +17,9 @@ module.exports = {
     "chai-expect"
   ],
   "rules": {
+    "mocha/no-hooks-for-single-case": "off",
+    "no-console": 2,
+    "arrow-parens": 2,
     "mocha/no-skipped-tests": "off",
     "mocha/no-setup-in-describe": "off",
     "require-atomic-updates": "off",
@@ -30,5 +33,5 @@ module.exports = {
   "extends": [
     "eslint:recommended",
     "plugin:mocha/recommended"
-  ],
-}
+  ]
+};

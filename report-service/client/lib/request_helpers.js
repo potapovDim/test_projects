@@ -1,26 +1,22 @@
 const URL = require('url')
 const querystring = require('querystring')
 const {stringify} = require('./utils')
+const {logClientWork} = require('./logger')
 const {DEBUG_PROCESS} = process.env
 
 function logRequest(reqUrl, reqHeaders, reqMethod, reqBody, {body, status, headers}) {
 
   if(DEBUG_PROCESS) {
-    console.log('\n\n')
-    console.log(`Request url: ${reqUrl}`)
-    console.log(`Request headers: ${stringify(reqHeaders)}`)
-    console.log(`Request method: ${reqMethod}`)
-    console.log(`Request body: ${stringify(reqBody)}`)
-    console.log('\n')
-    console.log('********************************************')
-    console.log('\n')
-    console.log(`Response body: ${stringify(body)}`)
-    console.log(`Response status: ${status}`)
-    console.log(`Response headers: ${stringify(headers)}`)
+    logClientWork(`
+      \n
+      REQUEST: \n ${reqMethod} HOST: ${reqUrl} \n HEADERS: ${stringify(reqHeaders)} \n PAYLOADS: ${stringify(reqBody)}
+      \n
+      RESPONSE: \n BODY: ${stringify(body)} \n STATUS: ${status} \n HEADERS: ${stringify(headers)}
+    `)
   }
 }
 
-function formReqHeader(headers, token, basicAuth, body) {
+function formReqHeader(headers = {}, token = null, basicAuth = null, body) {
 
   if(token) {
     headers['Authorization'] = basicAuth ? `Basic ${token}` : `Bearer ${token}`
@@ -29,11 +25,6 @@ function formReqHeader(headers, token, basicAuth, body) {
   if(!headers['Content-Type'] && body) {
     headers['Content-Type'] = 'application/json'
   }
-
-  if(headers.noNeeded) {
-    headers = {}
-  }
-  console.log(headers)
   return headers
 }
 
