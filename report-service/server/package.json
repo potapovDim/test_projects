@@ -8,6 +8,16 @@
   },
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      "devops/*",
+      "docs/*"
+    ],
+    "files": [
+      "lib/*"
+    ],
+    "delay": "2500"
+  },
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "ajv": "^6.10.2",
