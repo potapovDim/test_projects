@@ -30,8 +30,5 @@ function validateAndGetConfig() {
 
 function getConfig() {
   const requiredKeys = ['host']
-
-
   const conf = validateAndGetConfig()
-
 }

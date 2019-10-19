@@ -4,7 +4,7 @@
  */
 function parseInt(arg) {
   const parsed = Number(arg)
-  if(isNaN(Number(arg))) {
+  if(isNaN(parsed)) {
     return undefined
   } else {
     return Math.floor(parsed)
