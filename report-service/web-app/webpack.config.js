@@ -7,6 +7,12 @@ module.exports = {
     path: path.join(__dirname, "/dist"),
     filename: "index_bundle.js"
   },
+  devServer: {
+    port: 8080,
+    inline: true,
+    liveReload: false,
+    historyApiFallback: true
+  },
   module: {
     rules: [
       {
