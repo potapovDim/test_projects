@@ -25,7 +25,9 @@ async function getStorageData(offset = 0, limit = 0) {
         *  stack: 'Some stack trace'
         * }
         */
+      /* eslint-disable no-unused-vars */
       for(const {_id, ...rest} of testCases) {
+        /* eslint-enable no-unused-vars */
         testCasesData.push(rest)
       }
       res(testCasesData.slice(offset, limit || testCasesData.length))

@@ -10,14 +10,14 @@
  *  stack: 'Some stack trace'
  * }
  */
-const createTestCaseItemModel = mongoose => {
-  const relativeShema = mongoose.Schema({
+const createTestCaseItemModel = ({Schema, model}) => {
+  const relativeShema = Schema({
     id: String,
     data: Schema.Types.Mixed,
     build: String,
     stack: Schema.Types.Mixed
   })
-  return mongoose.model('relative', relativeShema)
+  return model('relative', relativeShema)
 }
 
 module.exports = {

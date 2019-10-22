@@ -4,9 +4,9 @@ const path = require('path')
 
 const {ReportServiceError} = require('../../utils')
 
-function addBasicAuthToUrl(username, password) {
+// function addBasicAuthToUrl(username, password) {
   // implementation
-}
+// }
 
 function validateAndGetConfig() {
   let {HOST, CONF_FILE} = process.env
