@@ -1,3 +1,4 @@
+const {Schema} = require('mongoose')
 /**
  *
  * @param {object<{id: string, date: string, build: string, stack: string|object}>} item
@@ -10,14 +11,14 @@
  *  stack: 'Some stack trace'
  * }
  */
-const createTestCaseItemModel = ({Schema, model}) => {
+const createTestCaseItemModel = (connectionDb) => {
   const relativeShema = Schema({
     id: String,
-    data: Schema.Types.Mixed,
+    date: Number,
     build: String,
     stack: Schema.Types.Mixed
   })
-  return model('testcase', relativeShema)
+  return connectionDb.model('testcase', relativeShema)
 }
 
 module.exports = {

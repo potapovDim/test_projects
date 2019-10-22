@@ -4,17 +4,14 @@ const createSetToStorage = (testCase) => async (testCaseData) => {
 
 const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
   return new Promise((res) => {
-
+    const emptyQueryObject = {}
     const testCasesData = []
 
-    testCase.find({}, function(err, testCases) {
+    testCase.find(emptyQueryObject, null, {skip: offset}, function(err, testCases) {
       if(err) {
         res(err)
       }
       /**
-        *
-        * @param {object<{id: string, date: string, build: string, stack: string|object}>} item
-        * @returns undefined
         * @example item
         * {
         *  id: 'Test case 1',
@@ -24,11 +21,11 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
         * }
         */
       /* eslint-disable no-unused-vars */
-      for(const {_id, ...rest} of testCases) {
+      for(const {id, build, date, stack, } of testCases) {
         /* eslint-enable no-unused-vars */
-        testCasesData.push(rest)
+        testCasesData.push({id, build, date, stack})
       }
-      res(testCasesData.slice(offset, limit || testCasesData.length))
+      res(testCasesData.slice(0, limit || testCasesData.length))
     })
   })
 }
