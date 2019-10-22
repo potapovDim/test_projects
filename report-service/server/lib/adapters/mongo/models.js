@@ -17,7 +17,7 @@ const createTestCaseItemModel = ({Schema, model}) => {
     build: String,
     stack: Schema.Types.Mixed
   })
-  return model('relative', relativeShema)
+  return model('testcase', relativeShema)
 }
 
 module.exports = {

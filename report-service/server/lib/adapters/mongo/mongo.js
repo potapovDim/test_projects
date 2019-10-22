@@ -1,10 +1,8 @@
-const {testCase} = require('./models')
-
-async function setToStorage(testCaseData) {
+const createSetToStorage = (testCase) => async (testCaseData) => {
   await testCase(testCaseData).save()
 }
 
-async function getStorageData(offset = 0, limit = 0) {
+const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
   return new Promise((res) => {
 
     const testCasesData = []
@@ -36,6 +34,6 @@ async function getStorageData(offset = 0, limit = 0) {
 }
 
 module.exports = {
-  setToStorage,
-  getStorageData
+  createSetToStorage,
+  createGetStorageData
 }

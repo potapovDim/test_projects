@@ -2,7 +2,7 @@
  * @param {any} arg
  * @returns {undefined|number}
  */
-function parseInt(arg) {
+function parseIntCustom(arg) {
   const parsed = Number(arg)
   if(isNaN(parsed)) {
     return undefined
@@ -22,6 +22,6 @@ class ReportServiceError extends Error {
 }
 
 module.exports = {
-  parseInt,
+  parseIntCustom,
   ReportServiceError
 }
