@@ -16,7 +16,6 @@ function requestInterface(path, body) {
   })
 }
 
-
 export {
   requestInterface
 }

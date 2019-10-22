@@ -1,22 +1,16 @@
 
 import React, {Component} from "react";
-
+import {ReporterCalendar} from './components/calendar'
 import './styles/app.css';
 
 class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      a: 1,
-      b: 2
-    }
-  }
 
   render() {
-    const {a, b} = this.state
     return (
       <div>
-        <h1>Initial React App {a} {b}</h1>
+        <h1>Initial React App</h1>
+        <ReporterCalendar />
+        <ReporterCalendar />
       </div>
     );
   }
