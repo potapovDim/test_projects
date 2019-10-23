@@ -1,6 +1,7 @@
 
 import React, {Component} from "react";
 import {ReporterCalendar} from './components/calendar'
+import {FailedCasesList} from './containers/test.cases.list'
 import './styles/app.css';
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
         <h1>Initial React App</h1>
         <ReporterCalendar />
         <ReporterCalendar />
+        < FailedCasesList />
       </div>
     );
   }

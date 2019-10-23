@@ -1,4 +1,3 @@
-
 function mostFlakyCases() {
   return cases.map(function({id}) {
     return id
