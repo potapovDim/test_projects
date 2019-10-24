@@ -15,8 +15,8 @@ class FailedCasesList extends Component {
     fetchy('GET', '/get-test-cases').then((cases) => this.setState({cases}))
   }
 
-  renderTestCaseList = (testCaseList) => testCaseList.map((testCase) => <TestCase {...testCase} />)
-
+  renderTestCaseList = (testCaseList) => testCaseList
+    .map((testCase, index) => <TestCase key={index} {...testCase} />)
 
   render() {
     const {cases} = this.state
