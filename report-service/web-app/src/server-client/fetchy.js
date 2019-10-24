@@ -1,6 +1,6 @@
 // polifill
 import 'whatwg-fetch'
-import {stringify} from './common'
+import {stringify} from '../utils/common'
 
 const {ENV} = process.env
 const host = ENV === 'production' ? window.origin : 'http://localhost:3000'

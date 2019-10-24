@@ -1,5 +1,4 @@
 const storage = []
-
 /**
  *
  * @param {object<{id: string, date: string, build: string, stack: string|object}>} item

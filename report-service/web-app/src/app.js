@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {ReporterCalendar} from './components/calendar'
-import {FailedCasesList} from './containers/test.cases.list'
+import FailedCasesList from './containers/test.cases.list'
+import Header from './containers/header'
+
 import {Button} from './components/button'
-import {Header} from './containers/header'
 
 import moment from 'moment'
 

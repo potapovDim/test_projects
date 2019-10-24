@@ -1,24 +1,15 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {TestCase} from '../components/test.case'
-import {fetchy} from '../utils/request'
 
 class FailedCasesList extends Component {
-  // state = {
-  //   cases: []
-  // }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return this.state.cases.length !== nextState.cases.length
-  // }
-
-  // componentWillMount() {
-  //   fetchy('GET', '/get-test-cases').then((cases) => this.setState({cases}))
-  // }
 
   renderTestCaseList = (testCaseList) => testCaseList
     .map((testCase, index) => <TestCase key={index} {...testCase} />)
 
+
   render() {
+    console.log(this.props)
     const {cases} = this.props
     return (
       <div>
@@ -28,6 +19,4 @@ class FailedCasesList extends Component {
   }
 }
 
-export {
-  FailedCasesList
-}
+export default connect(({cases}) => ({...cases}))(FailedCasesList)
