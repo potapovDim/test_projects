@@ -18,6 +18,9 @@ module.exports = {
     "chai-expect"
   ],
   "rules": {
+    "no-trailing-spaces": ["error", {
+      "ignoreComments": true
+    }],
     "mocha/no-skipped-tests": "off",
     "mocha/no-setup-in-describe": "off",
     "require-atomic-updates": "off",

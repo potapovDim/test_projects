@@ -2,16 +2,23 @@
 const Router = require('koa-router')
 const router = new Router()
 
-const {getTestCases, createTestCase, getStaticHtml, getStaticScripts} = require('./actions')
+const {
+  getTestCases,
+  createTestCase,
+  getStaticHtml,
+  getStaticScripts,
+  getTestCasesCount,
+  getBaseInfo
+} = require('./actions')
 
-// view rout return index.html
-
-// script static serving
 router.get('/bundle.js', getStaticScripts)
 router.get('/view', getStaticHtml)
 
-router.post('/add-new-case', createTestCase)
+router.get('/get-test-cases-base-info', getBaseInfo)
 router.get('/get-test-cases', getTestCases)
+router.get('/get-test-cases-count', getTestCasesCount)
+
+router.post('/add-new-case', createTestCase)
 
 module.exports = {
   router

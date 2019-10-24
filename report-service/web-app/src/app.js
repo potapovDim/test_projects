@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {ReporterCalendar} from './components/calendar'
 import {FailedCasesList} from './containers/test.cases.list'
 import {Button} from './components/button'
+import {Header} from './containers/header'
+
 import moment from 'moment'
 
 import './styles/app.css'
@@ -16,10 +18,7 @@ class App extends Component {
   toggleCalendar = (name) => {
     const currentStateItem = this.state[name]
     this.setState({
-      [name]: {
-        ...currentStateItem,
-        isOpen: !currentStateItem.isOpen
-      }
+      [name]: {...currentStateItem, isOpen: !currentStateItem.isOpen}
     })
   }
 
@@ -27,9 +26,7 @@ class App extends Component {
     const currentStateItem = this.state[name]
     this.setState({
       [name]: {
-        ...currentStateItem,
-        date,
-        title: date.toString()
+        ...currentStateItem, date, title: date.toString()
       }
     })
   }
@@ -38,20 +35,20 @@ class App extends Component {
 
     const {fromDate: {isOpen: isOpenFrom, title: titleFrom}} = this.state
     const {toDate: {isOpen: isOpenTo, title: titleTo}} = this.state
-    console.log(this.state)
+
+    const {cases, count} = this.props
+    console.log(count)
     return (
       <div>
-        <nav>
-          this is Header
-        </nav>
-        <h1>Initial React App</h1>
+        <Header count={count} />
+        <h1>Report Service</h1>
         <Button name={titleFrom} clickAction={() => this.toggleCalendar('fromDate')} />
         <Button name={titleTo} clickAction={() => this.toggleCalendar('toDate')} />
 
         {isOpenFrom && <ReporterCalendar onChange={(date) => this.selectDate('fromDate', date)} />}
         {isOpenTo && <ReporterCalendar onChange={(date) => this.selectDate('toDate', date)} />}
 
-        <FailedCasesList />
+        <FailedCasesList cases={cases} />
       </div>
     );
   }

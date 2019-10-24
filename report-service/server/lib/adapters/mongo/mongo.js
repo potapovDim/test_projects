@@ -2,6 +2,19 @@ const createSetToStorage = (testCase) => async (testCaseData) => {
   await testCase(testCaseData).save()
 }
 
+const createGetStoragCount = (testCase) => async () => {
+  return new Promise((res) => {
+    const emptyQueryObject = {}
+
+    testCase.count(emptyQueryObject, function(err, count) {
+      if(err) {
+        res(err)
+      }
+      res({count})
+    })
+  })
+}
+
 const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
   return new Promise((res) => {
     const emptyQueryObject = {}
@@ -30,7 +43,9 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
   })
 }
 
+
 module.exports = {
   createSetToStorage,
-  createGetStorageData
+  createGetStorageData,
+  createGetStoragCount
 }

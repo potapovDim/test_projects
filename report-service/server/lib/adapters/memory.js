@@ -32,7 +32,22 @@ function getStorageData(offset = 0, limit = storage.length) {
   return [...storage].slice(offset, limit)
 }
 
+function getStorageDataCount() {
+  return {count: storage.length}
+}
+
+function getStorageBaseInfo() {
+  return {
+    count: storage.length,
+    startDate: storage.length ? storage[0].date : null,
+    endDate: storage.length ? storage[storage.length - 1].date : null,
+    cases: [...storage].slice(0, 100)
+  }
+}
+
 module.exports = {
   getStorageData,
-  setToStorage
+  setToStorage,
+  getStorageDataCount,
+  getStorageBaseInfo
 }
