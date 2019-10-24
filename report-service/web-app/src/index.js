@@ -4,13 +4,15 @@ import {Provider} from 'react-redux'
 import store from './reducers/rootReducer'
 import {initStore} from './reducers/cases'
 
-import {getBaseInfo} from './server-client/actions'
 import App from "./App.js"
 
-getBaseInfo().then((result) => {
-  // init base storage state
-  store.dispatch(initStore(result))
-  // render application
+import {globalSyncWithBackend} from './server-client/actions'
+
+function dispatchIitialState(result) {
+  return store.dispatch(initStore(result))
+}
+
+globalSyncWithBackend(dispatchIitialState).then(() => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
@@ -18,4 +20,3 @@ getBaseInfo().then((result) => {
     document.getElementById("root")
   )
 })
-

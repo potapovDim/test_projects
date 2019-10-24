@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {fromNumberToMDY} from '../utils/date'
 
 /**
  *  @example {
@@ -24,14 +25,14 @@ class TestCase extends Component {
 
     return (
       <div>
-        <h3 onClick={this.toggleTestCaseInfo}>{id}</h3>
+        <h3 onClick={this.toggleTestCaseInfo}>Test case id: {id}</h3>
         {
           isOpened && (
             <div className={'test-case-body'}>
-              <div >{date}</div>
-              <div >{build}</div>
-              <div >{stack}</div>
-              env && <div>${env}</div>
+              <div> <span>Execution date   </span> {fromNumberToMDY(date)} </div>
+              <div> <span>Build number     </span> {build}                 </div>
+              <div> <span>Stack trace      </span> {stack}                 </div>
+              env && <div><span>Environment</span> {env}                   </div>
             </div>
           )
         }

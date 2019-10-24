@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import Calendar from 'react-calendar';
+import React from 'react'
+import Calendar from 'react-calendar'
 
-const ReporterCalendar = ({onChange}) => (
-  <div>
+const ReporterCalendar = ({title = '', onChange}) => (
+  <div className="calendar wrapper">
+    {title}
     <Calendar onChange={onChange} />
   </div>
 );

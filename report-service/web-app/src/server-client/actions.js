@@ -17,8 +17,14 @@ function getBaseInfo(cb) {
 }
 
 
+function globalSyncWithBackend(dispatcher) {
+  return getBaseInfo().then((res) => dispatcher(res))
+}
+
 export {
   getTestCases,
   getTestCaseCount,
-  getBaseInfo
+  getBaseInfo,
+
+  globalSyncWithBackend
 }
