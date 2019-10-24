@@ -7,6 +7,7 @@ import {updateDateRenge} from '../reducers/cases'
 
 import {
   fromMDYToDateObj,
+  fromNumberToDateObject,
   fromNumberToMDY
 } from '../utils/date'
 
@@ -56,10 +57,12 @@ class Header extends Component {
 
               <div className="calendar section">
                 {fromDateOpen && <ReporterCalendar
+                  // activeStartDate={fromNumberToDateObject(fromDateOpen)}
                   onChange={(dateObj) => this.filterTestCasesByDay('startDate', dateObj)}
                   title="Choose start date"
                 />}
                 {toDateOpen && <ReporterCalendar
+                  // activeStartDate={fromNumberToDateObject(toDateOpen)}
                   onChange={(dateObj) => this.filterTestCasesByDay('endDate', dateObj)}
                   title="Choose end date"
                 />}

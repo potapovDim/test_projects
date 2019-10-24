@@ -4,7 +4,7 @@ function fromNumberToMDY(dateNumber) {
   return moment(dateNumber).format('MMM Do YY')
 }
 
-function fromNumberToDateObject() {
+function fromNumberToDateObject(dateNumber) {
   return moment(dateNumber).toDate()
 }
 

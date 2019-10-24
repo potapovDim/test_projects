@@ -26,16 +26,15 @@ class TestCase extends Component {
     return (
       <div>
         <h3 onClick={this.toggleTestCaseInfo}>Test case id: {id}</h3>
-        {
-          isOpened && (
+        {isOpened &&
+          (
             <div className={'test-case-body'}>
               <div> <span>Execution date   </span> {fromNumberToMDY(date)} </div>
               <div> <span>Build number     </span> {build}                 </div>
               <div> <span>Stack trace      </span> {stack}                 </div>
               env && <div><span>Environment</span> {env}                   </div>
             </div>
-          )
-        }
+          )}
       </div>
     )
   }
