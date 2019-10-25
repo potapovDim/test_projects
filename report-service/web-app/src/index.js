@@ -9,6 +9,7 @@ import App from "./App.js"
 import {getBaseInfo} from './server-client/actions'
 
 function dispatchIitialState(result) {
+  console.log(result)
   return store.dispatch(initStore(result))
 }
 

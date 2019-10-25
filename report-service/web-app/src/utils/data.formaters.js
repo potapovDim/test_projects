@@ -1,3 +1,30 @@
+function getFailReasons(failedReasons, testCaces) {
+
+  const failedResonsKeys = Array.isArray(failedReasons) ? [...failedReasons] : Object.keys(failedReasons)
+
+  const result = testCaces.reduce(function(acc, testCase, index) {
+
+    failedResonsKeys.forEach(function(key) {
+      if(testCase.stack.includes(key) && acc[key]) {
+        acc[key]++
+      } else if(testCase.stack.includes(key)) {
+        acc[key] = 1
+      }
+    })
+
+    return acc
+  }, {})
+
+  result['Other reasons'] = testCaces.length - Object.keys(result)
+    .reduce(function(acc, key) {
+      acc += result[key]
+      return acc
+    }, 0)
+
+  return result
+}
+
+
 function mostFlakyCases() {
   return cases.map(function({id}) {
     return id
@@ -11,8 +38,8 @@ function mostFlakyCases() {
   }, {})
 }
 
-function getRangeFailesByBuild() {
 
+function getRangeFailesByBuild() {
   const items = cases.reduce(function(acc, testCace) {
     const {build, id} = testCace
     if(acc[build]) {
@@ -39,4 +66,11 @@ function getRangeFailesByBuild() {
 
     return acc
   }, {})
+}
+
+
+export {
+  getFailReasons,
+  getRangeFailesByBuild,
+  mostFlakyCases
 }

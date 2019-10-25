@@ -16,13 +16,18 @@ function getBaseInfo(cb) {
   return fetchy.get(routerConstants.getTestCaseBaseInfo).then(cb)
 }
 
-function updateFailedTestReasons(body, cb) {
-  return fetchy.post(routerConstants.setFailedReasons, body).then(cb)
+function updateReportConfig(body, cb) {
+  return fetchy.post(routerConstants.setReportConfig, body).then(cb)
+}
+
+function getReportConfig(cb) {
+  return fetchy.get(routerConstants.getReportConfig).then(cb)
 }
 
 export {
   getTestCases,
   getTestCaseCount,
   getBaseInfo,
-  updateFailedTestReasons
+  updateReportConfig,
+  getReportConfig
 }

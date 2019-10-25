@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateFailedTestReasons} from '../server-client/actions'
+import {updateReportConfig} from '../server-client/actions'
 import {updateConfig} from '../reducers/cases'
 // TODO
 /**
@@ -9,17 +9,19 @@ import {updateConfig} from '../reducers/cases'
 class ReporterConfig extends Component {
 
   state = {
-    failedReasons: ''
+    failedReasons: []
   }
 
   updateFailedReason = ({target: {value}}) => {
-    this.setState({failedReasons: value})
+    this.setState({
+      failedReasons: value.split(',')
+    })
   }
 
   updateConfig = () => {
     const configData = {failedReasons: this.state.failedReasons}
     this.props.dispatch(updateConfig(configData))
-    updateFailedTestReasons(configData)
+    updateReportConfig({config: configData})
   }
 
   render() {

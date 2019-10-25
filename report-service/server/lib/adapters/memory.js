@@ -1,3 +1,5 @@
+const {getConfig, setConfig} = require('./config')
+
 const storage = []
 /**
  *
@@ -37,23 +39,28 @@ function getStorageDataCount() {
 
 function getStorageBaseInfo() {
 
-  require('fs').writeFileSync('./dataLol.json', JSON.stringify({
-    count: storage.length,
-    startDate: storage.length ? storage[0].date : null,
-    endDate: storage.length ? storage[storage.length - 1].date : null,
-    cases: [...storage]
-  }))
+  // require('fs').writeFileSync('./dataLol.json', JSON.stringify({
+  //   count: storage.length,
+  //   startDate: storage.length ? storage[0].date : null,
+  //   endDate: storage.length ? storage[storage.length - 1].date : null,
+  //   cases: [...storage]
+  // }))
+
   return {
     count: storage.length,
+    config: getConfig(),
     startDate: storage.length ? storage[0].date : null,
     endDate: storage.length ? storage[storage.length - 1].date : null,
     cases: [...storage]
   }
 }
 
+
 module.exports = {
   getStorageData,
   setToStorage,
   getStorageDataCount,
-  getStorageBaseInfo
+  getStorageBaseInfo,
+  getConfig,
+  setConfig
 }

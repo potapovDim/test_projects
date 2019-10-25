@@ -5,6 +5,11 @@ import Header from './containers/header'
 import Statistics from './containers/statistics'
 import './styles/app.css'
 
+
+// temp
+
+
+
 class App extends Component {
 
   state = {
@@ -14,12 +19,19 @@ class App extends Component {
     statistics: false
   }
 
+  UNSAFE_componentWillMount() {
+    const currentView = localStorage.getItem('view')
+    currentView && this.toggleContent(currentView)
+  }
+
   toggleContent = (name) => {
     const newState = Object.keys(this.state).reduce(function(state, key) {
       state[key] = key !== name ? false : true
       return state
     }, {})
     this.setState(newState)
+
+    localStorage.setItem('view', name)
   }
 
   render() {
@@ -35,10 +47,10 @@ class App extends Component {
           <button onClick={() => this.toggleContent('reporterConfig')}>Configuration</button>
           <button onClick={() => this.toggleContent('statistics')}>Statistics</button>
         </div>
-        {dashboard          && <div>Dashboard</div> }
-        {testCasesList      && <FailedCasesList />  }
-        {reporterConfig     && <ReportConfig />     }
-        {statistics         && <Statistics />       }
+        {dashboard && <div>Dashboard</div>}
+        {testCasesList && <FailedCasesList />}
+        {reporterConfig && <ReportConfig />}
+        {statistics && <Statistics />}
       </div>
     );
   }

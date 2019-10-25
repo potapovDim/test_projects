@@ -11,15 +11,15 @@ const {
   getStaticHtml,
   getStaticScripts,
 
-  getFailedReasons,
-  setFailedReasons
+  setReporterConfig,
+  getReporterConfig,
 } = require('./actions')
 
 router.get('/bundle.js', getStaticScripts)
 router.get('/view', getStaticHtml)
 
-router.post('/set-fail-reasons', setFailedReasons)
-router.get('/get-fail-reasons', getFailedReasons)
+router.post('/set-report-config', setReporterConfig)
+router.get('/get-report-config', getReporterConfig)
 
 router.get('/get-test-cases-base-info', getBaseInfo)
 router.get('/get-test-cases', getTestCases)
