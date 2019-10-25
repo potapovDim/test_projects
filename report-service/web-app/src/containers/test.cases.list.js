@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {TestCase} from '../components/test.case'
 import Modal from 'react-modal'
 
+
 class FailedCasesList extends Component {
   state = {
     modalCases: []
@@ -10,9 +11,7 @@ class FailedCasesList extends Component {
 
   getTestCaseHistory = (id) => {
     const {cases} = this.props
-    const modalCases = cases
-      .filter((testCase) => testCase.id === id)
-    // .sort((testCaseA, testCaseB) => testCaseA.)
+    const modalCases = cases.filter((testCase) => testCase.id === id)
     this.setState({modalCases})
   }
 
@@ -25,21 +24,38 @@ class FailedCasesList extends Component {
       />
     )
 
+  renderGropTestCaseBy = () => {
+    const {cases: [testCase]} = this.props
+    return (
+      <select>
+        <option>All</option>
+        {Object.keys(testCase).map((item) => <option>{item}</option>)}
+      </select>
+    )
+  }
+
   askToClose = () => {
     this.setState({modalCases: []})
   }
-
 
   render() {
     const {cases} = this.props
     const {modalCases} = this.state
     return (
       <div>
-        <Modal isOpen={!!modalCases.length}>
-          <button onClick={this.askToClose}>close</button>
-          {this.renderTestCaseList(modalCases)}
-        </Modal>
-        {this.renderTestCaseList(cases)}
+        {
+          cases.length && (
+            <div>
+              <div>Grop test cases by</div>
+              {this.renderGropTestCaseBy()}
+              <Modal isOpen={!!modalCases.length}>
+                <button onClick={this.askToClose}>close</button>
+                {this.renderTestCaseList(modalCases)}
+              </Modal>
+              {this.renderTestCaseList(cases)}
+            </div>
+          )
+        }
       </div>
     )
   }
