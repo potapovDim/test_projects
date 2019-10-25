@@ -6,13 +6,13 @@ import {initStore} from './reducers/cases'
 
 import App from "./App.js"
 
-import {globalSyncWithBackend} from './server-client/actions'
+import {getBaseInfo} from './server-client/actions'
 
 function dispatchIitialState(result) {
   return store.dispatch(initStore(result))
 }
 
-globalSyncWithBackend(dispatchIitialState).then(() => {
+getBaseInfo(dispatchIitialState).then(() => {
   ReactDOM.render(
     <Provider store={store}>
       <App />

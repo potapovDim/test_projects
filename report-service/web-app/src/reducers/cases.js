@@ -1,6 +1,7 @@
 import {
   INIT_STORE,
-  UPDATE_DATE_RANGE
+  UPDATE_DATE_RANGE,
+  UPDATE_CONFIG
 } from './action.contants'
 
 function initStore(state) {
@@ -9,6 +10,10 @@ function initStore(state) {
 
 function updateDateRenge(dataRange) {
   return {type: UPDATE_DATE_RANGE, dataRange}
+}
+
+function updateConfig(config) {
+  return {type: UPDATE_CONFIG, config}
 }
 
 function caseStore(state = {}, action) {
@@ -24,6 +29,10 @@ function caseStore(state = {}, action) {
       return {cases, count: cases.length, startDate, endDate}
     }
 
+    case UPDATE_CONFIG: {
+      return {...state, config: action.config}
+    }
+
     default:
       return state
   }
@@ -33,5 +42,6 @@ export {
   caseStore,
 
   initStore,
-  updateDateRenge
+  updateDateRenge,
+  updateConfig
 }

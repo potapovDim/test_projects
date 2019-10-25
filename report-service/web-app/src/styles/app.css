@@ -2,3 +2,7 @@ h1 {
   color: #27aedb;
   text-align: center;
 }
+
+.navigation_menu {
+  display: flex;
+}

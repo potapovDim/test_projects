@@ -16,15 +16,13 @@ function getBaseInfo(cb) {
   return fetchy.get(routerConstants.getTestCaseBaseInfo).then(cb)
 }
 
-
-function globalSyncWithBackend(dispatcher) {
-  return getBaseInfo().then((res) => dispatcher(res))
+function updateFailedTestReasons(body, cb) {
+  return fetchy.post(routerConstants.setFailedReasons, body).then(cb)
 }
 
 export {
   getTestCases,
   getTestCaseCount,
   getBaseInfo,
-
-  globalSyncWithBackend
+  updateFailedTestReasons
 }

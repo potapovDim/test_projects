@@ -5,14 +5,21 @@ const router = new Router()
 const {
   getTestCases,
   createTestCase,
+  getTestCasesCount,
+  getBaseInfo,
+
   getStaticHtml,
   getStaticScripts,
-  getTestCasesCount,
-  getBaseInfo
+
+  getFailedReasons,
+  setFailedReasons
 } = require('./actions')
 
 router.get('/bundle.js', getStaticScripts)
 router.get('/view', getStaticHtml)
+
+router.post('/set-fail-reasons', setFailedReasons)
+router.get('/get-fail-reasons', getFailedReasons)
 
 router.get('/get-test-cases-base-info', getBaseInfo)
 router.get('/get-test-cases', getTestCases)

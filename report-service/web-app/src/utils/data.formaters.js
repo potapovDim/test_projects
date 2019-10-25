@@ -11,7 +11,6 @@ function mostFlakyCases() {
   }, {})
 }
 
-
 function getRangeFailesByBuild() {
 
   const items = cases.reduce(function(acc, testCace) {
