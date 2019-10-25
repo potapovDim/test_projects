@@ -22,13 +22,14 @@ class TestCase extends Component {
   render() {
     const {isOpened} = this.state
     const {id, date, build, stack, env} = this.props
-
+    const {onClick, title = 'Action button'} = this.props
     return (
       <div>
         <h3 onClick={this.toggleTestCaseInfo}>Test case id: {id}</h3>
         {isOpened &&
           (
             <div className={'test-case-body'}>
+              {onClick && <button onClick={() => onClick(id)}>{title}</button>}
               <div> <span>Execution date   </span> {fromNumberToMDY(date)} </div>
               <div> <span>Build number     </span> {build}                 </div>
               <div> <span>Stack trace      </span> {stack}                 </div>

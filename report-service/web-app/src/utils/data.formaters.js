@@ -1,32 +1,32 @@
-function getFailReasons(failedReasons, testCaces) {
+function getFailReasons(failedReasons = {}, testCaces) {
 
   const failedResonsKeys = Array.isArray(failedReasons) ? [...failedReasons] : Object.keys(failedReasons)
 
-  const result = testCaces.reduce(function(acc, testCase, index) {
+  const result = testCaces.reduce(function(acc, testCase) {
 
-    failedResonsKeys.forEach(function(key) {
-      if(testCase.stack.includes(key) && acc[key]) {
-        acc[key]++
-      } else if(testCase.stack.includes(key)) {
-        acc[key] = 1
-      }
+    const failedReasonFromCurrentCase = failedResonsKeys.find(function(failedReason) {
+      return testCase.stack.includes(failedReason)
     })
 
+    if(failedReasonFromCurrentCase && acc[failedReasonFromCurrentCase]) {
+      acc[failedReasonFromCurrentCase].push(testCase)
+    } else if(failedReasonFromCurrentCase) {
+      acc[failedReasonFromCurrentCase] = [testCase]
+    } else {
+      if(acc['Other reasons']) {
+        acc['Other reasons'].push(testCase)
+      } else {
+        acc['Other reasons'] = [testCase]
+      }
+    }
     return acc
   }, {})
-
-  result['Other reasons'] = testCaces.length - Object.keys(result)
-    .reduce(function(acc, key) {
-      acc += result[key]
-      return acc
-    }, 0)
 
   return result
 }
 
-
-function mostFlakyCases() {
-  return cases.map(function({id}) {
+function mostFlakyCases(testCaces) {
+  return testCaces.map(function({id}) {
     return id
   }).reduce(function(acc, caseId) {
     if(acc[caseId] === undefined) {
