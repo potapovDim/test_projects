@@ -38,7 +38,6 @@ function mostFlakyCases(testCaces) {
   }, {})
 }
 
-
 function getRangeFailesByBuild() {
   const items = cases.reduce(function(acc, testCace) {
     const {build, id} = testCace
@@ -68,9 +67,18 @@ function getRangeFailesByBuild() {
   }, {})
 }
 
+function getGroupedByCases(propName, testCaces) {
+  return testCaces
+    .map((item) => item[propName])
+    .filter((item, index, testCasesGroupsNotUniq) => testCasesGroupsNotUniq.findIndex(item) === index)
+    .reduce((groupedCases, groupValue) => {
+      groupedCases[groupValue] = testCaces.filter((testCase) => testCase[propName] === groupValue)
+    }, {})
+}
 
 export {
   getFailReasons,
   getRangeFailesByBuild,
+  getGroupedByCases,
   mostFlakyCases
 }

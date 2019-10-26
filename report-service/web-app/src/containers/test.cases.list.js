@@ -2,11 +2,25 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {TestCase} from '../components/test.case'
 import Modal from 'react-modal'
+import {getGroupedByCases} from '../utils/data.formaters'
 
 
 class FailedCasesList extends Component {
   state = {
-    modalCases: []
+    modalCases: [],
+    /**
+     * @example
+     * {
+     *  build: [
+     *    {
+     *      id: 'testcaseid',
+     *      stack: 'a',
+     *      date: 'bb'
+     *    }
+     *  ]
+     * }
+     */
+    groupedCases: null
   }
 
   getTestCaseHistory = (id) => {
@@ -24,7 +38,7 @@ class FailedCasesList extends Component {
       />
     )
 
-  renderGropTestCaseBy = () => {
+  renderGropTestCaseByList = () => {
     const {cases: [testCase]} = this.props
     return (
       <select>
@@ -34,25 +48,44 @@ class FailedCasesList extends Component {
     )
   }
 
+  renderGroutedCases = (group) => {
+    if(group === 'All') {
+      this.setState({
+        groupedCases: null
+      })
+    } else {
+      this.setState({
+        groupedCases: getGroupedByCases(group)
+      })
+    }
+  }
+
   askToClose = () => {
     this.setState({modalCases: []})
   }
 
   render() {
     const {cases} = this.props
-    const {modalCases} = this.state
+    const {modalCases, groupedCases} = this.state
+
     return (
       <div>
         {
           cases.length && (
             <div>
               <div>Grop test cases by</div>
-              {this.renderGropTestCaseBy()}
+
+              {this.renderGropTestCaseByList()}
+
               <Modal isOpen={!!modalCases.length}>
                 <button onClick={this.askToClose}>close</button>
+
                 {this.renderTestCaseList(modalCases)}
+
               </Modal>
+
               {this.renderTestCaseList(cases)}
+
             </div>
           )
         }
