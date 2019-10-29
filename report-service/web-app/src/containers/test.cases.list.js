@@ -1,8 +1,11 @@
+import './styles/test.cases.list.css'
+
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {TestCase} from '../components/test.case'
 import Modal from 'react-modal'
 import {getGroupedByCases} from '../utils/data.formaters'
+
 
 
 class FailedCasesList extends Component {
@@ -25,9 +28,9 @@ class FailedCasesList extends Component {
 
   getTestCaseHistory = (currentTestCase) => {
     const {cases, config: {historyBy = 'id'} = {}} = this.props
-    console.log(currentTestCase)
+
     const modalCases = cases.filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
-    console.log('!!!!!!!!!!!!!', modalCases.length)
+
     this.setState({modalCases})
   }
 
@@ -43,21 +46,31 @@ class FailedCasesList extends Component {
   renderGropTestCaseByList = () => {
     const {cases: [testCase]} = this.props
     return (
-      <select>
+      <select onChange={({target: {value}}) => this.renderGroutedCases(value)}>
         <option>All</option>
         {Object.keys(testCase).map((item) => <option>{item}</option>)}
       </select>
     )
   }
 
+  renderTestCaseListGrouped = (groupedTestCases) => {
+    return Object.keys(groupedTestCases).map((groupKey) =>
+      <div>
+        <div className="group identifier">{groupKey}</div>
+        {this.renderTestCaseList(groupedTestCases[groupKey])}
+      </div>
+    )
+  }
+
   renderGroutedCases = (group) => {
+    const {cases = []} = this.props
     if(group === 'All') {
       this.setState({
         groupedCases: null
       })
     } else {
       this.setState({
-        groupedCases: getGroupedByCases(group)
+        groupedCases: getGroupedByCases(group, cases)
       })
     }
   }
@@ -68,8 +81,8 @@ class FailedCasesList extends Component {
 
   render() {
     const {cases = []} = this.props
-    const {modalCases} = this.state
-
+    const {modalCases, groupedCases} = this.state
+    console.log(groupedCases)
     return (
       <div>
         {
@@ -84,7 +97,8 @@ class FailedCasesList extends Component {
                 {this.renderTestCaseList(modalCases, false)}
               </Modal>
 
-              {this.renderTestCaseList(cases)}
+              {!groupedCases && this.renderTestCaseList(cases)}
+              {groupedCases && this.renderTestCaseListGrouped(groupedCases)}
             </div>
           )
         }

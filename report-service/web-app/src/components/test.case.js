@@ -33,11 +33,11 @@ class TestCase extends Component {
     } = rest
 
     return (
-      <div>
-        <h3 onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</h3>
+      <div className='test_case'>
+        <div onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</div>
         {isOpened &&
           (
-            <div className={'test-case-body'}>
+            <div className='test_case_body'>
               {onClick && <button onClick={() => onClick(rest)}>{title}</button>}
               <div> <span>Execution date   </span> {fromNumberToMDY(date)}          </div>
               <div> <span>Build number     </span> {build}                          </div>

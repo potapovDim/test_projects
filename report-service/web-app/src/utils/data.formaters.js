@@ -74,9 +74,13 @@ function getRangeFailesByBuild() {
 function getGroupedByCases(propName, testCaces) {
   return testCaces
     .map((item) => item[propName])
-    .filter((item, index, testCasesGroupsNotUniq) => testCasesGroupsNotUniq.findIndex(item) === index)
+    .filter((item, index, testCasesGroupsNotUniq) => {
+      console.log(testCasesGroupsNotUniq, testCasesGroupsNotUniq.findIndex)
+      return testCasesGroupsNotUniq.indexOf(item) === index
+    })
     .reduce((groupedCases, groupValue) => {
       groupedCases[groupValue] = testCaces.filter((testCase) => testCase[propName] === groupValue)
+      return groupedCases
     }, {})
 }
 

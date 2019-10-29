@@ -13,14 +13,26 @@ import {updateConfig} from '../reducers/cases'
  */
 class ReporterConfig extends Component {
   state = {
-    testCaseStructure: {
-      id: null,
-      date: null,
-      build: null,
-      stack: null
-    },
+    testCaseStructure: {},
     failedReasons: [],
     serverHost: null
+  }
+
+  UNSAFE_componentWillMount() {
+    const config = lStorage.lsGet('config')
+
+    if(config) {
+      this.state.failedReasons = config.failedReasons || []
+
+      this.state.serverHost = config.serverHost || null
+
+      this.state.testCaseStructure = config.testCaseStructure
+
+      if(this.refs.storageUrl) {
+        this.refs.storageUrl = this.state.serverHost
+      }
+    }
+
   }
 
   updateConfig = (confProp, data) => {
@@ -50,13 +62,15 @@ class ReporterConfig extends Component {
       testCaseStructure = this.state.testCaseStructure
     } = this.props
 
+    console.log(failedReasons, testCaseStructure)
+
     return (
       <div>
         <h3>Configuration </h3>
         {/* <input placeholder="Reporter failed reasons" onChange={this.updateConfig}></input> */}
         <button onClick={this.syncConfig}>Sync config</button>
         <h3>Backend service storage url</h3>
-        <input placeholder="Storage url" onChange={this.updateServerHost}></input>
+        <input placeholder="Storage url" onChange={this.updateServerHost} ref={this.refs.storageUrl}></input>
         <h3>Test-case format data</h3>
 
         <JSONInput
