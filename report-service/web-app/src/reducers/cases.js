@@ -1,7 +1,8 @@
 import {
   INIT_STORE,
   UPDATE_DATE_RANGE,
-  UPDATE_CONFIG
+  UPDATE_CONFIG,
+  UPDATA_CASES_LIST
 } from './action.contants'
 
 function initStore(state) {
@@ -16,8 +17,13 @@ function updateConfig(config) {
   return {type: UPDATE_CONFIG, config}
 }
 
+function updateCasesList(cases) {
+  return {type: UPDATA_CASES_LIST, cases}
+}
+
 function caseStore(state = {}, action) {
   switch(action.type) {
+
     case INIT_STORE:
       return action.state
 
@@ -27,6 +33,10 @@ function caseStore(state = {}, action) {
         return startDate <= date && date <= endDate
       })
       return {cases, count: cases.length, startDate, endDate}
+    }
+
+    case UPDATA_CASES_LIST: {
+      return {...state, cases: action.cases}
     }
 
     case UPDATE_CONFIG: {
@@ -43,5 +53,6 @@ export {
 
   initStore,
   updateDateRenge,
-  updateConfig
+  updateConfig,
+  updateCasesList
 }

@@ -31,11 +31,11 @@ class FailedCasesList extends Component {
     this.setState({modalCases})
   }
 
-  renderTestCaseList = (testCaseList) => testCaseList
+  renderTestCaseList = (testCaseList, fromModal = true) => testCaseList
     .map((testCase, index) =>
       <TestCase
         key={index} {...testCase}
-        onClick={this.getTestCaseHistory}
+        onClick={fromModal && this.getTestCaseHistory}
         title={"Test case history"}
       />
     )
@@ -67,7 +67,7 @@ class FailedCasesList extends Component {
   }
 
   render() {
-    const {cases} = this.props
+    const {cases = []} = this.props
     const {modalCases} = this.state
 
     return (
@@ -81,13 +81,10 @@ class FailedCasesList extends Component {
 
               <Modal isOpen={!!modalCases.length}>
                 <button onClick={this.askToClose}>close</button>
-
-                {this.renderTestCaseList(modalCases)}
-
+                {this.renderTestCaseList(modalCases, false)}
               </Modal>
 
               {this.renderTestCaseList(cases)}
-
             </div>
           )
         }

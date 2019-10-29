@@ -5,7 +5,11 @@ function getFailReasons(failedReasons = {}, testCaces) {
   const result = testCaces.reduce(function(acc, testCase) {
 
     const failedReasonFromCurrentCase = failedResonsKeys.find(function(failedReason) {
-      return testCase.stack.includes(failedReason)
+      if('stack' in testCase) {
+        return testCase.stack.includes(failedReason)
+      } else {
+        return testCase.stackTrace.includes(failedReason)
+      }
     })
 
     if(failedReasonFromCurrentCase && acc[failedReasonFromCurrentCase]) {

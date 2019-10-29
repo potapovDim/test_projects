@@ -10,7 +10,6 @@ import App from "./App.js"
 import {getBaseInfo} from './server-client/actions'
 
 function dispatchIitialState(result) {
-  console.log(result, '!!!!!!!!!!!!!!!!!!!')
   // try to find config in localStorage if config does not exists
   if(!result.config || !Object.keys(result.config).length) {
     const lsConfig = lsStore.lsGet('config')
@@ -18,7 +17,6 @@ function dispatchIitialState(result) {
       result.config = lsConfig
     }
   }
-  console.log(result, '!!!!!!!!!!!!!!!!!', 'gggggggg')
   return store.dispatch(initStore(result))
 }
 

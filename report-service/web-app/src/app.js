@@ -1,11 +1,13 @@
+import './styles/app.css'
+
 import React, {Component} from "react";
 import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
 import Statistics from './containers/statistics'
 import lStorage from './utils/local.storage'
+import {Button} from './components/button'
 
-import './styles/app.css'
 
 class App extends Component {
 
@@ -37,17 +39,30 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <h1>Report Service</h1>
-        <div className="navigation_menu">
-          <button onClick={() => this.toggleContent('reporterConfig')}>Configuration</button>
-          <button onClick={() => this.toggleContent('dashboard')}>Dashboard</button>
-          <button onClick={() => this.toggleContent('testCasesList')}>Test list</button>
-          <button onClick={() => this.toggleContent('statistics')}>Statistics</button>
+        <div className="report_main">
+          <div className="navigation_menu">
+
+            <div>
+              <Button clickAction={() => this.toggleContent('reporterConfig')} title={'Configuration'} />
+            </div>
+            <div>
+              <Button clickAction={() => this.toggleContent('dashboard')} title={'Dashboard'} />
+            </div>
+            <div>
+              <Button clickAction={() => this.toggleContent('testCasesList')} title={'Test list'} />
+            </div>
+            <div>
+              <Button clickAction={() => this.toggleContent('statistics')} title={'Statistics'} />
+            </div>
+          </div>
+
+          <div className="content">
+            {dashboard && <div>Dashboard</div>}
+            {testCasesList && <FailedCasesList />}
+            {reporterConfig && <ReportConfig />}
+            {statistics && <Statistics />}
+          </div>
         </div>
-        {dashboard && <div>Dashboard</div>}
-        {testCasesList && <FailedCasesList />}
-        {reporterConfig && <ReportConfig />}
-        {statistics && <Statistics />}
       </div>
     );
   }

@@ -3,6 +3,23 @@ h1 {
   text-align: center;
 }
 
-.navigation_menu {
+button {
+  text-align: left;
+}
+
+.report_main {
   display: flex;
+}
+
+.navigation_menu {
+  width: 10%;
+  background: #27aedb;
+}
+
+.navigation_menu button {
+  width: 150px;
+}
+
+.content {
+  width: 100%;
 }

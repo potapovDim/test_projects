@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import JSONInput from 'react-json-editor-ajrm'
 import locale from 'react-json-editor-ajrm/locale/en'
-import {light_mitsuketa_tribute} from 'react-json-editor-ajrm/themes'
 import lStorage from '../utils/local.storage'
 import {updateReportConfig} from '../server-client/actions'
 import {updateConfig} from '../reducers/cases'
@@ -31,9 +30,7 @@ class ReporterConfig extends Component {
   }
 
   updateServerHost = ({target: {value}}) => {
-    console.log(value, '!!!!!!!!!!!!!')
     this.setState({...this.state, serverHost: value})
-    console.log(value, this.state.serverHost, '!!!!!!!!!!!!!')
   }
 
   syncConfig = () => {
@@ -61,6 +58,7 @@ class ReporterConfig extends Component {
         <h3>Backend service storage url</h3>
         <input placeholder="Storage url" onChange={this.updateServerHost}></input>
         <h3>Test-case format data</h3>
+
         <JSONInput
           id='a_unique_id'
           onChange={(item) => this.updateConfig('testCaseStructure', item)}

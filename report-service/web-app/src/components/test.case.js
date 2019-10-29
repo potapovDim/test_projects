@@ -22,7 +22,16 @@ class TestCase extends Component {
   render() {
     const {isOpened} = this.state
     const {onClick, ...rest} = this.props
-    const {id, date, build, stack, env, title = 'Action button'} = rest
+    const {
+      id,
+      date,
+      build,
+      stack,
+      stackTrace,
+      env,
+      title = 'Action button'
+    } = rest
+
     return (
       <div>
         <h3 onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</h3>
@@ -30,12 +39,10 @@ class TestCase extends Component {
           (
             <div className={'test-case-body'}>
               {onClick && <button onClick={() => onClick(rest)}>{title}</button>}
-
-              <div> <span>Execution date   </span> {fromNumberToMDY(date)} </div>
-              <div> <span>Build number     </span> {build}                 </div>
-              <div> <span>Stack trace      </span> {stack}                 </div>
-              env && <div><span>Environment</span> {env}                   </div>
-
+              <div> <span>Execution date   </span> {fromNumberToMDY(date)}          </div>
+              <div> <span>Build number     </span> {build}                          </div>
+              <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>
+              env && <div><span>Environment</span> {env}                            </div>
             </div>
           )}
       </div>

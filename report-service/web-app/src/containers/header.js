@@ -1,9 +1,11 @@
 import '../styles/header.css'
+
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {ReporterCalendar} from '../components/calendar'
-
-import {updateDateRenge} from '../reducers/cases'
+import {getTestCases} from '../server-client/actions'
+import {updateDateRenge, updateCasesList} from '../reducers/cases'
+import {Button} from '../components/button'
 
 import {
   fromMDYToDateObj,
@@ -15,11 +17,27 @@ class Header extends Component {
 
   state = {
     fromDateOpen: false,
-    toDateOpen: false
+    toDateOpen: false,
+    autosync: false
   }
 
   toggleCalendar = (name) => {
     this.setState({[name]: !this.state[name]})
+  }
+
+  enableAutoSync = () => {
+    if(this.state.autosync) {
+      clearInterval(this.state.autosync)
+      this.setState({...this.state, autosync: false})
+    } else {
+      const autosync = setInterval(this.resyncCases, 5000)
+      this.setState({...this.state, autosync})
+    }
+  }
+
+  resyncCases = () => {
+    const {dispatch} = this.props
+    return getTestCases((cases) => dispatch(updateCasesList(cases)))
   }
 
   filterTestCasesByDay = (name, dateObj) => {
@@ -36,17 +54,25 @@ class Header extends Component {
   }
 
   render() {
-    const {count = 0, startDate, endDate} = this.props
-    const {fromDateOpen, toDateOpen} = this.state
+    let {count, startDate, endDate, cases = []} = this.props
+    const {fromDateOpen, toDateOpen, autosync} = this.state
 
-    console.log(startDate, endDate)
+    count = count === undefined ? cases.length : count
+
+    if(count) {
+      startDate = startDate ? startDate : cases[0].date
+      endDate = endDate ? endDate : cases[cases.length - 1].date
+    }
 
     return (
       <nav className="header">
-        <h2>
-          Header fragment
-        </h2>
-        <span>Tests count is:  {count}</span>
+
+        <h2>Report Service</h2>
+
+        <Button title={"Resync cases"} clickAction={this.resyncCases} />
+        <Button title={!autosync ? 'Enable autosync' : 'Disable autosync'} clickAction={this.enableAutoSync} />
+
+        <div>Tests count is:  {count}</div>
         <div>
 
           {count && (
@@ -56,16 +82,25 @@ class Header extends Component {
               <div onClick={() => this.toggleCalendar('toDateOpen')}>End date:   <span>{fromNumberToMDY(endDate)}</span>   </div>
 
               <div className="calendar section">
-                {fromDateOpen && <ReporterCalendar
-                  // activeStartDate={fromNumberToDateObject(fromDateOpen)}
-                  onChange={(dateObj) => this.filterTestCasesByDay('startDate', dateObj)}
-                  title="Choose start date"
-                />}
-                {toDateOpen && <ReporterCalendar
-                  // activeStartDate={fromNumberToDateObject(toDateOpen)}
-                  onChange={(dateObj) => this.filterTestCasesByDay('endDate', dateObj)}
-                  title="Choose end date"
-                />}
+                {fromDateOpen &&
+                  <div className="calendar-wrapper">
+                    <ReporterCalendar
+                      // activeStartDate={fromNumberToDateObject(fromDateOpen)}
+                      onChange={(dateObj) => this.filterTestCasesByDay('startDate', dateObj)}
+                      title="Choose start date"
+                    />
+                  </div>
+                }
+                {
+                  toDateOpen &&
+                  <div className="calendar-wrapper end-date">
+                    <ReporterCalendar
+                      // activeStartDate={fromNumberToDateObject(toDateOpen)}
+                      onChange={(dateObj) => this.filterTestCasesByDay('endDate', dateObj)}
+                      title="Choose end date"
+                    />
+                  </div>
+                }
               </div>
             </div>
           )}
@@ -75,4 +110,4 @@ class Header extends Component {
   }
 }
 
-export default connect(({cases: {count, startDate, endDate}}) => ({count, startDate, endDate}))(Header)
+export default connect(({cases: {cases, count, startDate, endDate}}) => ({cases, count, startDate, endDate}))(Header)

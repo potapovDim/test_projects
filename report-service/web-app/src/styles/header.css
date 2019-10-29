@@ -1,3 +1,17 @@
+.header {
+  background:#85C1E9;
+}
+
+
 .calendar.section {
   display: flex;
+}
+
+
+.calendar-wrapper {
+  position: absolute;
+}
+
+.calendar-wrapper.end-date {
+  margin-left: 350px;
 }
