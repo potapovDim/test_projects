@@ -1,15 +1,19 @@
 // polifill
 import 'whatwg-fetch'
 import {stringify} from '../utils/common'
+import lStorage from '../utils/local.storage'
 
-const {ENV} = process.env
-const host = ENV === 'production' ? window.origin : 'http://localhost:3000'
 
 function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
+  const host = lStorage.lsGet('serverHost') ? lStorage.lsGet('serverHost') : 'http://localhost:3000'
   /**
    * @token will be used for future
    */
   const token = localStorage.getItem('token')
+
+  if(host[host.length - 1] === '/' && path[0] === '/') {
+
+  }
 
   return fetch(`${host}${path}`, {
     method,

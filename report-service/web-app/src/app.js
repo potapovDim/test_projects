@@ -3,12 +3,9 @@ import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
 import Statistics from './containers/statistics'
+import lStorage from './utils/local.storage'
+
 import './styles/app.css'
-
-
-// temp
-
-
 
 class App extends Component {
 
@@ -20,7 +17,7 @@ class App extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    const currentView = localStorage.getItem('view')
+    const currentView = lStorage.lsGet('view')
     currentView && this.toggleContent(currentView)
   }
 
@@ -29,9 +26,9 @@ class App extends Component {
       state[key] = key !== name ? false : true
       return state
     }, {})
-    this.setState(newState)
 
-    localStorage.setItem('view', name)
+    this.setState(newState)
+    lStorage.lsSet('view', name)
   }
 
   render() {
@@ -42,9 +39,9 @@ class App extends Component {
         <Header />
         <h1>Report Service</h1>
         <div className="navigation_menu">
+          <button onClick={() => this.toggleContent('reporterConfig')}>Configuration</button>
           <button onClick={() => this.toggleContent('dashboard')}>Dashboard</button>
           <button onClick={() => this.toggleContent('testCasesList')}>Test list</button>
-          <button onClick={() => this.toggleContent('reporterConfig')}>Configuration</button>
           <button onClick={() => this.toggleContent('statistics')}>Statistics</button>
         </div>
         {dashboard && <div>Dashboard</div>}

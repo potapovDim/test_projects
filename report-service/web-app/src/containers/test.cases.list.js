@@ -23,9 +23,11 @@ class FailedCasesList extends Component {
     groupedCases: null
   }
 
-  getTestCaseHistory = (id) => {
-    const {cases} = this.props
-    const modalCases = cases.filter((testCase) => testCase.id === id)
+  getTestCaseHistory = (currentTestCase) => {
+    const {cases, config: {historyBy = 'id'} = {}} = this.props
+    console.log(currentTestCase)
+    const modalCases = cases.filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
+    console.log('!!!!!!!!!!!!!', modalCases.length)
     this.setState({modalCases})
   }
 
@@ -66,7 +68,7 @@ class FailedCasesList extends Component {
 
   render() {
     const {cases} = this.props
-    const {modalCases, groupedCases} = this.state
+    const {modalCases} = this.state
 
     return (
       <div>

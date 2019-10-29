@@ -39,13 +39,6 @@ function getStorageDataCount() {
 
 function getStorageBaseInfo() {
 
-  // require('fs').writeFileSync('./dataLol.json', JSON.stringify({
-  //   count: storage.length,
-  //   startDate: storage.length ? storage[0].date : null,
-  //   endDate: storage.length ? storage[storage.length - 1].date : null,
-  //   cases: [...storage]
-  // }))
-
   return {
     count: storage.length,
     config: getConfig(),
