@@ -1,4 +1,4 @@
-function getFailReasons(failedReasons = {}, testCaces) {
+function getFailReasons(failedReasons = {}, testCaces = []) {
 
   const failedResonsKeys = Array.isArray(failedReasons) ? [...failedReasons] : Object.keys(failedReasons)
 
