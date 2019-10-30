@@ -6,16 +6,22 @@ import lStorage from '../utils/local.storage'
 import {updateReportConfig} from '../server-client/actions'
 import {updateConfig} from '../reducers/cases'
 
+const defaultConfig = {
+  testCaseStructure: {},
+  serverHost: null,
+  failedReasons: []
+}
 
 // TODO
 /**
  * shoulb be custom input compoennt
  */
 class ReporterConfig extends Component {
+
   state = {
-    testCaseStructure: {},
-    failedReasons: [],
-    serverHost: null
+    // testCaseStructure: {},
+    // failedReasons: [],
+    // serverHost: null
   }
 
   UNSAFE_componentWillMount() {
@@ -32,13 +38,17 @@ class ReporterConfig extends Component {
         this.refs.storageUrl = this.state.serverHost
       }
     }
-
   }
 
-  updateConfig = (confProp, data) => {
-    this.setState({
-      ...this.state, [confProp]: data.jsObject
-    })
+  updateConfig = (data) => {
+    const existingConfig = lStorage.lsGet('config')
+    const newConfig = {...existingConfig, ...data.jsObject}
+
+    console.log(newConfig, 'new config')
+
+    lStorage.lsSet('config', newConfig)
+
+    this.props.dispatch(updateConfig(newConfig))
   }
 
   updateServerHost = ({target: {value}}) => {
@@ -47,48 +57,29 @@ class ReporterConfig extends Component {
 
   syncConfig = () => {
     const {serverHost, ...rest} = this.state
-
-    this.props.dispatch(updateConfig(rest))
     lStorage.lsSet('config', JSON.stringify(rest))
-    lStorage.lsSet('serverHost', serverHost)
-
     return updateReportConfig({config: rest})
   }
 
   render() {
-
-    const {
-      failedReasons = this.state.failedReasons,
-      testCaseStructure = this.state.testCaseStructure
-    } = this.props
-
-    console.log(failedReasons, testCaseStructure)
-
+    const lStorageConfig = lStorage.lsGet('config')
+    console.log(lStorageConfig)
     return (
       <div>
         <h3>Configuration </h3>
         {/* <input placeholder="Reporter failed reasons" onChange={this.updateConfig}></input> */}
         <button onClick={this.syncConfig}>Sync config</button>
         <h3>Backend service storage url</h3>
-        <input placeholder="Storage url" onChange={this.updateServerHost} ref={this.refs.storageUrl}></input>
-        <h3>Test-case format data</h3>
+        <h3>Configuration</h3>
 
         <JSONInput
           id='a_unique_id'
-          onChange={(item) => this.updateConfig('testCaseStructure', item)}
-          placeholder={testCaseStructure}
+          onChange={this.updateConfig}
+          placeholder={lStorageConfig}
           locale={locale}
-          height='100px'
+          height='400px'
         />
 
-        <h3>Failed reasons</h3>
-        <JSONInput
-          id='a_unique_id'
-          onChange={(item) => this.updateConfig('failedReasons', item)}
-          placeholder={failedReasons}
-          locale={locale}
-          height='100px'
-        />
       </div>
     )
   }

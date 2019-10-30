@@ -1,3 +1,5 @@
+import './styles/test.case.css'
+
 import React, {Component} from 'react';
 import {fromNumberToMDY} from '../utils/date'
 
@@ -34,7 +36,7 @@ class TestCase extends Component {
 
     return (
       <div className='test_case'>
-        <div onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</div>
+        <div className="test_case_id" onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</div>
         {isOpened &&
           (
             <div className='test_case_body'>

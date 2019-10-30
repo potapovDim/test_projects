@@ -5,7 +5,7 @@ import lStorage from '../utils/local.storage'
 
 
 function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
-  let host = lStorage.lsGet('serverHost') ? lStorage.lsGet('serverHost') : 'http://localhost:3000'
+  let host = lStorage.lsGet('config').serverHost || 'http://localhost:3000'
   /**
    * @token will be used for future
    */
