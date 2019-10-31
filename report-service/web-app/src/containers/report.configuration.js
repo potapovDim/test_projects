@@ -4,7 +4,7 @@ import JSONInput from 'react-json-editor-ajrm'
 import locale from 'react-json-editor-ajrm/locale/en'
 import lStorage from '../utils/local.storage'
 import {updateReportConfig} from '../server-client/actions'
-import {updateConfig} from '../reducers/cases'
+import {updateConfig} from '../reducers/action.creators'
 
 const defaultConfig = {
   testCaseStructure: {},
@@ -18,37 +18,16 @@ const defaultConfig = {
  */
 class ReporterConfig extends Component {
 
-  state = {
-    // testCaseStructure: {},
-    // failedReasons: [],
-    // serverHost: null
-  }
-
-  UNSAFE_componentWillMount() {
-    const config = lStorage.lsGet('config')
-
-    if(config) {
-      this.state.failedReasons = config.failedReasons || []
-
-      this.state.serverHost = config.serverHost || null
-
-      this.state.testCaseStructure = config.testCaseStructure
-
-      if(this.refs.storageUrl) {
-        this.refs.storageUrl = this.state.serverHost
-      }
-    }
-  }
+  state = {}
 
   updateConfig = (data) => {
     const existingConfig = lStorage.lsGet('config')
+
     const newConfig = {...existingConfig, ...data.jsObject}
 
-    console.log(newConfig, 'new config')
-
-    lStorage.lsSet('config', newConfig)
-
-    this.props.dispatch(updateConfig(newConfig))
+    this.setState({
+      ...newConfig
+    })
   }
 
   updateServerHost = ({target: {value}}) => {
@@ -56,14 +35,19 @@ class ReporterConfig extends Component {
   }
 
   syncConfig = () => {
-    const {serverHost, ...rest} = this.state
-    lStorage.lsSet('config', JSON.stringify(rest))
-    return updateReportConfig({config: rest})
+    lStorage.lsSet('config', JSON.stringify(this.state))
+    this.props.dispatch(updateConfig(this.state))
+    return updateReportConfig({config: this.state})
   }
 
   render() {
-    const lStorageConfig = lStorage.lsGet('config')
-    console.log(lStorageConfig)
+    let lStorageConfig = lStorage.lsGet('config')
+
+    if(!lStorageConfig) {
+      console.error('config was not found in local storage')
+      lStorageConfig = defaultConfig
+    }
+
     return (
       <div>
         <h3>Configuration </h3>

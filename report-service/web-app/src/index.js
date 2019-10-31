@@ -2,12 +2,22 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Provider} from 'react-redux'
 import store from './reducers/rootReducer'
-import {initStore} from './reducers/cases'
+import {updateConfig} from './reducers/action.creators'
 import lsStore from './utils/local.storage'
-
 import App from "./App.js"
+import {getReportConfig, getTestCases} from './server-client/actions'
 
-import {getBaseInfo} from './server-client/actions'
+function renderMainApplication() {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  )
+}
+
+
+
 
 /**
  *
@@ -27,33 +37,41 @@ import {getBaseInfo} from './server-client/actions'
  * 3.
  */
 
+const config = lsStore.lsGet('config')
 
-
-
-
-
-
-
-
-
-
-function dispatchIitialState(result) {
-  // try to find config in localStorage if config does not exists
-  if(!result.config || !Object.keys(result.config).length) {
-    const lsConfig = lsStore.lsGet('config')
-    if(lsConfig) {
-      result.config = lsConfig
+if(!config) {
+  console.error('localStorage does not have config will try to get config from origin server')
+  getReportConfig().then(({config}) => {
+    if(config) {
+      lsStore.lsSet('config', config)
+      store.dispatch(updateConfig(config))
+      if(config.serverHost) {
+        return getTestCases()
+          .then((cases) => {
+            return store.dispatch(updateCasesList(cases))
+          })
+          .then(renderMainApplication)
+      }
+    } else {
+      renderMainApplication()
     }
-  }
-  return store.dispatch(initStore(result))
+  })
+} else {
+  store.dispatch(updateConfig(config))
+  renderMainApplication()
 }
 
-getBaseInfo(dispatchIitialState).then(() => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById("root")
-  )
-})
 
+
+
+
+// function dispatchIitialState(result) {
+//   // try to find config in localStorage if config does not exists
+//   if(!result.config || !Object.keys(result.config).length) {
+//     const lsConfig = lsStore.lsGet('config')
+//     if(lsConfig) {
+//       result.config = lsConfig
+//     }
+//   }
+//   return store.dispatch(initStore(result))
+// }

@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {ReporterCalendar} from '../components/calendar'
 import {getTestCases} from '../server-client/actions'
-import {updateDateRenge, updateCasesList} from '../reducers/cases'
+import {updateDateRenge, updateCasesList} from '../reducers/action.creators'
 import {Button} from '../components/button'
 
 import {

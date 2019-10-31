@@ -5,7 +5,8 @@ import lStorage from '../utils/local.storage'
 
 
 function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
-  let host = lStorage.lsGet('config').serverHost || 'http://localhost:3000'
+  let host = lStorage.lsGet('config') && lStorage.lsGet('config').serverHost || 'http://localhost:3000'
+
   /**
    * @token will be used for future
    */
@@ -21,7 +22,14 @@ function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
       'Content-Type': 'application/json'
     },
     body: stringify(body)
-  }).then((resp) => resp.json()).then(cb)
+  }).then((resp) => {
+    const contentType = resp.headers.get('content-type')
+    if(contentType.includes('application/json')) {
+      return resp.json()
+    } else {
+      return resp.text()
+    }
+  }).then(cb)
 }
 
 const fetchy = {

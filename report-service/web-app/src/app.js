@@ -1,13 +1,15 @@
 import './styles/app.css'
 
 import React, {Component} from "react";
+import {connect} from 'react-redux'
 import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
 import Statistics from './containers/statistics'
 import lStorage from './utils/local.storage'
 import {Button} from './components/button'
-
+import store from './reducers/rootReducer'
+import Modal from 'react-modal'
 
 class App extends Component {
 
@@ -34,10 +36,19 @@ class App extends Component {
   }
 
   render() {
+    const {config} = this.props
+
     const {dashboard, testCasesList, reporterConfig, statistics} = this.state
+
+    console.log(config, '!!!!!!!! CONFIG')
 
     return (
       <div>
+
+        <Modal isOpen={!config} ariaHideApp={false}>
+          <ReportConfig />
+        </Modal>
+
         <Header />
         <div className="report_main">
           <div className="navigation_menu">
@@ -68,4 +79,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default connect(({cases: {config}}) => ({config}))(App)

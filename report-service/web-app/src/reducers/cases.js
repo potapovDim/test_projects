@@ -1,31 +1,12 @@
 import {
-  INIT_STORE,
   UPDATE_DATE_RANGE,
   UPDATE_CONFIG,
   UPDATA_CASES_LIST
 } from './action.contants'
 
-function initStore(state) {
-  return {type: INIT_STORE, state}
-}
-
-function updateDateRenge(dataRange) {
-  return {type: UPDATE_DATE_RANGE, dataRange}
-}
-
-function updateConfig(config) {
-  return {type: UPDATE_CONFIG, config}
-}
-
-function updateCasesList(cases) {
-  return {type: UPDATA_CASES_LIST, cases}
-}
-
 function caseStore(state = {}, action) {
-  switch(action.type) {
 
-    case INIT_STORE:
-      return action.state
+  switch(action.type) {
 
     case UPDATE_DATE_RANGE: {
       const {startDate, endDate} = action.dataRange
@@ -43,16 +24,12 @@ function caseStore(state = {}, action) {
       return {...state, config: action.config}
     }
 
-    default:
+    default: {
       return state
+    }
   }
 }
 
 export {
-  caseStore,
-
-  initStore,
-  updateDateRenge,
-  updateConfig,
-  updateCasesList
+  caseStore
 }
