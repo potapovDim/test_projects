@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Provider} from 'react-redux'
 import store from './reducers/rootReducer'
-import {updateConfig} from './reducers/action.creators'
+import {updateConfig, updateCasesList} from './reducers/action.creators'
 import lsStore from './utils/local.storage'
 import App from "./App.js"
 import {getReportConfig, getTestCases} from './server-client/actions'
@@ -15,9 +15,6 @@ function renderMainApplication() {
     document.getElementById("root")
   )
 }
-
-
-
 
 /**
  *
@@ -58,20 +55,12 @@ if(!config) {
   })
 } else {
   store.dispatch(updateConfig(config))
-  renderMainApplication()
+  getTestCases()
+    .then((cases) => {
+      if(Array.isArray(cases)) {
+        store.dispatch(updateCasesList(cases))
+      }
+      return
+    })
+    .then(renderMainApplication)
 }
-
-
-
-
-
-// function dispatchIitialState(result) {
-//   // try to find config in localStorage if config does not exists
-//   if(!result.config || !Object.keys(result.config).length) {
-//     const lsConfig = lsStore.lsGet('config')
-//     if(lsConfig) {
-//       result.config = lsConfig
-//     }
-//   }
-//   return store.dispatch(initStore(result))
-// }
