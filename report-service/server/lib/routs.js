@@ -6,7 +6,6 @@ const {
   getTestCases,
   createTestCase,
   getTestCasesCount,
-  getBaseInfo,
 
   getStaticHtml,
   getStaticScripts,
@@ -21,7 +20,6 @@ router.get('/view', getStaticHtml)
 router.post('/set-report-config', setReporterConfig)
 router.get('/get-report-config', getReporterConfig)
 
-router.get('/get-test-cases-base-info', getBaseInfo)
 router.get('/get-test-cases', getTestCases)
 router.get('/get-test-cases-count', getTestCasesCount)
 
