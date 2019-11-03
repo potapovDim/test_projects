@@ -28,6 +28,7 @@ class ReporterConfig extends Component {
     this.setState({
       ...newConfig
     })
+    lStorage.lsSet('config', newConfig)
   }
 
   updateServerHost = ({target: {value}}) => {

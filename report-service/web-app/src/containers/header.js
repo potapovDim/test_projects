@@ -25,6 +25,11 @@ class Header extends Component {
     this.setState({[name]: !this.state[name]})
   }
 
+  getTestCaseByTime = (hours) => {
+    const expectedTime = Date.now() - (3600000 * hours)
+
+  }
+
   enableAutoSync = () => {
     if(this.state.autosync) {
       clearInterval(this.state.autosync)
@@ -44,7 +49,7 @@ class Header extends Component {
     const dateObjNumber = +dateObj
     const {dispatch, startDate, endDate} = this.props
     const dateRange = {startDate, endDate}
-
+    console.log(startDate, dateObjNumber, endDate)
     if(startDate <= dateObjNumber && dateObjNumber <= endDate) {
       dateRange[name] = dateObjNumber
       dispatch(updateDateRenge(dateRange))
@@ -73,6 +78,13 @@ class Header extends Component {
         <Button title={!autosync ? 'Enable autosync' : 'Disable autosync'} clickAction={this.enableAutoSync} />
 
         <div>Tests count is:  {count}</div>
+        <div>
+          Get statistic
+          <button onClick={() => this.getTestCaseByTime(1)}>Last hour</button>
+          <button onClick={() => this.getTestCaseByTime(2)}>Last 2 hours</button>
+          <button onClick={() => this.getTestCaseByTime(3)}>Last 3 hours</button>
+          <button onClick={() => this.getTestCaseByTime(4)}>Last 4 hours</button>
+        </div>
         <div>
 
           {count && (
