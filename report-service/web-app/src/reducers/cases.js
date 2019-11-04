@@ -13,15 +13,15 @@ function caseStore(state = {}, action) {
       const cases = state.cases.filter(function({date}) {
         return startDate <= date && date <= endDate
       })
-      return {cases, count: cases.length, startDate, endDate}
+      return {...state, cases, count: cases.length, startDate, endDate}
     }
 
     case UPDATA_CASES_LIST: {
       const {startDate, endDate} = state
       const dateConfig = {startDate, endDate}
       if(!startDate && !endDate) {
-        dateConfig.startDate = action.cases[action.cases.length - 1].date
-        dateConfig.endDate = action.cases[0].date
+        dateConfig.startDate = action.cases[0].date
+        dateConfig.endDate = action.cases[action.cases.length - 1].date
       }
       return {...state, cases: action.cases, ...dateConfig}
     }

@@ -8,6 +8,7 @@ import App from "./App.js"
 import {getReportConfig, getTestCases} from './server-client/actions'
 
 function renderMainApplication() {
+  console.log('RENDER APPLICATION')
   ReactDOM.render(
     <Provider store={store}>
       <App />

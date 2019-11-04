@@ -26,8 +26,10 @@ class Header extends Component {
   }
 
   getTestCaseByTime = (hours) => {
-    const expectedTime = Date.now() - (3600000 * hours)
-
+    const startDate = Date.now() - (3600000 * hours)
+    const {dispatch, endDate} = this.props
+    const dateRange = {startDate, endDate}
+    dispatch(updateDateRenge(dateRange))
   }
 
   enableAutoSync = () => {
@@ -49,7 +51,9 @@ class Header extends Component {
     const dateObjNumber = +dateObj
     const {dispatch, startDate, endDate} = this.props
     const dateRange = {startDate, endDate}
+
     console.log(startDate, dateObjNumber, endDate)
+
     if(startDate <= dateObjNumber && dateObjNumber <= endDate) {
       dateRange[name] = dateObjNumber
       dispatch(updateDateRenge(dateRange))
@@ -59,12 +63,10 @@ class Header extends Component {
   }
 
   render() {
-    let {count, startDate, endDate, cases = []} = this.props
+    let {startDate, endDate, cases = []} = this.props
     const {fromDateOpen, toDateOpen, autosync} = this.state
 
-    count = count === undefined ? cases.length : count
-
-    if(count) {
+    if(cases.length) {
       startDate = startDate ? startDate : cases[0].date
       endDate = endDate ? endDate : cases[cases.length - 1].date
     }
@@ -77,7 +79,7 @@ class Header extends Component {
         <Button title={"Resync cases"} clickAction={this.resyncCases} />
         <Button title={!autosync ? 'Enable autosync' : 'Disable autosync'} clickAction={this.enableAutoSync} />
 
-        <div>Tests count is:  {count}</div>
+        <div>Tests count is:  {cases.length}</div>
         <div>
           Get statistic
           <button onClick={() => this.getTestCaseByTime(1)}>Last hour</button>
@@ -87,7 +89,7 @@ class Header extends Component {
         </div>
         <div>
 
-          {count && (
+          {cases.length && (
             <div>
               Avaliable date range
               <div onClick={() => this.toggleCalendar('fromDateOpen')}>Start date: <span>{fromNumberToMDY(startDate)}</span> </div>
