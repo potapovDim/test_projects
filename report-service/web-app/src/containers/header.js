@@ -26,10 +26,17 @@ class Header extends Component {
   }
 
   getTestCaseByTime = (hours) => {
-    const startDate = Date.now() - (3600000 * hours)
     const {dispatch, endDate} = this.props
-    const dateRange = {startDate, endDate}
-    dispatch(updateDateRenge(dateRange))
+
+    const dateRange = {startDate: Date.now() - (3600000 * hours), endDate}
+
+    return getTestCases((casesFromBackend) => {
+
+      const cases = casesFromBackend.filter(function({date}) {
+        return dateRange.startDate <= date && date <= dateRange.endDate
+      })
+      dispatch(updateCasesList(cases))
+    })
   }
 
   enableAutoSync = () => {
@@ -48,18 +55,27 @@ class Header extends Component {
   }
 
   filterTestCasesByDay = (name, dateObj) => {
+
     const dateObjNumber = +dateObj
     const {dispatch, startDate, endDate} = this.props
     const dateRange = {startDate, endDate}
 
-    console.log(startDate, dateObjNumber, endDate)
+    return getTestCases((casesFromBackend) => {
 
-    if(startDate <= dateObjNumber && dateObjNumber <= endDate) {
-      dateRange[name] = dateObjNumber
-      dispatch(updateDateRenge(dateRange))
-    } else {
-      console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    }
+      if(startDate <= dateObjNumber && dateObjNumber <= endDate) {
+
+        dateRange[name] = dateObjNumber
+
+        const cases = casesFromBackend.filter(function({date}) {
+          return dateRange.startDate <= date && date <= dateRange.endDate
+        })
+
+        dispatch(updateCasesList(cases))
+
+      } else {
+        console.log('Date range is out of')
+      }
+    })
   }
 
   render() {
