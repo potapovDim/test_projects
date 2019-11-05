@@ -82,7 +82,6 @@ class FailedCasesList extends Component {
   render() {
     const {cases = []} = this.props
     const {modalCases, groupedCases} = this.state
-    console.log(groupedCases)
     return (
       <div>
         {

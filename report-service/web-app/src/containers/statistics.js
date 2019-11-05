@@ -1,10 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Pie, HorizontalBar, Bar} from 'react-chartjs-2'
+import {Pie, Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
-
-import {getFailReasons, mostFlakyCases} from '../utils/data.formaters'
+import {BuildStatistics} from './statistics/buildsStatistics'
+import {
+  getFailReasons,
+  mostFlakyCases,
+  getGroupedByCases,
+} from '../utils/data.formaters'
 
 // should be refactored
 let upperScopeItem = null
@@ -26,8 +30,6 @@ const colors = [
 ]
 
 function getRandomColor() {
-
-
   return colors[Math.floor(Math.random() * colors.length)]
 }
 
@@ -83,9 +85,10 @@ class Statistics extends Component {
   }
 
   handleClick = (data) => {
+    const {cases} = this.props
     if(data.length) {
       const [{_model: {label}}] = data
-      this.setState({modalCases: upperScopeItem[label]})
+      this.setState({modalCases: cases.filter(({id}) => id === label)})
     }
   }
 
@@ -95,6 +98,7 @@ class Statistics extends Component {
 
   render() {
     const {modalCases} = this.state
+    const {cases} = this.props
 
     const dataPie = this.getFailedReasonsPie()
     const dataBar = this.getFailedCases()
@@ -102,11 +106,8 @@ class Statistics extends Component {
     return (
       <div>
         <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-
           <button onClick={this.askToClose}>close</button>
-
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
-
         </Modal>
         Statistics
         <div>
@@ -119,6 +120,10 @@ class Statistics extends Component {
           />
           <Bar
             data={dataBar}
+            getElementAtEvent={this.handleClick}
+          />
+          <BuildStatistics
+            cases={cases}
           />
         </div>
       </div>

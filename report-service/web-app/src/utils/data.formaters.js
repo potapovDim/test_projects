@@ -1,8 +1,8 @@
-function getFailReasons(failedReasons = {}, testCaces = []) {
+function getFailReasons(failedReasons = {}, testCases = []) {
 
   const failedResonsKeys = Array.isArray(failedReasons) ? [...failedReasons] : Object.keys(failedReasons)
 
-  const result = testCaces.reduce(function(acc, testCase) {
+  const result = testCases.reduce(function(acc, testCase) {
 
     const failedReasonFromCurrentCase = failedResonsKeys.find(function(failedReason) {
       if('stack' in testCase) {
@@ -29,8 +29,8 @@ function getFailReasons(failedReasons = {}, testCaces = []) {
   return result
 }
 
-function mostFlakyCases(testCaces) {
-  return testCaces.map(function({id}) {
+function mostFlakyCases(testCases) {
+  return testCases.map(function({id}) {
     return id
   }).reduce(function(acc, caseId) {
     if(acc[caseId] === undefined) {
@@ -42,9 +42,9 @@ function mostFlakyCases(testCaces) {
   }, {})
 }
 
-function getRangeFailesByBuild() {
-  const items = cases.reduce(function(acc, testCace) {
-    const {build, id} = testCace
+function getRangeFailesByBuild(testCases) {
+  const items = testCases.reduce(function(acc, testCase) {
+    const {build, id} = testCase
     if(acc[build]) {
       acc[build].cases.push(id)
     } else {
@@ -71,15 +71,15 @@ function getRangeFailesByBuild() {
   }, {})
 }
 
-function getGroupedByCases(propName, testCaces) {
-  return testCaces
+function getGroupedByCases(propName, testCases) {
+  return testCases
     .map((item) => item[propName])
     .filter((item, index, testCasesGroupsNotUniq) => {
       console.log(testCasesGroupsNotUniq, testCasesGroupsNotUniq.findIndex)
       return testCasesGroupsNotUniq.indexOf(item) === index
     })
     .reduce((groupedCases, groupValue) => {
-      groupedCases[groupValue] = testCaces.filter((testCase) => testCase[propName] === groupValue)
+      groupedCases[groupValue] = testCases.filter((testCase) => testCase[propName] === groupValue)
       return groupedCases
     }, {})
 }

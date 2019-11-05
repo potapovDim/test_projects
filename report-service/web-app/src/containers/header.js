@@ -31,8 +31,8 @@ class Header extends Component {
     const dateRange = {startDate: Date.now() - (3600000 * hours), endDate}
 
     return getTestCases((casesFromBackend) => {
-
       const cases = casesFromBackend.filter(function({date}) {
+        console.log(date, dateRange.startDate, dateRange.endDate, dateRange.startDate <= date && date <= dateRange.endDate)
         return dateRange.startDate <= date && date <= dateRange.endDate
       })
       dispatch(updateCasesList(cases))
