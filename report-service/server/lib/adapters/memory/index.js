@@ -10,8 +10,8 @@ setInterval(async function() {
     const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH)
     const storagePart = storage.splice(0, 1000)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
+      // eslint-disable-next-line no-console
       if(err) {
-        // eslint-disable-next-line no-console
         console.log(err)
       }
     })
