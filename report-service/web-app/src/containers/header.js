@@ -4,14 +4,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {ReporterCalendar} from '../components/calendar'
 import {getTestCases} from '../server-client/actions'
-import {updateDateRenge, updateCasesList} from '../reducers/action.creators'
+import {updateCasesList} from '../reducers/action.creators'
 import {Button} from '../components/button'
 
-import {
-  fromMDYToDateObj,
-  fromNumberToDateObject,
-  fromNumberToMDY
-} from '../utils/date'
+import {fromMDYToDateObj, fromNumberToDateObject, fromNumberToMDY} from '../utils/date'
 
 class Header extends Component {
 
@@ -32,7 +28,6 @@ class Header extends Component {
 
     return getTestCases((casesFromBackend) => {
       const cases = casesFromBackend.filter(function({date}) {
-        console.log(date, dateRange.startDate, dateRange.endDate, dateRange.startDate <= date && date <= dateRange.endDate)
         return dateRange.startDate <= date && date <= dateRange.endDate
       })
       dispatch(updateCasesList(cases))

@@ -1,6 +1,23 @@
-const {getConfig, setConfig} = require('./config')
+const {getConfig, setConfig} = require('../config')
+const {getFreeBackUpFilePathName} = require('./storage.restore')
 
 const storage = []
+
+setInterval(async function() {
+  // if cases more than 3500 - remove first 1000 and store them in file
+  if(storage.length >= 3500) {
+    const {BACKUP_PATH} = process.env
+    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH)
+    const storagePart = storage.splice(0, 1000)
+    await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
+      if(err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    })
+  }
+}, 1500)
+
 /**
  *
  * @param {object<{id: string, date: string, build: string, stack: string|object}>} item
@@ -38,7 +55,6 @@ function getStorageDataCount() {
 }
 
 function getStorageBaseInfo() {
-
   return {
     count: storage.length,
     config: getConfig(),
@@ -47,7 +63,6 @@ function getStorageBaseInfo() {
     cases: [...storage]
   }
 }
-
 
 module.exports = {
   getStorageData,

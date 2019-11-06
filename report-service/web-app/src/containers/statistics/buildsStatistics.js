@@ -16,7 +16,7 @@ class BuildStatistics extends Component {
         {
           Object
             .keys(buildsStatistics)
-            .map((buildNumber) => <BuildItem buildNumber={buildNumber} cases={buildsStatistics[buildNumber].cases} />)
+            .map((buildNumber, index) => <BuildItem buildNumber={buildNumber} cases={buildsStatistics[buildNumber].cases} key={index} />)
         }
       </div>
     )
