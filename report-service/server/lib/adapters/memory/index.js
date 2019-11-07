@@ -3,6 +3,13 @@ const {getFreeBackUpFilePathName} = require('./storage.restore')
 
 const storage = []
 
+/**
+ * @example description
+ * this interval is using for storing cases from memory
+ * to storage backuk, for inMemory approach it is JSON files
+ * in pre-defined directory, by default is /temp in root of the project
+ *
+ */
 setInterval(async function() {
   // if cases more than 3500 - remove first 1000 and store them in file
   if(storage.length >= 3500) {
@@ -50,6 +57,13 @@ function getStorageData(offset = 0, limit = storage.length) {
   return [...storage].slice(offset, limit)
 }
 
+/**
+ * @returns countObject
+ * @example countObject
+ * {
+ *  count: 1
+ * }
+ */
 function getStorageDataCount() {
   return {count: storage.length}
 }

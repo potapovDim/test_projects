@@ -5,7 +5,7 @@ const path = require('path')
  *
  * @param {string} dirName
  * @param {string} backUpfileNamePart
- * @returns fileNamePath
+ * @returns {string} fileNamePath
  * @example fileNamePath
  * '/Usr/adming/10-backup.json'
  */
@@ -21,7 +21,7 @@ async function getFreeBackUpFilePathName(dirName, backUpfileNamePart) {
 /**
  *
  * @param {string} dirName
- * @returns filesArray
+ * @returns {array} filesArray
  * @example filesArray
  * [
  *  'a.js', 'b.js', 'readme.md'
@@ -39,7 +39,7 @@ function getFilesList(dirName) {
 /**
  *
  * @param {string} itemPath
- * @returns nodeStatsObject
+ * @returns {fs.stat object}nodeStatsObject
  */
 function getStats(itemPath) {
   return new Promise(function(res, rej) {
