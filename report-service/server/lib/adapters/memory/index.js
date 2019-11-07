@@ -10,8 +10,8 @@ setInterval(async function() {
     const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH)
     const storagePart = storage.splice(0, 1000)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
-      // eslint-disable-next-line no-console
       if(err) {
+        // eslint-disable-next-line no-console
         console.log(err)
       }
     })
@@ -54,21 +54,10 @@ function getStorageDataCount() {
   return {count: storage.length}
 }
 
-function getStorageBaseInfo() {
-  return {
-    count: storage.length,
-    config: getConfig(),
-    startDate: storage.length ? storage[0].date : null,
-    endDate: storage.length ? storage[storage.length - 1].date : null,
-    cases: [...storage]
-  }
-}
-
 module.exports = {
   getStorageData,
   setToStorage,
   getStorageDataCount,
-  getStorageBaseInfo,
   getConfig,
   setConfig
 }
