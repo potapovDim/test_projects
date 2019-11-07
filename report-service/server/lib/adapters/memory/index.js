@@ -1,7 +1,30 @@
+const path = require('path')
 const {getConfig, setConfig} = require('../config')
-const {getFreeBackUpFilePathName} = require('./storage.restore')
+const {getFreeBackUpFilePathName, getFilesWithSubDirs} = require('./storage.restore')
+const {readFile, tryParseJson} = require('../../utils')
 
 const storage = []
+
+tryToRestoreStorageFromBackups()
+async function tryToRestoreStorageFromBackups() {
+
+  const {
+    BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
+    BACKUP_FILES_PATTERN = 'backup.json'
+  } = process.env
+
+  const backUpFileName = await getFilesWithSubDirs(BACKUP_PATH, BACKUP_FILES_PATTERN)
+
+  if(backUpFileName.length) {
+    const lastTwoBackups = backUpFileName.slice(backUpFileName.length - 2, backUpFileName.length)
+    for(const file of lastTwoBackups) {
+      const backUpFileData = tryParseJson(await readFile(file))
+      if(Array.isArray(backUpFileData)) {
+        storage.push(...backUpFileData)
+      }
+    }
+  }
+}
 
 /**
  * @example description

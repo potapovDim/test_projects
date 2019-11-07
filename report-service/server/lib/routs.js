@@ -21,7 +21,6 @@ router.post('/set-report-config', setReporterConfig)
 router.get('/get-report-config', getReporterConfig)
 
 router.get('/get-test-cases', getTestCases)
-router.get('/get-test-cases-count', getTestCasesCount)
 
 router.post('/add-new-case', createTestCase)
 

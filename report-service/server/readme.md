@@ -12,3 +12,9 @@
 2. Some scope of the test cases should be storeg in memory for fast response
 3. Service shoul be able to work only with memory and backup only from disk
 
+
+## Improvement plan
+* [ ] Finalize features concept
+* [ ] Develope memory storage by feature concept
+* [ ] Develope mongo storage by feature concept
+* [ ] Develope mysql storage by feature concept
