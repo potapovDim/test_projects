@@ -1,6 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 
+/**
+ *
+ * @param {string} dirName
+ * @param {string} backUpfileNamePart
+ * @returns fileNamePath
+ * @example fileNamePath
+ * '/Usr/adming/10-backup.json'
+ */
 async function getFreeBackUpFilePathName(dirName, backUpfileNamePart) {
 
   backUpfileNamePart = backUpfileNamePart || 'backup.json'
@@ -10,6 +18,15 @@ async function getFreeBackUpFilePathName(dirName, backUpfileNamePart) {
   return path.resolve(dirName, `${files.length}-${backUpfileNamePart}`)
 }
 
+/**
+ *
+ * @param {string} dirName
+ * @returns filesArray
+ * @example filesArray
+ * [
+ *  'a.js', 'b.js', 'readme.md'
+ * ]
+ */
 function getFilesList(dirName) {
   return new Promise(function(res, rej) {
     fs.readdir(dirName, function(err, files) {
@@ -19,6 +36,11 @@ function getFilesList(dirName) {
   })
 }
 
+/**
+ *
+ * @param {string} itemPath
+ * @returns nodeStatsObject
+ */
 function getStats(itemPath) {
   return new Promise(function(res, rej) {
     fs.stat(itemPath, function(err, stats) {
@@ -28,6 +50,11 @@ function getStats(itemPath) {
   })
 }
 
+/**
+ *
+ * @param {string} dirName
+ * @param {array} filesList
+ */
 async function getFilesWithSubDirs(dirName, filesList = []) {
 
   if(dirName.match(/node_modules$/ig)) {
