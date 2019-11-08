@@ -5,18 +5,30 @@ const {readFile, tryParseJson} = require('../../utils')
 
 const storage = []
 
-tryToRestoreStorageFromBackups()
-async function tryToRestoreStorageFromBackups() {
 
+/**
+ * @returns {array} filesList
+ */
+async function getAvaliableBackUpFiles() {
   const {
     BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
     BACKUP_FILES_PATTERN = 'backup.json'
   } = process.env
 
-  const backUpFileName = await getFilesWithSubDirs(BACKUP_PATH, BACKUP_FILES_PATTERN)
+  const backUpFileName = (await getFilesWithSubDirs(BACKUP_PATH))
+    .filter((filePath) => filePath.includes(BACKUP_FILES_PATTERN))
 
-  if(backUpFileName.length) {
-    const lastTwoBackups = backUpFileName.slice(backUpFileName.length - 2, backUpFileName.length)
+  return backUpFileName
+}
+
+
+tryToRestoreStorageFromBackups()
+async function tryToRestoreStorageFromBackups() {
+
+  const backUpFilesList = await getAvaliableBackUpFiles()
+
+  if(backUpFilesList.length) {
+    const lastTwoBackups = backUpFilesList.slice(backUpFilesList.length - 2, backUpFilesList.length)
     for(const file of lastTwoBackups) {
       const backUpFileData = tryParseJson(await readFile(file))
       if(Array.isArray(backUpFileData)) {
@@ -24,6 +36,30 @@ async function tryToRestoreStorageFromBackups() {
       }
     }
   }
+}
+
+
+async function getAvaliableDateRangeForData() {
+  const avaliableDataRange = {
+    startDate: null,
+    endDate: null
+  }
+  const backUpFilesList = await getAvaliableBackUpFiles()
+  if(backUpFilesList.length) {
+    // get data from first file
+    const backUpFileData = tryParseJson(await readFile(backUpFilesList[0]))
+    if(Array.isArray(backUpFileData)) {
+      /**
+       * @example
+       * it is temporary, because test case structure shoul be used from config
+       */
+      avaliableDataRange.startDate = backUpFileData[0].date
+    }
+  } else if(storage.length && !backUpFilesList.length) {
+    avaliableDataRange.startDate = storage[0].date
+    avaliableDataRange.endDate = storage[storage.length - 1].date
+  }
+  return avaliableDataRange
 }
 
 /**
@@ -64,6 +100,7 @@ function setToStorage(item) {
   storage.push(item)
 }
 
+
 /**
  * @returns {array} storage
  * @example storage
@@ -95,6 +132,7 @@ module.exports = {
   getStorageData,
   setToStorage,
   getStorageDataCount,
+  getAvaliableDateRangeForData,
   getConfig,
   setConfig
 }

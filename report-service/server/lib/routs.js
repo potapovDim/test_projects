@@ -5,7 +5,6 @@ const router = new Router()
 const {
   getTestCases,
   createTestCase,
-  getTestCasesCount,
 
   getStaticHtml,
   getStaticScripts,
