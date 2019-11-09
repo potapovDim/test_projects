@@ -1,15 +1,16 @@
 import './styles/app.css'
 
-import React, {Component} from "react";
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
 import Statistics from './containers/statistics'
+import BuildStatistics from './containers/builds.statistics'
 import lStorage from './utils/local.storage'
 import {Button} from './components/button'
-import store from './reducers/rootReducer'
 import Modal from 'react-modal'
+
 
 class App extends Component {
 
@@ -17,7 +18,8 @@ class App extends Component {
     dashboard: true,
     testCasesList: false,
     reporterConfig: false,
-    statistics: false
+    statistics: false,
+    buildStatistics: false
   }
 
   UNSAFE_componentWillMount() {
@@ -38,7 +40,13 @@ class App extends Component {
   render() {
     const {config} = this.props
 
-    const {dashboard, testCasesList, reporterConfig, statistics} = this.state
+    const {
+      dashboard,
+      testCasesList,
+      reporterConfig,
+      statistics,
+      buildStatistics
+    } = this.state
 
     console.log(config, '!!!!!!!! CONFIG')
 
@@ -65,6 +73,9 @@ class App extends Component {
             <div>
               <Button clickAction={() => this.toggleContent('statistics')} title={'Statistics'} />
             </div>
+            <div>
+              <Button clickAction={() => this.toggleContent('buildStatistics')} title={'Build Statistics'} />
+            </div>
           </div>
 
           <div className="content">
@@ -72,6 +83,7 @@ class App extends Component {
             {testCasesList && <FailedCasesList />}
             {reporterConfig && <ReportConfig />}
             {statistics && <Statistics />}
+            {buildStatistics && <BuildStatistics />}
           </div>
         </div>
       </div>

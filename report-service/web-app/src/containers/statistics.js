@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {Pie, Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
-import {BuildStatistics} from './statistics/buildsStatistics'
 import {
   getFailReasons,
   mostFlakyCases,
@@ -121,9 +120,6 @@ class Statistics extends Component {
           <Bar
             data={dataBar}
             getElementAtEvent={this.handleClick}
-          />
-          <BuildStatistics
-            cases={cases}
           />
         </div>
       </div>

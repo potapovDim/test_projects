@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {BuildItem} from '../../components/buildItem'
-import {getRangeFailesByBuild} from '../../utils/data.formaters'
+import {connect} from 'react-redux'
+import {BuildItem} from '../components/buildItem'
+import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class BuildStatistics extends Component {
 
@@ -31,6 +32,5 @@ class BuildStatistics extends Component {
   }
 }
 
-export {
-  BuildStatistics
-}
+
+export default connect(({cases}) => cases)(BuildStatistics)
