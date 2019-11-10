@@ -31,6 +31,7 @@ function getRandomColor() {
   return colors[Math.floor(Math.random() * colors.length)]
 }
 
+let failedReasonsStructureScope = null
 
 class Statistics extends Component {
   state = {
@@ -41,6 +42,7 @@ class Statistics extends Component {
     const {config = {failedReasons: []}, cases = []} = this.props
 
     const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
+    failedReasonsStructureScope = failedReasonsStructure
     const labels = Object.keys(failedReasonsStructure)
 
     return {
@@ -80,13 +82,27 @@ class Statistics extends Component {
     }
   }
 
-  handleClick = (data) => {
+  handleClickBar = (data) => {
+
     const {cases} = this.props
     if(data.length) {
       const [{_model: {label}}] = data
       this.setState({modalCases: cases.filter(({id}) => id === label)})
+
     }
   }
+
+  handleClickPie = (data) => {
+
+    const {cases} = this.props
+    if(data.length) {
+      const [{_model: {label}}] = data
+      this.setState({modalCases: failedReasonsStructureScope[label]})
+
+    }
+  }
+
+
 
   askToClose = () => {
     this.setState({modalCases: []})
@@ -94,8 +110,6 @@ class Statistics extends Component {
 
   render() {
     const {modalCases} = this.state
-    const {cases} = this.props
-
     const dataPie = this.getFailedReasonsPie()
     const dataBar = this.getFailedCases()
 
@@ -112,11 +126,11 @@ class Statistics extends Component {
             width={50}
             height={20}
             data={dataPie}
-            getElementAtEvent={this.handleClick}
+            getElementAtEvent={this.handleClickPie}
           />
           <Bar
             data={dataBar}
-            getElementAtEvent={this.handleClick}
+            getElementAtEvent={this.handleClickBar}
           />
         </div>
       </div>
