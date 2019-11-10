@@ -75,7 +75,6 @@ function getGroupedByCases(propName, testCases) {
   return testCases
     .map((item) => item[propName])
     .filter((item, index, testCasesGroupsNotUniq) => {
-      console.log(testCasesGroupsNotUniq, testCasesGroupsNotUniq.findIndex)
       return testCasesGroupsNotUniq.indexOf(item) === index
     })
     .reduce((groupedCases, groupValue) => {

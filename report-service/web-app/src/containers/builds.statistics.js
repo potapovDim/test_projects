@@ -6,7 +6,7 @@ import {getRangeFailesByBuild} from '../utils/data.formaters'
 class BuildStatistics extends Component {
 
   renderStatisticsByBuild = () => {
-    const {cases} = this.props
+    const {cases = []} = this.props
     const {buildsCount, allBuildsFails, averageAmount, ...buildsStatistics} = getRangeFailesByBuild(cases)
 
     return (

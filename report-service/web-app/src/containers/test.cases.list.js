@@ -48,7 +48,7 @@ class FailedCasesList extends Component {
     return (
       <select onChange={({target: {value}}) => this.renderGroutedCases(value)}>
         <option>All</option>
-        {Object.keys(testCase).map((item) => <option>{item}</option>)}
+        {Object.keys(testCase).map((item, index) => <option key={index}>{item}</option>)}
       </select>
     )
   }

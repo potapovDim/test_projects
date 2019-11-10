@@ -10,7 +10,6 @@ import {
 } from '../utils/data.formaters'
 
 // should be refactored
-let upperScopeItem = null
 
 const colors = [
   '#E0FFFF',
@@ -43,8 +42,6 @@ class Statistics extends Component {
 
     const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
     const labels = Object.keys(failedReasonsStructure)
-    // should be refactored
-    upperScopeItem = failedReasonsStructure
 
     return {
       labels,
