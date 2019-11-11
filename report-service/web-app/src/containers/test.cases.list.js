@@ -3,6 +3,7 @@ import './styles/test.cases.list.css'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {TestCase} from '../components/test.case'
+import {Button} from '../components/button'
 import Modal from 'react-modal'
 import {getGroupedByCases} from '../utils/data.formaters'
 
@@ -91,9 +92,17 @@ class FailedCasesList extends Component {
 
               {this.renderGropTestCaseByList()}
 
-              <Modal isOpen={!!modalCases.length}>
-                <button onClick={this.askToClose}>close</button>
+              <Modal
+                isOpen={!!modalCases.length}
+                ariaHideApp={false}
+              >
+                <Button
+                  clickAction={this.askToClose}
+                  title={'Close'}
+                />
+
                 {this.renderTestCaseList(modalCases, false)}
+
               </Modal>
 
               {!groupedCases && this.renderTestCaseList(cases)}

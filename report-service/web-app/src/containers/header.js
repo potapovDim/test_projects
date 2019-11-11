@@ -84,10 +84,18 @@ class Header extends Component {
 
     return (
       <nav className="header">
-        <Button title={"Resync cases"} clickAction={this.resyncCases} />
-        <Button title={!autosync ? 'Enable autosync' : 'Disable autosync'} clickAction={this.enableAutoSync} />
+        <Button
+          title={"Resync cases"}
+          clickAction={this.resyncCases}
+        />
+        <Button
+          title={!autosync ? 'Enable autosync' : 'Disable autosync'}
+          className={autosync ? 'active' : ''}
+          clickAction={this.enableAutoSync}
+        />
 
         <div>Tests count is:  {cases.length}</div>
+
         <div>
           Get statistic
           <button onClick={() => this.getTestCaseByTime(1)}>Last hour</button>
