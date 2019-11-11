@@ -1,4 +1,11 @@
-button {
+.btn {
   padding: 5px;
+  margin: 5px;
+  text-align: left;
+}
+
+.btn.active {
+  border-bottom: blue;
+  font-weight: bold;
 }
 

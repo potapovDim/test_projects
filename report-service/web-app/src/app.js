@@ -8,18 +8,23 @@ import Header from './containers/header'
 import Statistics from './containers/statistics'
 import BuildStatistics from './containers/builds.statistics'
 import lStorage from './utils/local.storage'
+import NavigationMenu from './containers/navigation.menu'
 import {Button} from './components/button'
+
 import Modal from 'react-modal'
 
+
+const contentMap = {
+  FailedCasesList,
+  ReportConfig,
+  Statistics,
+  BuildStatistics
+}
 
 class App extends Component {
 
   state = {
-    dashboard: true,
-    testCasesList: false,
-    reporterConfig: false,
-    statistics: false,
-    buildStatistics: false
+    content: 'ReportConfig'
   }
 
   UNSAFE_componentWillMount() {
@@ -28,27 +33,15 @@ class App extends Component {
   }
 
   toggleContent = (name) => {
-    const newState = Object.keys(this.state).reduce(function(state, key) {
-      state[key] = key !== name ? false : true
-      return state
-    }, {})
-
-    this.setState(newState)
+    this.setState({content: name})
     lStorage.lsSet('view', name)
   }
 
   render() {
     const {config} = this.props
 
-    const {
-      dashboard,
-      testCasesList,
-      reporterConfig,
-      statistics,
-      buildStatistics
-    } = this.state
-
-    console.log(config, '!!!!!!!! CONFIG')
+    const {content} = this.state
+    const Content = contentMap[content]
 
     return (
       <div>
@@ -56,38 +49,20 @@ class App extends Component {
         <Modal isOpen={!config} ariaHideApp={false}>
           <ReportConfig />
         </Modal>
-
         <Header />
         <div className="report_main">
-          <div className="navigation_menu">
 
-            <div>
-              <Button clickAction={() => this.toggleContent('reporterConfig')} title={'Configuration'} />
-            </div>
-            <div>
-              <Button clickAction={() => this.toggleContent('dashboard')} title={'Dashboard'} />
-            </div>
-            <div>
-              <Button clickAction={() => this.toggleContent('testCasesList')} title={'Test list'} />
-            </div>
-            <div>
-              <Button clickAction={() => this.toggleContent('statistics')} title={'Statistics'} />
-            </div>
-            <div>
-              <Button clickAction={() => this.toggleContent('buildStatistics')} title={'Build Statistics'} />
-            </div>
-          </div>
+          <NavigationMenu
+            toggleContent={this.toggleContent}
+            navidationButtons={Object.keys(contentMap).map((key) => key)}
+          />
 
           <div className="content">
-            {dashboard && <div>Dashboard</div>}
-            {testCasesList && <FailedCasesList />}
-            {reporterConfig && <ReportConfig />}
-            {statistics && <Statistics />}
-            {buildStatistics && <BuildStatistics />}
+            <Content />
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 

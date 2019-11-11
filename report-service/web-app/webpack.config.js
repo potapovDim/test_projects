@@ -27,6 +27,7 @@ module.exports = {
     liveReload: false,
     historyApiFallback: true
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
