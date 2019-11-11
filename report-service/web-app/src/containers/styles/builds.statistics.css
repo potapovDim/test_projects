@@ -1,0 +1,22 @@
+.build_statistics {
+  display: block;
+}
+
+.count {
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.average_amount {
+  font-weight: bold;
+}
+
+.build_item {
+  font-weight: bold;
+  border: solid;
+  border-color: rgba(44, 130, 201, 0.3);
+  border-radius: 3px;
+}

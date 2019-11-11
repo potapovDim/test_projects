@@ -1,3 +1,5 @@
+import './styles/builds.statistics.css'
+
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {BuildItem} from '../components/buildItem'
@@ -10,14 +12,20 @@ class BuildStatistics extends Component {
     const {buildsCount, allBuildsFails, averageAmount, ...buildsStatistics} = getRangeFailesByBuild(cases)
 
     return (
-      <div>
-        <div>Build count: {buildsCount}</div>
-        <div>Total count of fails: {allBuildsFails}</div>
-        <div>Avarage amount of failed cases: {averageAmount}</div>
+      <div className="build_statistics">
+        <div className="count">Build count: {buildsCount}</div>
+        <div className="total">Total count of fails: {allBuildsFails}</div>
+        <div className="average_amount">Average amount of failed cases: {averageAmount}</div>
         {
           Object
             .keys(buildsStatistics)
-            .map((buildNumber, index) => <BuildItem buildNumber={buildNumber} cases={buildsStatistics[buildNumber].cases} key={index} />)
+            .map((buildNumber, index) =>
+              <BuildItem
+                key={index}
+                buildNumber={buildNumber}
+                cases={buildsStatistics[buildNumber].cases}
+              />
+            )
         }
       </div>
     )

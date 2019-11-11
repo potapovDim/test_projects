@@ -8,11 +8,11 @@ class BuildItem extends Component {
   toggleBuilInfo = () => this.setState({isOpened: !this.state.isOpened})
 
   render() {
-    const {buildNumber, cases = []} = this.props
+    const {buildNumber, cases = [], } = this.props
     const {isOpened} = this.state
     return (
-      <div>
-        <div onClick={this.toggleBuilInfo}>Build number: {buildNumber}</div>
+      <div className="build_item">
+        <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} &220E </div>
         {isOpened && cases.map((testCaseId) => <div>{testCaseId}</div>)}
       </div>
     )

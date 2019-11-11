@@ -19,7 +19,7 @@ function caseStore(state = {}, action) {
     case UPDATA_CASES_LIST: {
       const {startDate, endDate} = state
       const dateConfig = {startDate, endDate}
-      if(!startDate && !endDate) {
+      if(!startDate && !endDate && action.cases.length) {
         dateConfig.startDate = action.cases[0].date
         dateConfig.endDate = action.cases[action.cases.length - 1].date
       }
