@@ -84,9 +84,6 @@ class Header extends Component {
 
     return (
       <nav className="header">
-
-        <h2>Report Service</h2>
-
         <Button title={"Resync cases"} clickAction={this.resyncCases} />
         <Button title={!autosync ? 'Enable autosync' : 'Disable autosync'} clickAction={this.enableAutoSync} />
 
@@ -102,9 +99,12 @@ class Header extends Component {
 
           {cases.length && (
             <div>
-              Avaliable date range
-              <div onClick={() => this.toggleCalendar('fromDateOpen')}>Start date: <span>{fromNumberToMDY(startDate)}</span> </div>
-              <div onClick={() => this.toggleCalendar('toDateOpen')}>End date:   <span>{fromNumberToMDY(endDate)}</span>   </div>
+
+              <h3>Avaliable date range</h3>
+              <div className="date_range">
+                <div onClick={() => this.toggleCalendar('fromDateOpen')}>Start date: <span>{fromNumberToMDY(startDate)}</span> </div>
+                <div onClick={() => this.toggleCalendar('toDateOpen')}>End date:   <span>{fromNumberToMDY(endDate)}</span>   </div>
+              </div>
 
               <div className="calendar section">
                 {fromDateOpen &&

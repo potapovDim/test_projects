@@ -7,6 +7,11 @@
   display: flex;
 }
 
+.date_range {
+  display: flex;
+  color: blue;
+  font-weight: bold;
+}
 
 .calendar-wrapper {
   position: absolute;
