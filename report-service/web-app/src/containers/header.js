@@ -97,11 +97,11 @@ class Header extends Component {
         <div>Tests count is:  {cases.length}</div>
 
         <div>
-          Get statistic
-          <button onClick={() => this.getTestCaseByTime(1)}>Last hour</button>
-          <button onClick={() => this.getTestCaseByTime(2)}>Last 2 hours</button>
-          <button onClick={() => this.getTestCaseByTime(3)}>Last 3 hours</button>
-          <button onClick={() => this.getTestCaseByTime(4)}>Last 4 hours</button>
+          <span>Get statistic by hours: </span>
+          <Button clickAction={() => this.getTestCaseByTime(1)} title={'Last hour'} />
+          <Button clickAction={() => this.getTestCaseByTime(2)} title={'Last 2 hours'} />
+          <Button clickAction={() => this.getTestCaseByTime(3)} title={'Last 3 hours'} />
+          <Button clickAction={() => this.getTestCaseByTime(4)} title={'Last 4 hours'} />
         </div>
         <div>
 
@@ -118,7 +118,6 @@ class Header extends Component {
                 {fromDateOpen &&
                   <div className="calendar-wrapper">
                     <ReporterCalendar
-                      // activeStartDate={fromNumberToDateObject(fromDateOpen)}
                       onChange={(dateObj) => this.filterTestCasesByDay('startDate', dateObj)}
                       title="Choose start date"
                     />
@@ -128,7 +127,6 @@ class Header extends Component {
                   toDateOpen &&
                   <div className="calendar-wrapper end-date">
                     <ReporterCalendar
-                      // activeStartDate={fromNumberToDateObject(toDateOpen)}
                       onChange={(dateObj) => this.filterTestCasesByDay('endDate', dateObj)}
                       title="Choose end date"
                     />

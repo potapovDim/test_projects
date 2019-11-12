@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Dot} from './dot'
 
 class BuildItem extends Component {
   state = {
@@ -12,7 +13,7 @@ class BuildItem extends Component {
     const {isOpened} = this.state
     return (
       <div className="build_item">
-        <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} &220E </div>
+        <div onClick={this.toggleBuilInfo}>Build number: {buildNumber}  {cases.map((testCaseId) => <Dot key={testCaseId} className={"small"} />)}  </div>
         {isOpened && cases.map((testCaseId) => <div>{testCaseId}</div>)}
       </div>
     )

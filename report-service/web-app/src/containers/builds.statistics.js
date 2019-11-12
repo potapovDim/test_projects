@@ -2,7 +2,7 @@ import './styles/builds.statistics.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {BuildItem} from '../components/buildItem'
+import {BuildItem} from '../components/build.item'
 import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class BuildStatistics extends Component {

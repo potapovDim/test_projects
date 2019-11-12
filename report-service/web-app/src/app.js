@@ -5,20 +5,21 @@ import {connect} from 'react-redux'
 import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
+import Dashboard from './containers/dashboard'
 import Statistics from './containers/statistics'
 import BuildStatistics from './containers/builds.statistics'
-import lStorage from './utils/local.storage'
 import NavigationMenu from './containers/navigation.menu'
-import {Button} from './components/button'
+import lStorage from './utils/local.storage'
 
 import Modal from 'react-modal'
 
 
 const contentMap = {
+  BuildStatistics,
   FailedCasesList,
   ReportConfig,
   Statistics,
-  BuildStatistics
+  // Dashboard,
 }
 
 class App extends Component {
@@ -58,7 +59,9 @@ class App extends Component {
           />
 
           <div className="content">
+
             <Content />
+
           </div>
         </div>
       </div>

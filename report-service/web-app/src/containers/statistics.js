@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Pie, Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
+import {Button} from '../components/button'
 import {
   getFailReasons,
   mostFlakyCases,
@@ -116,7 +117,7 @@ class Statistics extends Component {
     return (
       <div>
         <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-          <button onClick={this.askToClose}>close</button>
+          <Button clickAction={this.askToClose} title={'Close'} />
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
         Statistics

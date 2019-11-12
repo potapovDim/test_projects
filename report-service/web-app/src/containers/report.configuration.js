@@ -12,22 +12,27 @@ const defaultConfig = {
   failedReasons: []
 }
 
-// TODO
-/**
- * shoulb be custom input compoennt
- */
 class ReporterConfig extends Component {
 
   state = {}
+
+  UNSAFE_componentWillMount() {
+    const existingConfig = lStorage.lsGet('config')
+    if(existingConfig && Object.keys(existingConfig).length) {
+      this.setState(existingConfig)
+    }
+  }
 
   updateConfig = (data) => {
     const existingConfig = lStorage.lsGet('config')
 
     const newConfig = {...existingConfig, ...data.jsObject}
 
+
     this.setState({
       ...newConfig
     })
+
     lStorage.lsSet('config', newConfig)
   }
 
