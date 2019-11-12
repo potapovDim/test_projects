@@ -1,5 +1,6 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const MinifyPlugin = require("babel-minify-webpack-plugin")
 
 const {ENV} = process.env
 
@@ -53,6 +54,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html"
-    })
+    }),
+    new MinifyPlugin()
   ]
 }
