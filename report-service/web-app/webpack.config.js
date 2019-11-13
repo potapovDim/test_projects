@@ -1,6 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const MinifyPlugin = require("babel-minify-webpack-plugin")
+// const MinifyPlugin = require("babel-minify-webpack-plugin")
 
 const {ENV} = process.env
 
@@ -22,12 +22,17 @@ function productionBuildOutput() {
 module.exports = {
   entry: "./src/index.js",
   output: productionBuildOutput(),
+
   devServer: {
     port: 8080,
     inline: true,
     liveReload: false,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/': 'http://127.0.0.1:3000'
+    }
   },
+
   devtool: 'source-map',
   module: {
     rules: [
@@ -55,6 +60,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html"
     }),
-    new MinifyPlugin()
+    // new MinifyPlugin()
   ]
 }

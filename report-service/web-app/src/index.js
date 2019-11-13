@@ -40,6 +40,7 @@ const config = lsStore.lsGet('config')
 if(!config) {
   console.error('localStorage does not have config will try to get config from origin server')
   getReportConfig().then(({config}) => {
+    console.log(config, '!!!!!!!!!!!!!!!!!!!')
     if(config) {
       lsStore.lsSet('config', config)
       store.dispatch(updateConfig(config))
