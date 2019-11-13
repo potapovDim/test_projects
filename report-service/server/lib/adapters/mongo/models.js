@@ -11,7 +11,7 @@ const {Schema} = require('mongoose')
  *  stack: 'Some stack trace'
  * }
  */
-const createTestCaseItemModel = (connectionDb) => {
+const addTestCaseItemModel = (connectionDb) => {
   const relativeShema = Schema({
     id: String,
     date: Number,
@@ -22,5 +22,5 @@ const createTestCaseItemModel = (connectionDb) => {
 }
 
 module.exports = {
-  createTestCaseItemModel
+  addTestCaseItemModel
 }

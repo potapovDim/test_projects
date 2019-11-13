@@ -1,10 +1,9 @@
-const {createTestCase} = require('./create.test.case')
-const {getTestCases} = require('./get.test.cases')
+const {getTestCases, addTestCase} = require('./test.cases')
 const {setReporterConfig, getReporterConfig} = require('./configs')
-const {getStaticHtml, getStaticScripts} = require('./get.static')
+const {getStaticHtml, getStaticScripts} = require('./static')
 
 module.exports = {
-  createTestCase,
+  addTestCase,
   getTestCases,
 
   setReporterConfig,

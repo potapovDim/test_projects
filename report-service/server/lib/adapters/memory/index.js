@@ -4,7 +4,7 @@ const {getFreeBackUpFilePathName, getFilesWithSubDirs} = require('./storage.rest
 const {readFile, tryParseJson} = require('../../utils')
 
 const storage = []
-
+const storageBuilds = []
 
 /**
  * @returns {array} filesList
@@ -97,9 +97,18 @@ setInterval(async function() {
  * }
  */
 function setToStorage(item) {
-  storage.push(item)
+  // add item should be async
+  return new Promise((res) => {
+    res(storage.push(item))
+  })
 }
 
+function setToStorageBuild(item) {
+  // add item should be async
+  return new Promise((res) => {
+    res(storageBuilds.push(item))
+  })
+}
 
 /**
  * @returns {array} storage
@@ -114,9 +123,12 @@ function setToStorage(item) {
  * ]
  */
 function getStorageData(offset = 0, limit = storage.length) {
-  return [...storage].slice(offset, limit)
+  return new Promise((res) => res([...storage].slice(offset, limit)))
 }
 
+function getSturageBuildData(offset = 0, limit = storageBuilds.length) {
+  return new Promise((res) => res([...storageBuilds].slice(offset, limit)))
+}
 /**
  * @returns countObject
  * @example countObject
@@ -131,8 +143,13 @@ function getStorageDataCount() {
 module.exports = {
   getStorageData,
   setToStorage,
+
   getStorageDataCount,
   getAvaliableDateRangeForData,
+
   getConfig,
-  setConfig
+  setConfig,
+
+  setToStorageBuild,
+  getSturageBuildData
 }

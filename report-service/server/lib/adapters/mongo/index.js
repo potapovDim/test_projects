@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {createTestCaseItemModel} = require('./models')
+const {addTestCaseItemModel} = require('./models')
 const {
   createGetStorageData,
   createSetToStorage,
@@ -13,7 +13,7 @@ const connectedMongoose = mongoose.createConnection(
     useUnifiedTopology: true
   }
 )
-const testCaseModel = createTestCaseItemModel(connectedMongoose)
+const testCaseModel = addTestCaseItemModel(connectedMongoose)
 
 module.exports = {
   getStorageData: createGetStorageData(testCaseModel),
