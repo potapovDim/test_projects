@@ -42,13 +42,17 @@ function mostFlakyCases(testCases) {
   }, {})
 }
 
-function getRangeFailesByBuild(testCases) {
+function getRangeFailesByBuild(testCases, buildStats = []) {
   const items = testCases.reduce(function(acc, testCase) {
     const {build, id} = testCase
+
     if(acc[build]) {
       acc[build].cases.push(id)
     } else {
-      acc[build] = {cases: [id]}
+      acc[build] = {
+        cases: [id],
+        buildExecutedCases: buildStats.find((item) => item.build === build).count
+      }
     }
     return acc
   }, {})
@@ -58,9 +62,11 @@ function getRangeFailesByBuild(testCases) {
     if(index === 0) {
       acc.buildsCount = originalArr.length
       acc.allBuildsFails = items[buildNumber].cases.length
+      acc.totalExecutedCases = items[buildNumber].buildExecutedCases
     } else if(index === originalArr.length - 1) {
       acc.averageAmount = Math.floor(acc.allBuildsFails / originalArr.length)
     } else {
+      acc.totalExecutedCases += items[buildNumber].buildExecutedCases
       acc.allBuildsFails += items[buildNumber].cases.length
     }
 

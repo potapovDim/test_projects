@@ -21,7 +21,7 @@ function getReportConfig(cb = (arg) => arg) {
 }
 
 function getBuildsStatistics(cb = (arg) => arg) {
-  return fetchy.get(routerConstants.getBuildStatistics).then(cb).catch(cb)
+  return fetchy.get(routerConstants.getBuildStatistics).then((respo) => cb(respo)).catch(cb)
 }
 
 export {

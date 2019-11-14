@@ -2,10 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Provider} from 'react-redux'
 import store from './reducers/rootReducer'
-import {updateConfig, updateCasesList} from './reducers/action.creators'
+import {updateConfig, updateCasesList, updateBuildStatistics} from './reducers/action.creators'
 import lsStore from './utils/local.storage'
 import App from "./App.js"
-import {getReportConfig, getTestCases} from './server-client/actions'
+import {getReportConfig, getTestCases, getBuildsStatistics} from './server-client/actions'
 
 function renderMainApplication() {
   console.log('RENDER APPLICATION')
@@ -40,7 +40,9 @@ const config = lsStore.lsGet('config')
 if(!config) {
   console.error('localStorage does not have config will try to get config from origin server')
   getReportConfig().then(({config}) => {
-    console.log(config, '!!!!!!!!!!!!!!!!!!!')
+
+    getBuildsStatistics((res) => store.dispatch(updateBuildStatistics(res)))
+
     if(config) {
       lsStore.lsSet('config', config)
       store.dispatch(updateConfig(config))
@@ -57,6 +59,7 @@ if(!config) {
   })
 } else {
   store.dispatch(updateConfig(config))
+  getBuildsStatistics((res) => store.dispatch(updateBuildStatistics(res)))
   getTestCases()
     .then((cases) => {
       if(Array.isArray(cases)) {
