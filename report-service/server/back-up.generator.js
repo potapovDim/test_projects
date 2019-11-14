@@ -3,7 +3,7 @@ const moment = require('moment')
 const fs = require('fs')
 const path = require('path')
 
-const getNumber = (n = 1000) => Math.floor(Math.random() * n)
+const getNumber = (n = 1000, from = 0) => Math.floor((Math.random() * (n - from) + from))
 
 const getRandomTimeName = () => ['days', 'hours'][getNumber(2)]
 
@@ -21,6 +21,12 @@ const cases = Array(3000).fill('_').map(() => ({
   build: getNumber(40)
 }))
 
+const builds = cases
+  .map((testCase) => testCase.build)
+  .filter((item, index, arr) => arr.indexOf(item) === index)
+  .map((item) => ({build: item, count: getNumber(250, 200)}))
+
+
 const config = {
   failedReasons: [
     'EXPECTATION NUMBER :6',
@@ -36,7 +42,9 @@ const config = {
   ]
 }
 
-fs.writeFileSync(path.resolve(__dirname, './temp/1-backup.json'), JSON.stringify(cases))
+
+fs.writeFileSync(path.resolve(__dirname, './temp/1-tests_backup.json'), JSON.stringify(cases))
+fs.writeFileSync(path.resolve(__dirname, './temp/1-builds_backup.json'), JSON.stringify(builds))
 
 module.exports = {
   config

@@ -11,7 +11,7 @@ const {getFreeBackUpFilePathName} = require('./storage.restore')
 async function getStoredTestCasesCount(dirName, backUpfileNamePart) {
 
   dirName = dirName || path.resolve(__dirname, '../../../temp')
-  backUpfileNamePart = backUpfileNamePart || 'backup.json'
+  backUpfileNamePart = backUpfileNamePart || 'tests_backup.json'
 
   const files = (await getFreeBackUpFilePathName(dirName))
     .filter((filePathName) => filePathName.includes(backUpfileNamePart))

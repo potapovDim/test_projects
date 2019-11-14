@@ -3,48 +3,65 @@ const {getConfig, setConfig} = require('../config')
 const {getFreeBackUpFilePathName, getFilesWithSubDirs} = require('./storage.restore')
 const {readFile, tryParseJson} = require('../../utils')
 
+
+const {
+  BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
+  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
+  BACKUP_BUILDS_FILES_PATTERN = 'builds_backup.json'
+} = process.env
+
 const storage = []
 const storageBuilds = []
 
 /**
  * @returns {array} filesList
  */
-async function getAvaliableBackUpFiles() {
-  const {
-    BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
-    BACKUP_FILES_PATTERN = 'backup.json'
-  } = process.env
+async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
 
-  const backUpFileName = (await getFilesWithSubDirs(BACKUP_PATH))
-    .filter((filePath) => filePath.includes(BACKUP_FILES_PATTERN))
+  const backUpFileName = (await getFilesWithSubDirs(backUpDir))
+    .filter((filePath) => filePath.includes(backUpFilePattern))
 
   return backUpFileName
 }
 
 
-tryToRestoreStorageFromBackups()
-async function tryToRestoreStorageFromBackups() {
+async function restoreDataToStorage(storageArr, fileList) {
 
-  const backUpFilesList = await getAvaliableBackUpFiles()
-
-  if(backUpFilesList.length) {
-    const lastTwoBackups = backUpFilesList.slice(backUpFilesList.length - 2, backUpFilesList.length)
+  if(fileList.length) {
+    const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
     for(const file of lastTwoBackups) {
       const backUpFileData = tryParseJson(await readFile(file))
       if(Array.isArray(backUpFileData)) {
-        storage.push(...backUpFileData)
+        storageArr.push(...backUpFileData)
       }
     }
   }
 }
 
+tryToRestoreStorageFromBackups()
+
+async function tryToRestoreStorageFromBackups() {
+
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
+  await restoreDataToStorage(storage, backUpFilesList)
+}
+
+
+tryToRestoreStorageBuildsFromBackups()
+async function tryToRestoreStorageBuildsFromBackups() {
+
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_BUILDS_FILES_PATTERN)
+  await restoreDataToStorage(storageBuilds, backUpFilesList)
+}
 
 async function getAvaliableDateRangeForData() {
+
   const avaliableDataRange = {
     startDate: null,
     endDate: null
   }
-  const backUpFilesList = await getAvaliableBackUpFiles()
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
+
   if(backUpFilesList.length) {
     // get data from first file
     const backUpFileData = tryParseJson(await readFile(backUpFilesList[0]))
@@ -103,7 +120,7 @@ function setToStorage(item) {
   })
 }
 
-function setToStorageBuild(item) {
+function setToStorageBuilds(item) {
   // add item should be async
   return new Promise((res) => {
     res(storageBuilds.push(item))
@@ -126,7 +143,7 @@ function getStorageData(offset = 0, limit = storage.length) {
   return new Promise((res) => res([...storage].slice(offset, limit)))
 }
 
-function getSturageBuildData(offset = 0, limit = storageBuilds.length) {
+function getStorageBuilsdData(offset = 0, limit = storageBuilds.length) {
   return new Promise((res) => res([...storageBuilds].slice(offset, limit)))
 }
 /**
@@ -150,6 +167,6 @@ module.exports = {
   getConfig,
   setConfig,
 
-  setToStorageBuild,
-  getSturageBuildData
+  setToStorageBuilds,
+  getStorageBuilsdData
 }

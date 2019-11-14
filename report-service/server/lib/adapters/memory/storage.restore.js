@@ -11,7 +11,7 @@ const path = require('path')
  */
 async function getFreeBackUpFilePathName(dirName, backUpfileNamePart) {
 
-  backUpfileNamePart = backUpfileNamePart || 'backup.json'
+  backUpfileNamePart = backUpfileNamePart || 'tests_backup.json'
   dirName = dirName || path.resolve(__dirname, '../../../temp')
 
   const files = await getFilesWithSubDirs(dirName)
