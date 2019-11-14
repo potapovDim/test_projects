@@ -4,8 +4,13 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {BuildItem} from '../components/build.item'
 import {getRangeFailesByBuild} from '../utils/data.formaters'
+import {getBuildsStatistics} from '../server-client/actions'
 
 class BuildStatistics extends Component {
+
+  UNSAFE_componentWillMount() {
+
+  }
 
   renderStatisticsByBuild = () => {
     const {cases = []} = this.props

@@ -89,9 +89,19 @@ async function getAvaliableDateRangeForData() {
 setInterval(async function() {
   // if cases more than 3500 - remove first 1000 and store them in file
   if(storage.length >= 3500) {
-    const {BACKUP_PATH} = process.env
-    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH)
+    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
     const storagePart = storage.splice(0, 1000)
+    await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
+      if(err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      }
+    })
+  }
+
+  if(storageBuilds.length >= 3500) {
+    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_BUILDS_FILES_PATTERN)
+    const storagePart = storageBuilds.splice(0, 1000)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
       if(err) {
         // eslint-disable-next-line no-console
