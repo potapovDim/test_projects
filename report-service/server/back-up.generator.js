@@ -24,7 +24,7 @@ const cases = Array(3000).fill('_').map(() => ({
 const builds = cases
   .map((testCase) => testCase.build)
   .filter((item, index, arr) => arr.indexOf(item) === index)
-  .map((item) => ({build: item, count: getNumber(250, 200)}))
+  .map((item) => ({build: item, count: getNumber(500, 150)}))
 
 
 const config = {

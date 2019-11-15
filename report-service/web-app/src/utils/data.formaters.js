@@ -1,3 +1,5 @@
+import PubSub from 'pubsub-js'
+
 function getFailReasons(failedReasons = {}, testCases = []) {
 
   const failedResonsKeys = Array.isArray(failedReasons) ? [...failedReasons] : Object.keys(failedReasons)
@@ -47,11 +49,29 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
     const {build, id} = testCase
 
     if(acc[build]) {
-      acc[build].cases.push(id)
+      acc[build].cases.push(testCase)
     } else {
       acc[build] = {
-        cases: [id],
-        buildExecutedCases: buildStats.find((item) => item.build === build).count
+        cases: [testCase]
+      }
+      const buildInfo = buildStats.find((item) => item.build === build)
+      if(!buildInfo) {
+        acc[build].buildExecutedCases = 0
+
+        /**
+         * @todo
+         * specify common approach for pubSub for whole project
+         */
+        PubSub.publish('buildInfo_warning', {
+          message: `
+          Information for build number ${build} does not present,
+          seems like issue with integration with Report-Service
+          `,
+          className: 'error'
+        })
+
+      } else {
+        acc[build].buildExecutedCases = buildInfo.count
       }
     }
     return acc

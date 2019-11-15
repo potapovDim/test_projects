@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Dot} from './dot'
+import {TestCase} from './test.case'
 
 class BuildItem extends Component {
   state = {
@@ -18,7 +19,9 @@ class BuildItem extends Component {
 
   render() {
     const {buildNumber, cases = [], buildExecutedCases} = this.props
+
     const {isOpened} = this.state
+    console.log('Render build item')
     return (
       <div className="build_item">
         <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
@@ -28,7 +31,7 @@ class BuildItem extends Component {
             <div>Failed cases in build cases is: {cases.length}</div>
             <div>Failed persentage is: {Math.floor(cases.length / (buildExecutedCases / 100))} %</div>
             {
-              cases.map((testCaseId, index) => <div key={index}>{testCaseId}</div>)
+              cases.map((testCase, index) => <TestCase key={index} {...testCase} className={'small_case'} />)
             }
           </div>
         }

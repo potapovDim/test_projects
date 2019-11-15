@@ -9,6 +9,7 @@ class BuildStatistics extends Component {
 
   renderStatisticsByBuild = () => {
     const {cases = [], buildStatistics = []} = this.props
+
     const {
       buildsCount,
       allBuildsFails,
@@ -16,6 +17,7 @@ class BuildStatistics extends Component {
       totalExecutedCases,
       ...buildsStatistics
     } = getRangeFailesByBuild(cases, buildStatistics)
+
 
     return (
       <div className="build_statistics">

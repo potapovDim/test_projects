@@ -1,0 +1,36 @@
+.information_message {
+  position: absolute;
+  border: 1px solid;
+  border-radius: 5px;
+  display: flex;
+  margin: 10px 0px;
+  width: 80%;
+  margin-left: 10%;
+  padding: 15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.message {
+  width: 100%;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 30px;
+}
+
+.action_button {
+  margin-left: 80%;
+}
+
+.warning {
+  background: rgba(255, 255, 0, 1);
+}
+
+.info {
+  background: rgba(30, 139, 195, 1);
+}
+
+.error {
+  background: rgba(255, 0, 0, 1);
+}

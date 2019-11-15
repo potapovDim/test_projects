@@ -3,6 +3,7 @@ import './styles/test.case.css'
 import React, {Component} from 'react';
 import {Button} from './button'
 import {fromNumberToMDY} from '../utils/date'
+import classnames from 'classnames'
 
 /**
  *  @example {
@@ -25,6 +26,7 @@ class TestCase extends Component {
   render() {
     const {isOpened} = this.state
     const {onClick, ...rest} = this.props
+
     const {
       id,
       date,
@@ -32,11 +34,14 @@ class TestCase extends Component {
       stack,
       stackTrace,
       env,
-      title = 'Action button'
+      title = 'Action button',
+      className = ''
     } = rest
 
+    const classNames = classnames('test_case', className)
+
     return (
-      <div className='test_case'>
+      <div className={classNames}>
         <div className="test_case_id" onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</div>
         {isOpened &&
           (

@@ -1,11 +1,13 @@
 import './styles/header.css'
 
 import React, {Component} from 'react'
+import PubSub from 'pubsub-js'
 import {connect} from 'react-redux'
 import {ReporterCalendar} from '../components/calendar'
 import {getTestCases} from '../server-client/actions'
 import {updateCasesList} from '../reducers/action.creators'
 import {Button} from '../components/button'
+import {InformationMessage} from '../components/information.message'
 
 import {fromMDYToDateObj, fromNumberToDateObject, fromNumberToMDY} from '../utils/date'
 
@@ -14,7 +16,34 @@ class Header extends Component {
   state = {
     fromDateOpen: false,
     toDateOpen: false,
-    autosync: false
+    autosync: false,
+    messages: []
+  }
+
+  UNSAFE_componentWillMount() {
+    PubSub.subscribe('buildInfo_warning', (ms, data) => {
+      console.warn(ms)
+      this.setState({
+        ...this.state,
+        messages: [...this.state.messages, data]
+      })
+    })
+  }
+
+  renderMessages = () => {
+    const {messages} = this.state
+    return messages.map((messageInfo, index) => (
+      <InformationMessage
+        {...messageInfo}
+
+
+        clickAction={() => {
+          const newState = {...this.state}
+          newState.messages.splice(index, 1)
+          this.setState({...newState})
+        }}
+      />
+    ))
   }
 
   toggleCalendar = (name) => {
@@ -73,6 +102,8 @@ class Header extends Component {
     })
   }
 
+
+
   render() {
     let {startDate, endDate, cases = []} = this.props
     const {fromDateOpen, toDateOpen, autosync} = this.state
@@ -84,6 +115,7 @@ class Header extends Component {
 
     return (
       <nav className="header">
+        {this.renderMessages()}
         <Button
           title={"Resync cases"}
           clickAction={this.resyncCases}
