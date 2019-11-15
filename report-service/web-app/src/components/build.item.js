@@ -1,6 +1,9 @@
+import './styles/build.item.css'
+
 import React, {Component} from 'react'
 import {Dot} from './dot'
 import {TestCase} from './test.case'
+import classnames from 'classnames'
 
 class BuildItem extends Component {
   state = {
@@ -19,17 +22,20 @@ class BuildItem extends Component {
 
   render() {
     const {buildNumber, cases = [], buildExecutedCases} = this.props
-
     const {isOpened} = this.state
-    console.log('Render build item')
+
+    const classNames = classnames('build_item', !buildExecutedCases ? 'warning' : '')
     return (
-      <div className="build_item">
+      <div className={classNames}>
         <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
         {isOpened &&
           <div>
-            <div>Executed cases in build: {buildExecutedCases}</div>
+
+            {buildExecutedCases && <div>
+              <div>Executed cases in build: {buildExecutedCases}</div>
+              <div>Failed persentage is: {Math.floor(cases.length / (buildExecutedCases / 100))} %</div>
+            </div>}
             <div>Failed cases in build cases is: {cases.length}</div>
-            <div>Failed persentage is: {Math.floor(cases.length / (buildExecutedCases / 100))} %</div>
             {
               cases.map((testCase, index) => <TestCase key={index} {...testCase} className={'small_case'} />)
             }
