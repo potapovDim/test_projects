@@ -12,11 +12,11 @@ class InformationMessage extends Component {
       clickAction = () => {},
     } = this.props
 
-    const classNames = classnames('information_message', className)
+    const classNames = classnames('message', className)
 
     return (
-      <div className={classNames} onClick={clickAction}>
-        <span className="message">{message}</span>
+      <div className="information_message" onClick={clickAction}>
+        <span className={classNames}>{message}</span>
       </div>
     )
   }

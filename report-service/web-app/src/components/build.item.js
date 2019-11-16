@@ -31,10 +31,10 @@ class BuildItem extends Component {
         {isOpened &&
           <div>
 
-            {buildExecutedCases && <div>
+            {!!buildExecutedCases && (<div>
               <div>Executed cases in build: {buildExecutedCases}</div>
               <div>Failed persentage is: {Math.floor(cases.length / (buildExecutedCases / 100))} %</div>
-            </div>}
+            </div>)}
             <div>Failed cases in build cases is: {cases.length}</div>
             {
               cases.map((testCase, index) => <TestCase key={index} {...testCase} className={'small_case'} />)
