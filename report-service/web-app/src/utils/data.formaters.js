@@ -51,10 +51,11 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
     if(acc[build]) {
       acc[build].cases.push(testCase)
     } else {
-      acc[build] = {
-        cases: [testCase]
-      }
+
+      acc[build] = {cases: [testCase]}
+
       const buildInfo = buildStats.find((item) => item.build === build)
+
       if(!buildInfo) {
         acc[build].buildExecutedCases = 0
 
@@ -80,14 +81,31 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
   return Object.keys(items).reduce(function(acc, buildNumber, index, originalArr) {
 
     if(index === 0) {
+
       acc.buildsCount = originalArr.length
-      acc.allBuildsFails = items[buildNumber].cases.length
+
+      if(items[buildNumber].buildExecutedCases === 0) {
+        acc.allBuildsFails = 0
+      } else {
+        acc.allBuildsFails = items[buildNumber].cases.length
+      }
+
       acc.totalExecutedCases = items[buildNumber].buildExecutedCases
+
     } else if(index === originalArr.length - 1) {
+
       acc.averageAmount = Math.floor(acc.allBuildsFails / originalArr.length)
+
     } else {
-      acc.totalExecutedCases += items[buildNumber].buildExecutedCases
-      acc.allBuildsFails += items[buildNumber].cases.length
+      /**
+       * @description
+       * in case if build information does not existst "{build: 'number', count: 222}"
+       * this build should not take part in common statistics results
+       */
+      if(items[buildNumber].buildExecutedCases !== 0) {
+        acc.totalExecutedCases += items[buildNumber].buildExecutedCases
+        acc.allBuildsFails += items[buildNumber].cases.length
+      }
     }
 
     acc[buildNumber] = {...items[buildNumber]}
@@ -100,9 +118,7 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
 function getGroupedByCases(propName, testCases) {
   return testCases
     .map((item) => item[propName])
-    .filter((item, index, testCasesGroupsNotUniq) => {
-      return testCasesGroupsNotUniq.indexOf(item) === index
-    })
+    .filter((item, index, testCasesGroupsNotUniq) => testCasesGroupsNotUniq.indexOf(item) === index)
     .reduce((groupedCases, groupValue) => {
       groupedCases[groupValue] = testCases.filter((testCase) => testCase[propName] === groupValue)
       return groupedCases

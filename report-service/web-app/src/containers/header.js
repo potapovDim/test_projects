@@ -9,7 +9,7 @@ import {updateCasesList} from '../reducers/action.creators'
 import {Button} from '../components/button'
 import {InformationMessage} from '../components/information.message'
 
-import {fromMDYToDateObj, fromNumberToDateObject, fromNumberToMDY} from '../utils/date'
+import {fromNumberToMDY} from '../utils/date'
 
 class Header extends Component {
 
@@ -31,19 +31,28 @@ class Header extends Component {
   }
 
   renderMessages = () => {
+
     const {messages} = this.state
-    return messages.map((messageInfo, index) => (
-      <InformationMessage
-        {...messageInfo}
 
+    return messages.map((messageInfo, index) => {
 
-        clickAction={() => {
-          const newState = {...this.state}
-          newState.messages.splice(index, 1)
-          this.setState({...newState})
-        }}
-      />
-    ))
+      const removeMessage = () => {
+        const newState = {...this.state}
+        newState.messages.splice(index, 1)
+        this.setState({...newState})
+      }
+
+      // automremoving error message
+      setTimeout(removeMessage, 30 * 1000 * (index + 1))
+
+      return (
+        <InformationMessage
+          key={index}
+          clickAction={removeMessage}
+          {...messageInfo}
+        />
+      )
+    })
   }
 
   toggleCalendar = (name) => {
@@ -101,8 +110,6 @@ class Header extends Component {
       }
     })
   }
-
-
 
   render() {
     let {startDate, endDate, cases = []} = this.props

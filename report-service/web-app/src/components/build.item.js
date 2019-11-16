@@ -30,7 +30,9 @@ class BuildItem extends Component {
         <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
         {isOpened &&
           <div>
-
+            {!buildExecutedCases && (
+              <h3>WARNING: this build does not have enough information, builds results will not take part in common statistics</h3>
+            )}
             {!!buildExecutedCases && (<div>
               <div>Executed cases in build: {buildExecutedCases}</div>
               <div>Failed persentage is: {Math.floor(cases.length / (buildExecutedCases / 100))} %</div>
