@@ -2,9 +2,8 @@ import './styles/test.cases.list.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {TestCasesModal} from '../components/test.cases.modal'
 import {TestCase} from '../components/test.case'
-import {Button} from '../components/button'
-import Modal from 'react-modal'
 import {getGroupedByCases} from '../utils/data.formaters'
 
 
@@ -35,14 +34,16 @@ class FailedCasesList extends Component {
     this.setState({modalCases})
   }
 
-  renderTestCaseList = (testCaseList, fromModal = true) => testCaseList
-    .map((testCase, index) =>
-      <TestCase
-        key={index} {...testCase}
-        onClick={fromModal && this.getTestCaseHistory}
-        title={"Test case history"}
-      />
-    )
+  renderTestCaseList = (cases) => {
+    return cases
+      .map((testCase, index) =>
+        <TestCase
+          key={index} {...testCase}
+          title={"Test case history"}
+          onClick={() => this.getTestCaseHistory(testCase)}
+        />
+      )
+  }
 
   renderGropTestCaseByList = () => {
     const {cases: [testCase]} = this.props
@@ -85,26 +86,12 @@ class FailedCasesList extends Component {
     const {modalCases, groupedCases} = this.state
     return (
       <div>
+        <TestCasesModal cases={modalCases} askToClose={this.askToClose} />
         {
           cases.length && (
             <div>
               <div>Grop test cases by</div>
-
               {this.renderGropTestCaseByList()}
-
-              <Modal
-                isOpen={!!modalCases.length}
-                ariaHideApp={false}
-              >
-                <Button
-                  clickAction={this.askToClose}
-                  title={'Close'}
-                />
-
-                {this.renderTestCaseList(modalCases, false)}
-
-              </Modal>
-
               {!groupedCases && this.renderTestCaseList(cases)}
               {groupedCases && this.renderTestCaseListGrouped(groupedCases)}
             </div>
