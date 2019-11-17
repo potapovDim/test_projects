@@ -7,8 +7,15 @@ import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class BuildStatistics extends Component {
 
-  renderStatisticsByBuild = () => {
-    const {cases = [], buildStatistics = []} = this.props
+
+  renderEmptyStatistics = () => {
+    return (<div>
+      <h4>Statistics can not be provided for required perion, tests cases count is 0</h4>
+    </div>)
+  }
+
+  renderStatisticsByBuild = (cases, buildStatistics) => {
+
 
     const {
       buildsCount,
@@ -17,7 +24,6 @@ class BuildStatistics extends Component {
       totalExecutedCases,
       ...buildsStatistics
     } = getRangeFailesByBuild(cases, buildStatistics)
-
 
     return (
       <div className="build_statistics">
@@ -42,9 +48,10 @@ class BuildStatistics extends Component {
   }
 
   render() {
+    const {cases = [], buildStatistics = []} = this.props
     return (
       <div>
-        {this.renderStatisticsByBuild()}
+        {!!cases.length ? this.renderStatisticsByBuild(cases, buildStatistics) : this.renderEmptyStatistics()}
       </div>
     )
   }
