@@ -18,13 +18,13 @@ const cases = Array(3000).fill('_').map(() => ({
   `).toString(),
   env: generateEnv(),
   date: getDate(),
-  build: getNumber(40)
+  run: getNumber(40)
 }))
 
-const builds = cases
-  .map((testCase) => testCase.build)
+const runs = cases
+  .map((testCase) => testCase.run)
   .filter((item, index, arr) => arr.indexOf(item) === index)
-  .map((item) => ({build: item, count: getNumber(500, 150)}))
+  .map((item) => ({run: item, count: getNumber(500, 150)}))
 
 
 const config = {
@@ -44,7 +44,7 @@ const config = {
 
 
 fs.writeFileSync(path.resolve(__dirname, './temp/1-tests_backup.json'), JSON.stringify(cases))
-fs.writeFileSync(path.resolve(__dirname, './temp/1-builds_backup.json'), JSON.stringify(builds))
+fs.writeFileSync(path.resolve(__dirname, './temp/1-runs_backup.json'), JSON.stringify(runs))
 
 module.exports = {
   config

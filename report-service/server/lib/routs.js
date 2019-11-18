@@ -17,10 +17,10 @@ const {
 } = require('./actions')
 
 
-router.post('/run_statistics', addRunsStatistics)
-router.get('/run_statistics', getRunsStatistics)
+router.post('/add-run-statistics', addRunsStatistics)
+router.get('/get-run-statistics', getRunsStatistics)
 
-router.get('/bundle.js', getStaticScripts)
+router.get('/bundle*', getStaticScripts)
 router.get('/view', getStaticHtml)
 
 router.post('/set-report-config', setReporterConfig)

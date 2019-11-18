@@ -6,7 +6,7 @@ const storage = require('../adapters')
  */
 async function getRunsStatistics(ctx) {
   ctx.status = 200
-  ctx.body = await storage.getStorageBuilsdData()
+  ctx.body = await storage.getStorageRunsData()
 
   return ctx
 }

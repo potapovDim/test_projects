@@ -33,9 +33,11 @@ function getWebApplication() {
   return appStatic
 }
 
-function getWebApplicationScript() {
+function getWebApplicationScript(pathMap) {
   let appStaticScript = ''
-  const expectedAppScript = `${staticPath}/bundle.js`
+  const expectedAppScript = `${staticPath}/${pathMap}`
+
+
   if(fs.existsSync(expectedAppScript)) {
     appStaticScript += fs.readFileSync(expectedAppScript, {encoding: 'utf8'})
   } else {
@@ -47,7 +49,7 @@ function getWebApplicationScript() {
 function getStaticScripts(ctx) {
   ctx.header['Content-Type'] = 'text/javascript'
   ctx.status = 200
-  ctx.body = getWebApplicationScript()
+  ctx.body = getWebApplicationScript(ctx.request.url)
   return ctx
 }
 

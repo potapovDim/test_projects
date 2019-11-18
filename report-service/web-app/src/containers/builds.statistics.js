@@ -2,7 +2,7 @@ import './styles/builds.statistics.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {BuildItem} from '../components/build.item'
+import {BuildItem} from '../components'
 import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class RunStatistics extends Component {
@@ -26,8 +26,8 @@ class RunStatistics extends Component {
     } = getRangeFailesByBuild(cases, runStatistics)
 
     return (
-      <div className="build_statistics">
-        <div className="count">Build count: {buildsCount}</div>
+      <div className="runs_statistics">
+        <div className="count">Runs count: {buildsCount}</div>
         <div className="total">Total count of fails: {allBuildsFails}</div>
         <div className="total_executed_cases">Total executed cases: {totalExecutedCases} </div>
         <div className="fail_persentage">Average fail persentage is {Math.floor(allBuildsFails / (totalExecutedCases / 100))} %</div>

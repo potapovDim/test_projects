@@ -6,22 +6,38 @@ const {ENV} = process.env
 
 function productionBuildOutput() {
   const servicePath = path.resolve(__dirname, '../server/static')
+
   if(ENV === 'production') {
     return {
-      path: servicePath,
-      filename: "bundle.js"
+      entry: {
+        index: './src/index.js',
+        redux_store: './src/reducers/index.js',
+        components: './src/components/index.js'
+      },
+      output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(servicePath, 'dist'),
+      }
     }
   } else {
     return {
-      path: path.join(__dirname, "/dist"),
-      filename: "bundle.js"
+      entry: {
+        index: './src/index.js',
+        redux_store: './src/reducers/index.js',
+        components: './src/components/index.js'
+      },
+      output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+      },
+      devtool: 'source-map',
     }
   }
 }
 
 module.exports = {
-  entry: "./src/index.js",
-  output: productionBuildOutput(),
+
+  ...productionBuildOutput(),
 
   devServer: {
     port: 8080,
@@ -33,7 +49,7 @@ module.exports = {
     }
   },
 
-  devtool: 'source-map',
+
   module: {
     rules: [
       {

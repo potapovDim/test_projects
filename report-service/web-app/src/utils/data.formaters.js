@@ -46,18 +46,18 @@ function mostFlakyCases(testCases) {
 
 function getRangeFailesByBuild(testCases, buildStats = []) {
   const items = testCases.reduce(function(acc, testCase) {
-    const {build, id} = testCase
+    const {run, id} = testCase
 
-    if(acc[build]) {
-      acc[build].cases.push(testCase)
+    if(acc[run]) {
+      acc[run].cases.push(testCase)
     } else {
 
-      acc[build] = {cases: [testCase]}
+      acc[run] = {cases: [testCase]}
 
-      const buildInfo = buildStats.find((item) => item.build === build)
+      const runInfo = buildStats.find((item) => item.run === run)
 
-      if(!buildInfo) {
-        acc[build].buildExecutedCases = 0
+      if(!runInfo) {
+        acc[run].buildExecutedCases = 0
 
         /**
          * @todo
@@ -65,14 +65,14 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
          */
         PubSub.publish('buildInfo_warning', {
           message: `
-          Information for build number ${build} does not present,
+          Information for build number ${run} does not present,
           seems like issue with integration with Report-Service
           `,
           className: 'error'
         })
 
       } else {
-        acc[build].buildExecutedCases = buildInfo.count
+        acc[run].buildExecutedCases = runInfo.count
       }
     }
     return acc

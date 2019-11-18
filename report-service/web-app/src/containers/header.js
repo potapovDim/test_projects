@@ -3,11 +3,9 @@ import './styles/header.css'
 import React, {Component} from 'react'
 import PubSub from 'pubsub-js'
 import {connect} from 'react-redux'
-import {ReporterCalendar} from '../components/calendar'
 import {getTestCases} from '../server-client/actions'
 import {updateCasesList} from '../reducers/action.creators'
-import {Button} from '../components/button'
-import {InformationMessage} from '../components/information.message'
+import {InformationMessage, Button, ReporterCalendar} from '../components'
 
 import {fromNumberToMDY} from '../utils/date'
 

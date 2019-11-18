@@ -3,8 +3,8 @@ const routerConstants = {
   getTestCaseCount: '/get-test-cases-count',
   setReportConfig: '/set-report-config',
   getReportConfig: '/get-report-config',
-  addBuildStatistics: '/build_statistics',
-  getBuildStatistics: '/build_statistics'
+  addRunsStatistics: '/add-run-statistics',
+  getRunsStatistics: '/get-run-statistics'
 }
 
 export {
