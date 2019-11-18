@@ -7,7 +7,7 @@ import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
 import Dashboard from './containers/dashboard'
 import Statistics from './containers/statistics'
-import BuildStatistics from './containers/builds.statistics'
+import RunStatistics from './containers/run.statistics'
 import NavigationMenu from './containers/navigation.menu'
 import lStorage from './utils/local.storage'
 
@@ -15,7 +15,7 @@ import Modal from 'react-modal'
 
 
 const contentMap = {
-  BuildStatistics,
+  RunStatistics,
   FailedCasesList,
   ReportConfig,
   Statistics,
@@ -43,7 +43,7 @@ class App extends Component {
 
     const {content} = this.state
     const Content = contentMap[content]
-
+    console.log(content)
     return (
       <div>
 

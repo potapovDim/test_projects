@@ -78,19 +78,19 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
     return acc
   }, {})
 
-  return Object.keys(items).reduce(function(acc, buildNumber, index, originalArr) {
+  return Object.keys(items).reduce(function(acc, runNumber, index, originalArr) {
 
     if(index === 0) {
 
       acc.buildsCount = originalArr.length
 
-      if(items[buildNumber].buildExecutedCases === 0) {
+      if(items[runNumber].buildExecutedCases === 0) {
         acc.allBuildsFails = 0
       } else {
-        acc.allBuildsFails = items[buildNumber].cases.length
+        acc.allBuildsFails = items[runNumber].cases.length
       }
 
-      acc.totalExecutedCases = items[buildNumber].buildExecutedCases
+      acc.totalExecutedCases = items[runNumber].buildExecutedCases
 
     } else if(index === originalArr.length - 1) {
 
@@ -102,14 +102,14 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
        * in case if build information does not existst "{build: 'number', count: 222}"
        * this build should not take part in common statistics results
        */
-      if(items[buildNumber].buildExecutedCases !== 0) {
-        acc.totalExecutedCases += items[buildNumber].buildExecutedCases
-        acc.allBuildsFails += items[buildNumber].cases.length
+      if(items[runNumber].buildExecutedCases !== 0) {
+        acc.totalExecutedCases += items[runNumber].buildExecutedCases
+        acc.allBuildsFails += items[runNumber].cases.length
       }
     }
 
-    acc[buildNumber] = {...items[buildNumber]}
-    acc[buildNumber].failedCasesCount = items[buildNumber].cases.length
+    acc[runNumber] = {...items[runNumber]}
+    acc[runNumber].failedCasesCount = items[runNumber].cases.length
 
     return acc
   }, {})

@@ -21,13 +21,13 @@ class BuildItem extends Component {
   }
 
   render() {
-    const {buildNumber, cases = [], buildExecutedCases} = this.props
+    const {runNumber, cases = [], buildExecutedCases} = this.props
     const {isOpened} = this.state
 
     const classNames = classnames('build_item', !buildExecutedCases ? 'warning' : '')
     return (
       <div className={classNames}>
-        <div onClick={this.toggleBuilInfo}>Build number: {buildNumber} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
+        <div onClick={this.toggleBuilInfo}>Run number: {runNumber} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
         {isOpened &&
           <div>
             {!buildExecutedCases && (

@@ -34,12 +34,12 @@ class RunStatistics extends Component {
         <div className="average_amount">Average amount of failed cases: {averageAmount}</div>
         {
           Object.keys(buildsStatistics)
-            .map((buildNumber, index) =>
+            .map((runNumber, index) =>
               <BuildItem
                 key={index}
-                buildNumber={buildNumber}
-                buildExecutedCases={buildsStatistics[buildNumber].buildExecutedCases}
-                cases={buildsStatistics[buildNumber].cases}
+                runNumber={runNumber}
+                buildExecutedCases={buildsStatistics[runNumber].buildExecutedCases}
+                cases={buildsStatistics[runNumber].cases}
               />
             )
         }
