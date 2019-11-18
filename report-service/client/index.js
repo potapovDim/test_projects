@@ -5,11 +5,11 @@ class ReportServiceClient {
     this.request = buildRequest(host)
   }
 
-  async addRunStatistic(body) {
+  async addRunStatistics(body) {
     return this.request.post({path: '/add-run-statistics', body})
   }
 
-  async getRunStatistic() {
+  async getRunStatistics() {
     return this.request.get({path: '/get-run-statistics'})
   }
 

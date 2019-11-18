@@ -17,9 +17,9 @@ async function getRunsStatistics(ctx) {
  */
 async function addRunsStatistics(ctx) {
 
-  const {runData} = ctx.request.body
+  const {data} = ctx.request.body
 
-  await storage.setToStorageRuns(runData)
+  await storage.setToRunsStorage(data)
 
   ctx.body = {data: 'OK'}
 
