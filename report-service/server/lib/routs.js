@@ -12,13 +12,13 @@ const {
   setReporterConfig,
   getReporterConfig,
 
-  addBuildStatistics,
-  getBuildStatistics
+  addRunsStatistics,
+  getRunsStatistics
 } = require('./actions')
 
 
-router.post('/build_statistics', addBuildStatistics)
-router.get('/build_statistics', getBuildStatistics)
+router.post('/run_statistics', addRunsStatistics)
+router.get('/run_statistics', getRunsStatistics)
 
 router.get('/bundle.js', getStaticScripts)
 router.get('/view', getStaticHtml)

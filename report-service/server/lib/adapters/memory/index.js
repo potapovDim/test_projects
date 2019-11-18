@@ -7,11 +7,11 @@ const {readFile, tryParseJson} = require('../../utils')
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
   BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
-  BACKUP_BUILDS_FILES_PATTERN = 'builds_backup.json'
+  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json'
 } = process.env
 
 const storage = []
-const storageBuilds = []
+const runsStorage = []
 
 /**
  * @returns {array} filesList
@@ -47,11 +47,11 @@ async function tryToRestoreStorageFromBackups() {
 }
 
 
-tryToRestoreStorageBuildsFromBackups()
-async function tryToRestoreStorageBuildsFromBackups() {
+tryToRestorerunsStorageFromBackups()
+async function tryToRestorerunsStorageFromBackups() {
 
-  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_BUILDS_FILES_PATTERN)
-  await restoreDataToStorage(storageBuilds, backUpFilesList)
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
+  await restoreDataToStorage(runsStorage, backUpFilesList)
 }
 
 async function getAvaliableDateRangeForData() {
@@ -99,9 +99,9 @@ setInterval(async function() {
     })
   }
 
-  if(storageBuilds.length >= 3500) {
-    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_BUILDS_FILES_PATTERN)
-    const storagePart = storageBuilds.splice(0, 1000)
+  if(runsStorage.length >= 3500) {
+    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
+    const storagePart = runsStorage.splice(0, 1000)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
       if(err) {
         // eslint-disable-next-line no-console
@@ -130,10 +130,10 @@ function setToStorage(item) {
   })
 }
 
-function setToStorageBuilds(item) {
+function setToRunsStorage(item) {
   // add item should be async
   return new Promise((res) => {
-    res(storageBuilds.push(item))
+    res(runsStorage.push(item))
   })
 }
 
@@ -153,8 +153,8 @@ function getStorageData(offset = 0, limit = storage.length) {
   return new Promise((res) => res([...storage].slice(offset, limit)))
 }
 
-function getStorageBuilsdData(offset = 0, limit = storageBuilds.length) {
-  return new Promise((res) => res([...storageBuilds].slice(offset, limit)))
+function getStorageRunsData(offset = 0, limit = runsStorage.length) {
+  return new Promise((res) => res([...runsStorage].slice(offset, limit)))
 }
 /**
  * @returns countObject
@@ -177,6 +177,6 @@ module.exports = {
   getConfig,
   setConfig,
 
-  setToStorageBuilds,
-  getStorageBuilsdData
+  setToRunsStorage,
+  getStorageRunsData
 }

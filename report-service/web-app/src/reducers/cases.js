@@ -2,7 +2,7 @@ import {
   UPDATE_DATE_RANGE,
   UPDATE_CONFIG,
   UPDATA_CASES_LIST,
-  UPDATE_BUILD_STATISTICS
+  UPDATE_RUN_STATISTICS
 } from './action.contants'
 
 function caseStore(state = {}, action) {
@@ -27,8 +27,8 @@ function caseStore(state = {}, action) {
       return {...state, cases: action.cases, ...dateConfig}
     }
 
-    case UPDATE_BUILD_STATISTICS: {
-      return {...state, buildStatistics: action.buildStatistics}
+    case UPDATE_RUN_STATISTICS: {
+      return {...state, runStatistics: action.runStatistics}
     }
 
     case UPDATE_CONFIG: {

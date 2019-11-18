@@ -5,25 +5,25 @@ import {connect} from 'react-redux'
 import {BuildItem} from '../components/build.item'
 import {getRangeFailesByBuild} from '../utils/data.formaters'
 
-class BuildStatistics extends Component {
+class RunStatistics extends Component {
 
 
   renderEmptyStatistics = () => {
-    return (<div>
-      <h4>Statistics can not be provided for required perion, tests cases count is 0</h4>
-    </div>)
+    return (
+      <div>
+        <h4>Statistics can not be provided for required perion, tests cases count is 0</h4>
+      </div>
+    )
   }
 
-  renderStatisticsByBuild = (cases, buildStatistics) => {
-
-
+  renderStatisticsByBuild = (cases, runStatistics) => {
     const {
       buildsCount,
       allBuildsFails,
       averageAmount,
       totalExecutedCases,
       ...buildsStatistics
-    } = getRangeFailesByBuild(cases, buildStatistics)
+    } = getRangeFailesByBuild(cases, runStatistics)
 
     return (
       <div className="build_statistics">
@@ -48,14 +48,14 @@ class BuildStatistics extends Component {
   }
 
   render() {
-    const {cases = [], buildStatistics = []} = this.props
+    const {cases = [], runStatistics = []} = this.props
     return (
       <div>
-        {!!cases.length ? this.renderStatisticsByBuild(cases, buildStatistics) : this.renderEmptyStatistics()}
+        {!!cases.length ? this.renderStatisticsByBuild(cases, runStatistics) : this.renderEmptyStatistics()}
       </div>
     )
   }
 }
 
 
-export default connect(({cases}) => cases)(BuildStatistics)
+export default connect(({cases}) => cases)(RunStatistics)

@@ -4,7 +4,7 @@ const storage = require('../adapters')
  *
  * @param {koa context object} ctx
  */
-async function getBuildStatistics(ctx) {
+async function getRunsStatistics(ctx) {
   ctx.status = 200
   ctx.body = await storage.getStorageBuilsdData()
 
@@ -15,11 +15,11 @@ async function getBuildStatistics(ctx) {
  *
  * @param {koa context object} ctx
  */
-async function addBuildStatistics(ctx) {
+async function addRunsStatistics(ctx) {
 
-  const {buildData} = ctx.request.body
+  const {runData} = ctx.request.body
 
-  await storage.setToStorageBuilds(buildData)
+  await storage.setToStorageRuns(runData)
 
   ctx.body = {data: 'OK'}
 
@@ -28,6 +28,6 @@ async function addBuildStatistics(ctx) {
 }
 
 module.exports = {
-  getBuildStatistics,
-  addBuildStatistics
+  getRunsStatistics,
+  addRunsStatistics
 }
