@@ -18,7 +18,7 @@ class ReportServiceClient {
   }
 
   async setReportConfig(body) {
-    return this.request.post({path: '/set-report-config', body}))
+    return this.request.post({path: '/set-report-config', body})
   }
 
   async getTestCases() {
@@ -28,4 +28,8 @@ class ReportServiceClient {
   async addNewCase(body) {
     return this.request.post({path: '/add-new-case', body})
   }
+}
+
+module.exports = {
+  ReportServiceClient
 }
