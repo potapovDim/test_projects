@@ -16,7 +16,6 @@ const {
   getRunsStatistics
 } = require('./actions')
 
-
 router.post('/add-run-statistics', addRunsStatistics)
 router.get('/get-run-statistics', getRunsStatistics)
 
@@ -27,7 +26,6 @@ router.post('/set-report-config', setReporterConfig)
 router.get('/get-report-config', getReporterConfig)
 
 router.get('/get-test-cases', getTestCases)
-
 router.post('/add-new-case', addTestCase)
 
 module.exports = {
