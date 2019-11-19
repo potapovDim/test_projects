@@ -1,4 +1,4 @@
-import './styles/builds.statistics.css'
+import './styles/run.statistics.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
@@ -17,6 +17,9 @@ class RunStatistics extends Component {
   }
 
   renderStatisticsByBuild = (cases, runStatistics) => {
+
+    console.log('PEN', JSON.stringify(cases), JSON.stringify(runStatistics))
+
     const {
       buildsCount,
       allBuildsFails,
@@ -48,6 +51,7 @@ class RunStatistics extends Component {
   }
 
   render() {
+    console.log('RENVER GGGGGGGGGGGGGGGGGGGGGG')
     const {cases = [], runStatistics = []} = this.props
     return (
       <div>

@@ -2,8 +2,10 @@ const Koa = require('koa2')
 const bodyParser = require('koa-bodyparser')
 const cors = require('@koa/cors')
 
+
 const app = new Koa()
 const {router} = require('./lib/routs.js')
+const store = require('./lib/adapters')
 
 app
   .use(cors())
@@ -15,4 +17,22 @@ if(process.env.NODE_ENV === 'debug' || process.env.DEBUG) {
   app.use(logger())
 }
 
-app.listen(3000);
+
+class ServiceWrapper {
+
+  addCustomRouter(path, method, cb) {
+    router[method](path, cb(store))
+  }
+
+  async beforeStart(callBack = () => {}) {
+    return await callBack()
+  }
+
+  start(port = 3000) {
+    this.beforeStart()
+    return app.listen(port)
+  }
+}
+
+
+module.exports = new ServiceWrapper()

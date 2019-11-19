@@ -15,8 +15,8 @@ function productionBuildOutput() {
         components: './src/components/index.js'
       },
       output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(servicePath, 'dist'),
+        filename: 'bundle.[name].js',
+        path: servicePath,
       }
     }
   } else {
