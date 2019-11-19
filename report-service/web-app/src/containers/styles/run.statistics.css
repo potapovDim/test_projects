@@ -1,0 +1,15 @@
+.runs_statistics {
+  display: block;
+}
+
+.count {
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.average_amount {
+  font-weight: bold;
+}
