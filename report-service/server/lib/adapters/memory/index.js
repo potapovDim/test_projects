@@ -7,7 +7,11 @@ const {readFile, tryParseJson} = require('../../utils')
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
   BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
-  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json'
+  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
+  EXPECTED_RUNST_COUNT = 60,
+  EXPECTED_CASES_COUNT = 3500,
+  RESTORE_RUNST_COUNT = 50,
+  RESTORE_CASES_COUNT = 1000
 } = process.env
 
 const storage = []
@@ -88,9 +92,9 @@ async function getAvaliableDateRangeForData() {
  */
 setInterval(async function() {
   // if cases more than 3500 - remove first 1000 and store them in file
-  if(storage.length >= 3500) {
+  if(storage.length >= +EXPECTED_CASES_COUNT) {
     const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
-    const storagePart = storage.splice(0, 1000)
+    const storagePart = storage.splice(0, +RESTORE_CASES_COUNT)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
       if(err) {
         // eslint-disable-next-line no-console
@@ -99,9 +103,9 @@ setInterval(async function() {
     })
   }
 
-  if(runsStorage.length >= 3500) {
+  if(runsStorage.length >= +EXPECTED_RUNST_COUNT) {
     const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
-    const storagePart = runsStorage.splice(0, 1000)
+    const storagePart = runsStorage.splice(0, +RESTORE_RUNST_COUNT)
     await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
       if(err) {
         // eslint-disable-next-line no-console
