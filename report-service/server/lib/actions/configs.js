@@ -8,7 +8,7 @@ async function getReporterConfig(ctx) {
 
   ctx.status = 200
 
-  ctx.body = storage.getConfig()
+  ctx.body = await storage.getConfig()
 
   return ctx
 }
@@ -21,7 +21,7 @@ async function setReporterConfig(ctx) {
 
   const {config} = ctx.request.body
 
-  storage.setConfig(config)
+  await storage.setConfig(config)
 
   ctx.body = {data: 'OK'}
 

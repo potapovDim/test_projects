@@ -13,7 +13,9 @@ const {
   getReporterConfig,
 
   addRunsStatistics,
-  getRunsStatistics
+  getRunsStatistics,
+
+  dropCurrentStatistics
 } = require('./actions')
 
 router.post('/add-run-statistics', addRunsStatistics)
@@ -27,6 +29,8 @@ router.get('/get-report-config', getReporterConfig)
 
 router.get('/get-test-cases', getTestCases)
 router.post('/add-new-case', addTestCase)
+
+router.get('/grop-current-statistics', dropCurrentStatistics)
 
 module.exports = {
   router

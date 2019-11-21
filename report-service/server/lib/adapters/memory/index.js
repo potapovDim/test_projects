@@ -43,13 +43,11 @@ async function restoreDataToStorage(storageArr, fileList) {
 }
 
 tryToRestoreStorageFromBackups()
-
 async function tryToRestoreStorageFromBackups() {
 
   const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
   await restoreDataToStorage(storage, backUpFilesList)
 }
-
 
 tryToRestorerunsStorageFromBackups()
 async function tryToRestorerunsStorageFromBackups() {
@@ -171,6 +169,14 @@ function getStorageDataCount() {
   return {count: storage.length}
 }
 
+function dropMemoryStatistics() {
+  return new Promise((res) => {
+    runsStorage.slice(0, runsStorage.length)
+    storage.splice(0, storage.length)
+    res(true)
+  })
+}
+
 module.exports = {
   getStorageData,
   setToStorage,
@@ -182,5 +188,7 @@ module.exports = {
   setConfig,
 
   setToRunsStorage,
-  getStorageRunsData
+  getStorageRunsData,
+
+  dropMemoryStatistics
 }

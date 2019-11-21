@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {TestCasesModal} from '../components/test.cases.modal'
 import {TestCase} from '../components/test.case'
 import {getGroupedByCases} from '../utils/data.formaters'
+import {filterFromUndefinedOrNull} from '../utils/common'
 
 
 
@@ -27,15 +28,18 @@ class FailedCasesList extends Component {
   }
 
   getTestCaseHistory = (currentTestCase) => {
-    const {cases, config: {historyBy = 'id'} = {}} = this.props
+    const {cases = [], config: {historyBy = 'id'} = {}} = this.props
 
-    const modalCases = cases.filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
+    const modalCases = cases
+      .filter(filterFromUndefinedOrNull)
+      .filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
 
     this.setState({modalCases})
   }
 
   renderTestCaseList = (cases) => {
     return cases
+      .filter(filterFromUndefinedOrNull)
       .map((testCase, index) =>
         <TestCase
           key={index} {...testCase}
@@ -72,7 +76,7 @@ class FailedCasesList extends Component {
       })
     } else {
       this.setState({
-        groupedCases: getGroupedByCases(group, cases)
+        groupedCases: getGroupedByCases(group, cases.filter(filterFromUndefinedOrNull))
       })
     }
   }

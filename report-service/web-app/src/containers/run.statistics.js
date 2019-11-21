@@ -3,6 +3,7 @@ import './styles/run.statistics.css'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {BuildItem} from '../components'
+import {filterFromUndefinedOrNull} from '../utils/common'
 import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class RunStatistics extends Component {
@@ -18,7 +19,8 @@ class RunStatistics extends Component {
 
   renderStatisticsByBuild = (cases, runStatistics) => {
 
-    console.log('PEN', JSON.stringify(cases), JSON.stringify(runStatistics))
+    cases = cases.filter(filterFromUndefinedOrNull)
+    runStatistics = runStatistics.filter(filterFromUndefinedOrNull)
 
     const {
       buildsCount,
@@ -51,7 +53,6 @@ class RunStatistics extends Component {
   }
 
   render() {
-    console.log('RENVER GGGGGGGGGGGGGGGGGGGGGG')
     const {cases = [], runStatistics = []} = this.props
     return (
       <div>

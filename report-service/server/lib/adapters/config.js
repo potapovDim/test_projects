@@ -1,10 +1,10 @@
 let config = {}
 
-function getConfig() {
+async function getConfig() {
   return {...config}
 }
 
-function setConfig(newConfig) {
+async function setConfig(newConfig) {
   config = {...config, ...newConfig}
 }
 
