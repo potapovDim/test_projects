@@ -19,7 +19,10 @@ class RunStatistics extends Component {
 
   renderStatisticsByBuild = (cases, runStatistics) => {
 
-    cases = cases.filter(filterFromUndefinedOrNull)
+    cases = cases
+      .filter(filterFromUndefinedOrNull)
+      .filter((testCase, index, casesArr) => casesArr.findIndex(({id}) => testCase.id === id) === index)
+
     runStatistics = runStatistics.filter(filterFromUndefinedOrNull)
 
     const {
