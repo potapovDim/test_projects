@@ -28,6 +28,14 @@ class ReportServiceClient {
   async addNewCase(body) {
     return this.request.post({path: '/add-new-case', body})
   }
+
+  async storeCurrentStatistics() {
+    return this.request.get({path: '/store-current-statistics'})
+  }
+
+  async dropCurrentStatistics() {
+    return this.request.get({path: '/drop-current-statistics'})
+  }
 }
 
 module.exports = {

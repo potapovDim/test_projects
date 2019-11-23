@@ -32,7 +32,7 @@ router.get('/get-test-cases', getTestCases)
 router.post('/add-new-case', addTestCase)
 
 router.get('/drop-current-statistics', dropCurrentStatistics)
-router.get('/drop-current-statistics', storeCurrentStatistics)
+router.get('/store-current-statistics', storeCurrentStatistics)
 
 module.exports = {
   router
