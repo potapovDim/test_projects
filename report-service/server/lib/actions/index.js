@@ -2,7 +2,7 @@ const {getTestCases, addTestCase} = require('./test.cases')
 const {setReporterConfig, getReporterConfig} = require('./configs')
 const {getStaticHtml, getStaticScripts} = require('./static')
 const {addRunsStatistics, getRunsStatistics} = require('./run.statistics')
-const {dropCurrentStatistics} = require('./common')
+const {dropCurrentStatistics, storeCurrentStatistics} = require('./common')
 
 module.exports = {
   addTestCase,
@@ -17,5 +17,6 @@ module.exports = {
   addRunsStatistics,
   getRunsStatistics,
 
-  dropCurrentStatistics
+  dropCurrentStatistics,
+  storeCurrentStatistics
 }

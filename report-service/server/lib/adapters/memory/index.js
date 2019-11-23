@@ -3,7 +3,6 @@ const {getConfig, setConfig} = require('../config')
 const {getFreeBackUpFilePathName, getFilesWithSubDirs} = require('./storage.restore')
 const {readFile, tryParseJson} = require('../../utils')
 
-
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
   BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
@@ -171,8 +170,34 @@ function getStorageDataCount() {
 
 function dropMemoryStatistics() {
   return new Promise((res) => {
-    runsStorage.slice(0, runsStorage.length)
+    runsStorage.splice(0, runsStorage.length)
     storage.splice(0, storage.length)
+    res(true)
+  })
+}
+
+function storeCurrentStatistics() {
+  return new Promise(async (res, rej) => {
+
+    const storageBackUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
+    const storagePartStorage = storage.splice(0, storage.length)
+    await require('fs').writeFile(storageBackUpFileName, JSON.stringify(storagePartStorage), function(err) {
+      if(err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        rej(err)
+      }
+    })
+
+    const runStatisticsFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
+    const storagePartRunStatistic = runsStorage.splice(0, runsStorage.length)
+    await require('fs').writeFile(runStatisticsFileName, JSON.stringify(storagePartRunStatistic), function(err) {
+      if(err) {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        rej(err)
+      }
+    })
     res(true)
   })
 }
@@ -190,5 +215,6 @@ module.exports = {
   setToRunsStorage,
   getStorageRunsData,
 
-  dropMemoryStatistics
+  dropMemoryStatistics,
+  storeCurrentStatistics
 }

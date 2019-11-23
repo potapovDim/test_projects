@@ -1,3 +1,5 @@
+import './styles/navigation.menu.css'
+
 import React, {Component} from 'react'
 import lStorage from '../utils/local.storage'
 import {Button} from '../components/button'

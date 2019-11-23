@@ -3,17 +3,17 @@ h1 {
   text-align: center;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 .report_main {
   display: flex;
-}
-
-.navigation_menu {
-  width: 10%;
-  background: #27aedb;
-}
-
-.navigation_menu button {
-  width: 150px;
+  height: 100%;
 }
 
 .content {
