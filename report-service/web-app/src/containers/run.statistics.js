@@ -8,6 +8,10 @@ import {getRangeFailesByBuild} from '../utils/data.formaters'
 
 class RunStatistics extends Component {
 
+  getBuildResult = (runStat) => {
+    const {config: {isSuccess = 0} = {}} = this.props
+    return isSuccess === runStat
+  }
 
   renderEmptyStatistics = () => {
     return (
@@ -48,6 +52,7 @@ class RunStatistics extends Component {
                 runNumber={runNumber}
                 buildExecutedCases={buildsStatistics[runNumber].buildExecutedCases}
                 cases={buildsStatistics[runNumber].cases}
+                isSuccess={this.getBuildResult(buildsStatistics[runNumber].runStatus)}
               />
             )
         }

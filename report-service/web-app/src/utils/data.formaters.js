@@ -44,7 +44,7 @@ function mostFlakyCases(testCases) {
   }, {})
 }
 
-function getRangeFailesByBuild(testCases, buildStats = []) {
+function getRangeFailesByBuild(testCases, runStats = []) {
   const items = testCases.reduce(function(acc, testCase) {
     const {run, id} = testCase
 
@@ -54,7 +54,7 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
 
       acc[run] = {cases: [testCase]}
 
-      const runInfo = buildStats.find((item) => item.run === run)
+      const runInfo = runStats.find((item) => item.run === run)
 
       if(!runInfo) {
         acc[run].buildExecutedCases = 0
@@ -73,6 +73,7 @@ function getRangeFailesByBuild(testCases, buildStats = []) {
 
       } else {
         acc[run].buildExecutedCases = runInfo.count
+        acc[run].runStatus = runInfo.runStatus
       }
     }
     return acc
