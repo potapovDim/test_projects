@@ -1,0 +1,21 @@
+{
+  "name": "page_object_provider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:bad": "mocha --require ts-node/register --project ./tsconfig.json ./specs/user.bad.spec.ts",
+    "test:good": "mocha --require ts-node/register --project ./tsconfig.json ./specs/user.good.spec.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.14",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "mocha": "^6.2.2",
+    "ts-node": "^8.5.4"
+  }
+}
