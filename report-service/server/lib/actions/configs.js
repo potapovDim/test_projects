@@ -8,7 +8,7 @@ async function getReporterConfig(ctx) {
 
   ctx.status = 200
 
-  ctx.body = await storage.getConfig()
+  ctx.body = {config: await storage.getConfig()}
 
   return ctx
 }

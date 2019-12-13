@@ -39,13 +39,11 @@ const config = lsStore.lsGet('config')
 if(!config) {
   console.error('localStorage does not have config will try to get config from origin server')
   getReportConfig().then(({config}) => {
-
     getRunsStatistics((res) => {
-      console.log(res, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_________')
       store.dispatch(updateRunStatistics(res))
     })
 
-    if(config) {
+    if(typeof config === 'object' && Object.keys(config).length) {
       lsStore.lsSet('config', config)
       store.dispatch(updateConfig(config))
       if(config.serverHost) {
@@ -62,7 +60,6 @@ if(!config) {
 } else {
   store.dispatch(updateConfig(config))
   getRunsStatistics((res) => {
-    console.log(res, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_________')
     store.dispatch(updateRunStatistics(res))
   })
   getTestCases()
