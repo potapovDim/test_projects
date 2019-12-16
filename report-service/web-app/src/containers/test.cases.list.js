@@ -7,8 +7,6 @@ import {TestCase} from '../components/test.case'
 import {getGroupedByCases} from '../utils/data.formaters'
 import {filterFromUndefinedOrNull} from '../utils/common'
 
-
-
 class FailedCasesList extends Component {
   state = {
     modalCases: [],
@@ -86,11 +84,11 @@ class FailedCasesList extends Component {
   }
 
   render() {
-    const {cases = []} = this.props
+    const {cases = [], config} = this.props
     const {modalCases, groupedCases} = this.state
     return (
       <div>
-        <TestCasesModal cases={modalCases} askToClose={this.askToClose} />
+        <TestCasesModal cases={modalCases} askToClose={this.askToClose} config={config} />
         {
           cases.length && (
             <div>
