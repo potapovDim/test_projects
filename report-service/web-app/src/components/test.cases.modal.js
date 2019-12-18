@@ -38,17 +38,18 @@ class TestCasesModal extends Component {
   }
 
   render() {
-    const {askToClose, cases: {length}} = this.props
+    const {askToClose, cases: {length}, pie = true} = this.props
     const dataPie = this.getFailedReasonsPie()
     return (
       <Modal isOpen={!!length} ariaHideApp={false}>
         <Button clickAction={askToClose} title={'Close'} />
         {this.renderTestCaseList()}
-        <Pie
+        {pie && <Pie
           width={50}
           height={20}
           data={dataPie}
         />
+        }
       </Modal>
     )
   }

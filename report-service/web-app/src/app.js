@@ -5,8 +5,8 @@ import {connect} from 'react-redux'
 import FailedCasesList from './containers/test.cases.list'
 import ReportConfig from './containers/report.configuration'
 import Header from './containers/header'
-import Dashboard from './containers/dashboard'
-import Statistics from './containers/statistics'
+import StatisticsFlakyCases from './containers/statistics.flaky.cases'
+import StatisticsFailedReasons from './containers/statistics.failed.reasons'
 import RunStatistics from './containers/run.statistics'
 import NavigationMenu from './containers/navigation.menu'
 import lStorage from './utils/local.storage'
@@ -18,7 +18,8 @@ const contentMap = {
   RunStatistics,
   FailedCasesList,
   ReportConfig,
-  Statistics,
+  StatisticsFlakyCases,
+  StatisticsFailedReasons
   // Dashboard,
 }
 

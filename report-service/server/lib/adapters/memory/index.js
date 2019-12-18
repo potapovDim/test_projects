@@ -27,7 +27,6 @@ async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
   return backUpFileName
 }
 
-
 async function restoreDataToStorage(storageArr, fileList) {
 
   if(fileList.length) {

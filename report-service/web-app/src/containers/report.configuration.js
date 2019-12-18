@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import JSONInput from 'react-json-editor-ajrm'
-import locale from 'react-json-editor-ajrm/locale/en'
 import lStorage from '../utils/local.storage'
 import {updateReportConfig} from '../server-client/actions'
 import {updateConfig} from '../reducers/action.creators'
+import ReactJSON from 'react-json-view'
 
 const defaultConfig = {
   testCaseStructure: {},
@@ -23,11 +22,20 @@ class ReporterConfig extends Component {
     }
   }
 
+  updateConfigNew = (data) => {
+    const updatedConfig = data.updated_src
+    const existingConfig = lStorage.lsGet('config')
+
+    const newConfig = {...existingConfig, ...updatedConfig}
+    this.setState({...newConfig})
+    lStorage.lsSet('config', newConfig)
+  }
+
+
   updateConfig = (data) => {
     const existingConfig = lStorage.lsGet('config')
 
     const newConfig = {...existingConfig, ...data.jsObject}
-
 
     this.setState({
       ...newConfig
@@ -62,12 +70,10 @@ class ReporterConfig extends Component {
         <h3>Backend service storage url</h3>
         <h3>Configuration</h3>
 
-        <JSONInput
-          id='a_unique_id'
-          onChange={this.updateConfig}
-          placeholder={lStorageConfig}
-          locale={locale}
-          height='400px'
+        <ReactJSON src={lStorageConfig}
+          onEdit={this.updateConfigNew}
+          onDelete={this.updateConfigNew}
+          onAdd={this.updateConfigNew}
         />
 
       </div>

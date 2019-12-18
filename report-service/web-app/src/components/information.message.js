@@ -15,7 +15,7 @@ class InformationMessage extends Component {
     const classNames = classnames('message', className)
 
     return (
-      <div className="information_message" onClick={clickAction}>
+      <div className="alert information_message" onClick={clickAction}>
         <span className={classNames}>{message}</span>
       </div>
     )

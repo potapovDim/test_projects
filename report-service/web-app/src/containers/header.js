@@ -121,6 +121,7 @@ class Header extends Component {
     return (
       <nav className="header">
         {this.renderMessages()}
+
         <Button
           title={"Resync cases"}
           clickAction={this.resyncCases}
@@ -140,6 +141,7 @@ class Header extends Component {
           <Button clickAction={() => this.getTestCaseByTime(3)} title={'Last 3 hours'} />
           <Button clickAction={() => this.getTestCaseByTime(4)} title={'Last 4 hours'} />
         </div>
+
         <div>
 
           {cases.length && (

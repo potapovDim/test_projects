@@ -11,9 +11,7 @@ function getRandomColor() {
   return colors[Math.floor(Math.random() * colors.length)]
 }
 
-let failedReasonsStructureScope = null
-
-class Statistics extends Component {
+class StatisticsFlakyCases extends Component {
   state = {
     modalCases: []
   }
@@ -70,20 +68,12 @@ class Statistics extends Component {
     }
   }
 
-  handleClickPie = (data) => {
-    if(data.length) {
-      const [{_model: {label}}] = data
-      this.setState({modalCases: failedReasonsStructureScope[label]})
-    }
-  }
-
   askToClose = () => {
     this.setState({modalCases: []})
   }
 
   render() {
     const {modalCases} = this.state
-    const dataPie = this.getFailedReasonsPie()
     const dataBar = this.getFailedCases()
 
     return (
@@ -92,15 +82,7 @@ class Statistics extends Component {
           <Button clickAction={this.askToClose} title={'Close'} />
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
-        Statistics
         <div>
-          Failed cases by reason
-          <Pie
-            width={50}
-            height={20}
-            data={dataPie}
-            getElementAtEvent={this.handleClickPie}
-          />
           <Bar
             data={dataBar}
             getElementAtEvent={this.handleClickBar}
@@ -111,4 +93,4 @@ class Statistics extends Component {
   }
 }
 
-export default connect(({cases}) => cases)(Statistics)
+export default connect(({cases}) => cases)(StatisticsFlakyCases)
