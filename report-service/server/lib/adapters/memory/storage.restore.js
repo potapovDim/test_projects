@@ -1,5 +1,12 @@
 const fs = require('fs')
 const path = require('path')
+const {readFile, tryParseJson} = require('../../utils')
+
+const {
+  BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
+  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
+  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
+} = process.env
 
 /**
  *
@@ -47,7 +54,7 @@ function getStats(itemPath) {
       if(err) {rej(err)}
       else {res(stats)}
     })
-  })
+  }).catch((e) => e)
 }
 
 /**
@@ -77,7 +84,47 @@ async function getFilesWithSubDirs(dirName, filesList = []) {
   return filesList
 }
 
+
+/**
+ * @returns {array} filesList
+ */
+async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
+
+  const backUpFileName = (await getFilesWithSubDirs(backUpDir))
+    .filter((filePath) => filePath.includes(backUpFilePattern))
+
+  return backUpFileName
+}
+
+
+async function tryToRestoreStorageFromBackups(storage) {
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
+  await restoreDataToStorage(storage, backUpFilesList)
+}
+
+async function restoreDataToStorage(storageArr, fileList) {
+
+  if(fileList.length) {
+    const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
+    for(const file of lastTwoBackups) {
+      const backUpFileData = tryParseJson(await readFile(file))
+      if(Array.isArray(backUpFileData)) {
+        storageArr.push(...backUpFileData)
+      }
+    }
+  }
+}
+
+
+async function tryToRestorerunsStorageFromBackups(runsStorage) {
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
+  await restoreDataToStorage(runsStorage, backUpFilesList)
+}
+
 module.exports = {
+  getAvaliableBackUpFiles,
   getFilesWithSubDirs,
-  getFreeBackUpFilePathName
+  getFreeBackUpFilePathName,
+  tryToRestoreStorageFromBackups,
+  tryToRestorerunsStorageFromBackups
 }

@@ -20,7 +20,6 @@ const contentMap = {
   ReportConfig,
   StatisticsFlakyCases,
   StatisticsFailedReasons
-  // Dashboard,
 }
 
 class App extends Component {
@@ -44,7 +43,9 @@ class App extends Component {
 
     const {content} = this.state
     const Content = contentMap[content]
+
     console.log(content)
+
     return (
       <div>
 

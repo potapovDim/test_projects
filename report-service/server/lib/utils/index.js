@@ -1,4 +1,23 @@
-const fs = require('fs')
+const {exists, writeFile: wf, readFile: rf} = require('fs')
+
+/**
+ *
+ * @param {any} data
+ * @returns {string}
+ */
+function tryStringifyJson(data) {
+  try {
+    if(typeof data === 'string') {
+      return data
+    } else {
+      return JSON.stringify(data)
+    }
+  } catch(error) {
+    // eslint-disable-next-line no-console
+    console.info(error.toString())
+    return JSON.stringify(null)
+  }
+}
 
 /**
  *
@@ -35,7 +54,7 @@ function parseIntCustom(arg) {
  */
 function fileExist(filePath) {
   return new Promise(function(res) {
-    fs.exists(filePath, function(isExist) {
+    exists(filePath, function(isExist) {
       res(isExist)
     })
   })
@@ -51,7 +70,7 @@ async function readFile(filePath, defaultValue) {
   if(await fileExist(filePath)) {
     return new Promise(function(res, rej) {
       // it is not a stream
-      fs.readFile(filePath, function(err, fileData) {
+      rf(filePath, function(err, fileData) {
         if(err) {rej(err)}
         res(fileData.toString('utf8'))
       })
@@ -61,6 +80,20 @@ async function readFile(filePath, defaultValue) {
   }
 }
 
+/**
+ *
+ * @param {string} filePath
+ * @param {any} data
+ * @returns {null|error}
+ */
+async function writeFile(filePath, data) {
+  return new Promise((res) => {
+    const dataToWrite = tryStringifyJson(data)
+    wf(filePath, dataToWrite, function(err) {
+      res(err || null)
+    })
+  }).catch((e) => e)
+}
 
 class ReportServiceError extends Error {
   constructor(...args) {
@@ -76,5 +109,7 @@ module.exports = {
   parseIntCustom,
   ReportServiceError,
   readFile,
-  tryParseJson
+  writeFile,
+  tryParseJson,
+  tryStringifyJson
 }

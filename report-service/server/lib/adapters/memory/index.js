@@ -1,7 +1,12 @@
 const path = require('path')
 const {getConfig, setConfig} = require('../config')
-const {getFreeBackUpFilePathName, getFilesWithSubDirs} = require('./storage.restore')
 const {readFile, tryParseJson} = require('../../utils')
+const {
+  getFreeBackUpFilePathName,
+  getFilesWithSubDirs,
+  tryToRestoreStorageFromBackups,
+  tryToRestorerunsStorageFromBackups
+} = require('./storage.restore')
 
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
@@ -16,6 +21,16 @@ const {
 const storage = []
 const runsStorage = []
 
+
+/**
+ * @example description
+ * try to restore data from FS
+ *
+ */
+tryToRestoreStorageFromBackups(storage)
+tryToRestorerunsStorageFromBackups(runsStorage)
+
+
 /**
  * @returns {array} filesList
  */
@@ -25,33 +40,6 @@ async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
     .filter((filePath) => filePath.includes(backUpFilePattern))
 
   return backUpFileName
-}
-
-async function restoreDataToStorage(storageArr, fileList) {
-
-  if(fileList.length) {
-    const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
-    for(const file of lastTwoBackups) {
-      const backUpFileData = tryParseJson(await readFile(file))
-      if(Array.isArray(backUpFileData)) {
-        storageArr.push(...backUpFileData)
-      }
-    }
-  }
-}
-
-tryToRestoreStorageFromBackups()
-async function tryToRestoreStorageFromBackups() {
-
-  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
-  await restoreDataToStorage(storage, backUpFilesList)
-}
-
-tryToRestorerunsStorageFromBackups()
-async function tryToRestorerunsStorageFromBackups() {
-
-  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
-  await restoreDataToStorage(runsStorage, backUpFilesList)
 }
 
 async function getAvaliableDateRangeForData() {
@@ -176,6 +164,7 @@ function dropMemoryStatistics() {
 }
 
 function storeCurrentStatistics() {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (res, rej) => {
 
     const storageBackUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
