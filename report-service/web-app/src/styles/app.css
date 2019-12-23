@@ -18,6 +18,7 @@ body {
 
 .content {
   width: 100%;
+  margin-left: 30vh;
   height: auto;
   overflow: auto;
 }

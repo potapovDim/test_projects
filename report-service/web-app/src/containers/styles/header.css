@@ -1,5 +1,7 @@
 .header {
-  background:#85C1E9;
+  top: 0;
+  background: #85C1E9;
+  position: sticky;
 }
 
 .calendar.section {

@@ -9,20 +9,28 @@ async function rerunner(commandsArr, rerunCount = 3, threadsCount = 2, stackAnal
   async function rerunCommands(cmds, failedCommands = []) {
     async function executeOneCommand() {
 
-      // console.log(threadsCount, 'here in execute one command')
-
       if(counter < threadsCount && cmds.length) {
+
         counter++
-        console.log(counter, 'Counter should be incl')
+
+        if(DEBUG) {
+          console.log(counter, 'Counter should be incl')
+        }
 
         const cmd = await wrapExec(cmds.splice(0, 1)[0], stackAnalyzer)
-        console.log(cmd)
+        if(DEBUG) {
+          console.log(cmd)
+        }
 
         if(cmd) {
           failedCommands.push(cmd)
         }
+
         counter--
-        console.log(counter, 'Counter should be removed')
+
+        if(DEBUG) {
+          console.log(counter, 'Counter should be removed')
+        }
       }
     }
 
@@ -59,15 +67,16 @@ async function rerunner(commandsArr, rerunCount = 3, threadsCount = 2, stackAnal
 
   for(let i = 0; i <= rerunCount; i++) {
     failedCommands = await rerunCommands(failedCommands, [])
-    console.log(`Execution index is: ${i}`)
-    console.log('______________________________________')
-    console.log('Failed commands is', failedCommands)
-    console.log('______________________________________')
+    if(DEBUG) {
+      console.log(`Execution index is: ${i}`)
+      console.log('______________________________________')
+      console.log('Failed commands is', failedCommands)
+      console.log('______________________________________')
+    }
     if(!failedCommands.length) {
       return failedCommands
     }
   }
-
 
   return failedCommands
 }

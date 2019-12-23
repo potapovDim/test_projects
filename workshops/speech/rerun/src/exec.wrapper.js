@@ -1,21 +1,28 @@
-const { exec } = require('child_process')
+const {exec} = require('child_process')
 
-const { DEBUG } = process.env
+const {DEBUG} = process.env
 
 function wrapExec(cmd, stackAnalyzer) {
   return new Promise((resolve) => {
     let stackFromProc = null
-    const proc = exec(cmd, (err, stdout, stderr) => {
-      if (err) {
-        DEBUG && console.log(err)
+    const proc = exec(cmd, (err, stdout) => {
+      if(err) {
+        if(DEBUG) {
+          console.log(err)
+        }
+        resolve(err)
       }
-      DEBUG && console.log(`Stdout is : ${stdout.toString('utf8')}`)
+      if(DEBUG) {
+        console.log(`Stdout is : ${stdout.toString('utf8')}`)
+      }
       stackFromProc = stdout.toString('utf8')
     })
 
     proc.on('close', (code, signal) => {
-      DEBUG && console.log('CLOSE ARGS ARE: ', code, signal)
-      if (stackAnalyzer) {
+      if(DEBUG) {
+        console.log('CLOSE ARGS ARE: ', code, signal)
+      }
+      if(stackAnalyzer) {
         resolve(stackAnalyzer(cmd, stackFromProc))
       } else {
         code === 0 ? resolve(null) : resolve(cmd)
@@ -23,9 +30,11 @@ function wrapExec(cmd, stackAnalyzer) {
     })
 
     proc.on('exit', (code, signal) => {
-      DEBUG && console.log('EXIT ARGS ARE: ', code, signal)
+      if(DEBUG) {
+        console.log('EXIT ARGS ARE: ', code, signal)
+      }
     })
-  })
+  }).catch(e => e)
 }
 
 module.exports = {
