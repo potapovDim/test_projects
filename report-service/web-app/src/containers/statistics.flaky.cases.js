@@ -1,15 +1,14 @@
+import './styles/statistics.flaky.cases.css'
+
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Pie, Bar} from 'react-chartjs-2'
+import {Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
 import {Button} from '../components/button'
 import {getFailReasons, mostFlakyCases} from '../utils/data.formaters'
 import {colors} from '../utils/colors'
+import {connect} from 'react-redux'
 
-function getRandomColor() {
-  return colors[Math.floor(Math.random() * colors.length)]
-}
 
 class StatisticsFlakyCases extends Component {
   state = {
@@ -77,7 +76,7 @@ class StatisticsFlakyCases extends Component {
     const dataBar = this.getFailedCases()
 
     return (
-      <div>
+      <div className="statistics-flaky-cases">
         <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
           <Button clickAction={this.askToClose} title={'Close'} />
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}

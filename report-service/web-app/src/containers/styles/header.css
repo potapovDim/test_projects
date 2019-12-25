@@ -1,7 +1,13 @@
 .header {
   top: 0;
+  display: flex;
   background: #85C1E9;
   position: sticky;
+}
+
+
+.drop_range {
+  margin-left: 80vh;
 }
 
 .calendar.section {

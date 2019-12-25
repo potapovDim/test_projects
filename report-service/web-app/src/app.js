@@ -44,29 +44,32 @@ class App extends Component {
     const {content} = this.state
     const Content = contentMap[content]
 
-    console.log(content)
-
     return (
-      <div>
+      <div className="report-service-app">
 
         <Modal isOpen={!config} ariaHideApp={false}>
           <ReportConfig />
         </Modal>
-        <Header />
-        <div className="report_main">
 
-          <NavigationMenu
-            toggleContent={this.toggleContent}
-            navidationButtons={Object.keys(contentMap).map((key) => key)}
-          />
 
-          <div className="content">
+        <div className="report-service-header">
+          <Header />
+        </div>
 
+        <div className="report-service-main-content">
+          <div className="report-service-menu">
+            <NavigationMenu
+              toggleContent={this.toggleContent}
+              navidationButtons={Object.keys(contentMap).map((key) => key)}
+            />
+          </div>
+
+          <div className="report-service-content">
             <Content />
-
           </div>
         </div>
-      </div>
+
+      </div >
     )
   }
 }

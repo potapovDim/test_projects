@@ -11,14 +11,26 @@ body {
   height: 100%;
 }
 
-.report_main {
+.report-service-main-content {
   display: flex;
-  height: 100%;
+  overflow: auto;
 }
 
-.content {
+.report-service-menu {
+  width: 10%;
+}
+
+.report-service-header {
+  position: relative;
+  height: 10vh;
+}
+
+.report-service-content {
+  margin: 4px, 4px;
+  padding: 4px;
   width: 100%;
-  margin-left: 30vh;
-  height: auto;
-  overflow: auto;
+  height: 90vh;
+  overflow-x: hidden;
+  overflow-x: auto;
+  text-align: justify;
 }

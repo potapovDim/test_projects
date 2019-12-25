@@ -27,7 +27,7 @@ class NavigationMenu extends Component {
 
   render() {
     return (
-      <div className="navigation_menu">
+      <div className="navigation-menu-internal-content">
         {this.renderMenu()}
       </div>
     )

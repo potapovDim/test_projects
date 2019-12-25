@@ -1,6 +1,7 @@
 .information_message {
   position: absolute;
   width: 80%;
+  z-index: 99999999;
   margin: 10px;
 }
 

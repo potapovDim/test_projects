@@ -6,8 +6,7 @@ import {connect} from 'react-redux'
 import {getTestCases} from '../server-client/actions'
 import {updateCasesList} from '../reducers/action.creators'
 import {InformationMessage, Button, ReporterCalendar} from '../components'
-
-import {fromNumberToMDY} from '../utils/date'
+import {DropList} from '../components/drop.list'
 
 class Header extends Component {
 
@@ -120,60 +119,31 @@ class Header extends Component {
 
     return (
       <nav className="header">
+        <h3>Tests count is:  {cases.length}</h3>
+
         {this.renderMessages()}
 
-        <Button
-          title={"Resync cases"}
-          clickAction={this.resyncCases}
-        />
+        <Button title={"Resync cases"} clickAction={this.resyncCases} />
+
         <Button
           title={!autosync ? 'Enable autosync' : 'Disable autosync'}
           className={autosync ? 'active' : ''}
           clickAction={this.enableAutoSync}
         />
-
-        <div>Tests count is:  {cases.length}</div>
-
+        <DropList
+          className={'drop_range'}
+          title={'Date range'}
+          items={[
+            {name: 'Half a hour', click: () => this.getTestCaseByTime(0.5)},
+            {name: 'One hour', click: () => this.getTestCaseByTime(1)},
+            {name: 'Two hours', click: () => this.getTestCaseByTime(2)},
+            {name: 'Three hours', click: () => this.getTestCaseByTime(3)},
+            {name: 'Four hours', click: () => this.getTestCaseByTime(4)},
+            {name: 'One day', click: () => this.getTestCaseByTime(24)},
+            {name: 'Two days', click: () => this.getTestCaseByTime(48)},
+          ]}
+        />
         <div>
-          <span>Get statistic by hours: </span>
-          <Button clickAction={() => this.getTestCaseByTime(1)} title={'Last hour'} />
-          <Button clickAction={() => this.getTestCaseByTime(2)} title={'Last 2 hours'} />
-          <Button clickAction={() => this.getTestCaseByTime(3)} title={'Last 3 hours'} />
-          <Button clickAction={() => this.getTestCaseByTime(4)} title={'Last 4 hours'} />
-        </div>
-
-        <div>
-
-          {cases.length && (
-            <div>
-
-              <h3>Avaliable date range</h3>
-              <div className="date_range">
-                <div onClick={() => this.toggleCalendar('fromDateOpen')}>Start date: <span>{fromNumberToMDY(startDate)}</span> </div>
-                <div onClick={() => this.toggleCalendar('toDateOpen')}>End date:   <span>{fromNumberToMDY(endDate)}</span>   </div>
-              </div>
-
-              <div className="calendar section">
-                {fromDateOpen &&
-                  <div className="calendar-wrapper">
-                    <ReporterCalendar
-                      onChange={(dateObj) => this.filterTestCasesByDay('startDate', dateObj)}
-                      title="Choose start date"
-                    />
-                  </div>
-                }
-                {
-                  toDateOpen &&
-                  <div className="calendar-wrapper end-date">
-                    <ReporterCalendar
-                      onChange={(dateObj) => this.filterTestCasesByDay('endDate', dateObj)}
-                      title="Choose end date"
-                    />
-                  </div>
-                }
-              </div>
-            </div>
-          )}
         </div>
       </nav>
     )
