@@ -1,8 +1,9 @@
 {
   "name": "report-service",
-  "version": "0.0.9-beta",
+  "version": "0.0.10-beta",
   "description": "",
   "main": "index.js",
+  "bin": "bin/report_service.js",
   "scripts": {
     "test": "mocha ./__specs__/**/*.spec.js",
     "dev": "node ./index.js"

@@ -12,13 +12,13 @@ const defaultConfig = {
   failedReasons: []
 }
 
-class ReporterConfig extends Component {
+class ReportConfig extends Component {
 
   state = {
     showExample: false
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const existingConfig = lStorage.lsGet('config')
     if(existingConfig && Object.keys(existingConfig).length) {
       this.setState({...this.state, ...existingConfig})
@@ -92,4 +92,4 @@ class ReporterConfig extends Component {
   }
 }
 
-export default connect(({config}) => ({config}))(ReporterConfig)
+export default connect(({config}) => ({config}))(ReportConfig)

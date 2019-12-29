@@ -17,7 +17,7 @@ class Header extends Component {
     messages: []
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     dataFormatter.pubSubSubscribe('buildInfo_warning', (ms, data) => {
       console.warn(ms)
       this.setState({
@@ -28,11 +28,8 @@ class Header extends Component {
   }
 
   renderMessages = () => {
-
     const {messages} = this.state
-
     return messages.map((messageInfo, index) => {
-
       const removeMessage = () => {
         const newState = {...this.state}
         newState.messages.splice(index, 1)

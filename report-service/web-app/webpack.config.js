@@ -11,8 +11,6 @@ function productionBuildOutput() {
     return {
       entry: {
         index: './src/index.js',
-        redux_store: './src/reducers/index.js',
-        components: './src/components/index.js'
       },
       output: {
         filename: 'bundle.[name].js',
@@ -23,8 +21,8 @@ function productionBuildOutput() {
     return {
       entry: {
         index: './src/index.js',
-        redux_store: './src/reducers/index.js',
-        components: './src/components/index.js'
+        // redux_store: './src/reducers/index.js',
+        // components: './src/components/index.js'
       },
       output: {
         filename: '[name].bundle.js',
