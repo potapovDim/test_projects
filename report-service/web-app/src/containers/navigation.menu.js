@@ -2,13 +2,13 @@ import './styles/navigation.menu.css'
 
 import React, {Component} from 'react'
 import {Button} from '../components/button'
-import {localStorage} from '../utils'
+import {localStorage, locationStorage} from '../utils'
 
 class NavigationMenu extends Component {
 
   renderMenu = () => {
 
-    const currentView = localStorage.lsGet('view')
+    const currentView = locationStorage.getLocationHash()
     const {toggleContent, navidationButtons} = this.props
 
     return navidationButtons.map((toggler, index) => {

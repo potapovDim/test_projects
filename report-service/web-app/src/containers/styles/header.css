@@ -9,24 +9,16 @@
   width: 30px;
 }
 
-.drop_range {
-  margin-left: 80vh;
+.header_information {
+  margin-top: 10px;
+  width: 30%;
 }
 
 .calendar.section {
   display: flex;
 }
 
-.date_range {
+.header_actions {
   display: flex;
-  color: blue;
-  font-weight: bold;
-}
-
-.calendar-wrapper {
-  position: absolute;
-}
-
-.calendar-wrapper.end-date {
-  margin-left: 350px;
+  margin-left: auto;
 }

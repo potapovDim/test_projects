@@ -6,7 +6,9 @@ function setLocationHash(val) {
 }
 
 function getLocationHash() {
-  return window.location.hash.replace(/\#/, '')
+  const hashUrlPart = window.location.hash.replace(/\#/, '')
+  const hashAndQueries = hashUrlPart.split('?')
+  return hashAndQueries[0]
 }
 
 export default {

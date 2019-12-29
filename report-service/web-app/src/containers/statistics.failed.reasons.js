@@ -54,7 +54,6 @@ class StatisticsFailedReasons extends Component {
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
         <div>
-          <span>Failed cases by reason</span>
           <Pie
             width={50}
             height={20}

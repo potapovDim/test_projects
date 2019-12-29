@@ -2,7 +2,7 @@ import './styles/statistics.flaky.cases.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Bar} from 'react-chartjs-2'
+import {HorizontalBar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
 import {Button} from '../components/button'
@@ -83,7 +83,8 @@ class StatisticsFlakyCases extends Component {
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
         <div>
-          <Bar
+          <HorizontalBar
+            height={dataBar.labels.length * 2}
             data={dataBar}
             getElementAtEvent={this.handleClickBar}
           />

@@ -14,15 +14,11 @@ function updateReportConfig(body, cb = (arg) => arg) {
 }
 
 function getReportConfig(cb = (arg) => arg) {
-  return fetchy
-    .get(routerConstants.getReportConfig)
-    .then(cb)
-    .catch(cb)
+  return fetchy.get(routerConstants.getReportConfig).then(cb).catch(cb)
 }
 
 function getRunsStatistics(cb = (arg) => arg) {
-  console.log(cb, 'AAAAAA')
-  return fetchy.get(routerConstants.getRunsStatistics).then((respo) => cb(respo)).catch(cb)
+  return fetchy.get(routerConstants.getRunsStatistics).then(cb).catch(cb)
 }
 
 export {

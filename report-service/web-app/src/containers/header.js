@@ -119,31 +119,35 @@ class Header extends Component {
 
     return (
       <nav className="header">
-        <h3>Tests count is:  <span className="test_case_count">{cases.length}</span></h3>
-
         {this.renderMessages()}
 
-        <Button title={"Resync cases"} onClick={this.resyncCases} />
+        <div className="header_information">
+          <h4>Tests count is:  <span className="test_case_count">{cases.length}</span></h4>
+        </div>
 
-        <Button
-          title={!autosync ? 'Enable autosync' : 'Disable autosync'}
-          className={autosync ? 'active' : ''}
-          onClick={this.enableAutoSync}
-        />
+        <div className="header_actions">
+          <Button title={"Resync cases"} onClick={this.resyncCases} />
 
-        <DropList
-          className={'drop_range'}
-          title={'Date range'}
-          items={[
-            {name: 'Half a hour', click: () => this.getTestCaseByTime(0.5)},
-            {name: 'One hour', click: () => this.getTestCaseByTime(1)},
-            {name: 'Two hours', click: () => this.getTestCaseByTime(2)},
-            {name: 'Three hours', click: () => this.getTestCaseByTime(3)},
-            {name: 'Four hours', click: () => this.getTestCaseByTime(4)},
-            {name: 'One day', click: () => this.getTestCaseByTime(24)},
-            {name: 'Two days', click: () => this.getTestCaseByTime(48)},
-          ]}
-        />
+          <Button
+            title={!autosync ? 'Enable autosync' : 'Disable autosync'}
+            className={autosync ? 'active' : ''}
+            onClick={this.enableAutoSync}
+          />
+
+          <DropList
+            className={'drop_range'}
+            title={'Date range'}
+            items={[
+              {name: 'Half a hour', click: () => this.getTestCaseByTime(0.5)},
+              {name: 'One hour', click: () => this.getTestCaseByTime(1)},
+              {name: 'Two hours', click: () => this.getTestCaseByTime(2)},
+              {name: 'Three hours', click: () => this.getTestCaseByTime(3)},
+              {name: 'Four hours', click: () => this.getTestCaseByTime(4)},
+              {name: 'One day', click: () => this.getTestCaseByTime(24)},
+              {name: 'Two days', click: () => this.getTestCaseByTime(48)},
+            ]}
+          />
+        </div>
         <div>
         </div>
       </nav>
