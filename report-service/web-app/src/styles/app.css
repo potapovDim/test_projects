@@ -9,6 +9,8 @@ html {
 
 body {
   height: 100%;
+  position: fixed;
+  width: 100%;
 }
 
 .report-service-main-content {

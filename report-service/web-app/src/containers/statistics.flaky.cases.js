@@ -16,7 +16,10 @@ class StatisticsFlakyCases extends Component {
   }
 
   getFailedReasonsPie = () => {
-    const {config = {failedReasons: []}, cases = []} = this.props
+    const {
+      config = {failedReasons: []},
+      cases = []
+    } = this.props
 
     const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
     failedReasonsStructureScope = failedReasonsStructure
@@ -24,20 +27,18 @@ class StatisticsFlakyCases extends Component {
 
     return {
       labels,
-      datasets: [
-        {
-          data: labels.map((item) => failedReasonsStructure[item].length),
-          backgroundColor: labels.map((item /**useless */, index) => colors[index])
-        }
-      ]
+      datasets: [{
+        data: labels.map((item) => failedReasonsStructure[item].length),
+        backgroundColor: labels.map((_ /**useless */, index) => colors[index])
+      }]
     }
   }
 
   getFailedCases = () => {
-    const {cases = []} = this.props
+    const {cases = [], testFlakyCount = 4} = this.props
     const casesData = mostFlakyCases(cases)
     Object.keys(casesData).forEach((caseId) => {
-      if(casesData[caseId] < 4) {
+      if(casesData[caseId] < +testFlakyCount) {
         delete casesData[caseId]
       }
     })
@@ -78,7 +79,7 @@ class StatisticsFlakyCases extends Component {
     return (
       <div className="statistics-flaky-cases">
         <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-          <Button clickAction={this.askToClose} title={'Close'} />
+          <Button onClick={this.askToClose} title={'Close'} />
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
         <div>

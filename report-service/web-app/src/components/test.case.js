@@ -46,7 +46,7 @@ class TestCase extends Component {
         {isOpened &&
           (
             <div className='test_case_body'>
-              {onClick && <Button title={title} clickAction={() => onClick(rest)} />}
+              {onClick && <Button title={title} onClick={() => onClick(rest)} />}
               <div> <span>Execution date   </span> {fromNumberToMDY(date)}          </div>
               <div> <span>Run number     </span> {run}                          </div>
               <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>

@@ -42,7 +42,7 @@ class TestCasesModal extends Component {
     const dataPie = this.getFailedReasonsPie()
     return (
       <Modal isOpen={!!length} ariaHideApp={false}>
-        <Button clickAction={askToClose} title={'Close'} />
+        <Button onClick={askToClose} title={'Close'} />
         {this.renderTestCaseList()}
         {pie && <Pie
           width={50}

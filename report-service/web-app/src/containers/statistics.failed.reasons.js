@@ -54,7 +54,7 @@ class StatisticsFailedReasons extends Component {
     return (
       <div>
         <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-          <Button clickAction={this.askToClose} title={'Close'} />
+          <Button onClick={this.askToClose} title={'Close'} />
           {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
         </Modal>
         <div>

@@ -16,7 +16,7 @@ class NavigationMenu extends Component {
         <div key={index}>
           <Button
             className={currentView === toggler ? 'active' : ''}
-            clickAction={() => toggleContent(toggler)}
+            onClick={() => toggleContent(toggler)}
             title={toggler.match(/[A-Z][a-z]+/g).join(' ')}
           />
         </div>

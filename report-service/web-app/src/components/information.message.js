@@ -9,13 +9,13 @@ class InformationMessage extends Component {
       message,
       className = '',
       // noop
-      clickAction = () => {},
+      onClick = () => {},
     } = this.props
 
     const classNames = classnames('message', className)
 
     return (
-      <div className="alert information_message" onClick={clickAction}>
+      <div className="alert information_message" onClick={onClick}>
         <span className={classNames}>{message}</span>
       </div>
     )

@@ -40,12 +40,12 @@ class Header extends Component {
       }
 
       // automremoving error message
-      setTimeout(removeMessage, 30 * 1000 * (index + 1))
+      setTimeout(removeMessage, 1000 * (index + 1))
 
       return (
         <InformationMessage
           key={index}
-          clickAction={removeMessage}
+          onClick={removeMessage}
           {...messageInfo}
         />
       )
@@ -123,12 +123,12 @@ class Header extends Component {
 
         {this.renderMessages()}
 
-        <Button title={"Resync cases"} clickAction={this.resyncCases} />
+        <Button title={"Resync cases"} onClick={this.resyncCases} />
 
         <Button
           title={!autosync ? 'Enable autosync' : 'Disable autosync'}
           className={autosync ? 'active' : ''}
-          clickAction={this.enableAutoSync}
+          onClick={this.enableAutoSync}
         />
         <DropList
           className={'drop_range'}
