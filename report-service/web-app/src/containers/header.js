@@ -1,11 +1,11 @@
 import './styles/header.css'
 
 import React, {Component} from 'react'
-import PubSub from 'pubsub-js'
 import {connect} from 'react-redux'
 import {getTestCases} from '../server-client/actions'
 import {updateCasesList} from '../reducers/action.creators'
 import {InformationMessage, Button, ReporterCalendar} from '../components'
+import {dataFormatter} from '../utils'
 import {DropList} from '../components/drop.list'
 
 class Header extends Component {
@@ -18,7 +18,7 @@ class Header extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    PubSub.subscribe('buildInfo_warning', (ms, data) => {
+    dataFormatter.pubSubSubscribe('buildInfo_warning', (ms, data) => {
       console.warn(ms)
       this.setState({
         ...this.state,
@@ -119,7 +119,7 @@ class Header extends Component {
 
     return (
       <nav className="header">
-        <h3>Tests count is:  {cases.length}</h3>
+        <h3>Tests count is:  <span className="test_case_count">{cases.length}</span></h3>
 
         {this.renderMessages()}
 
@@ -130,6 +130,7 @@ class Header extends Component {
           className={autosync ? 'active' : ''}
           onClick={this.enableAutoSync}
         />
+
         <DropList
           className={'drop_range'}
           title={'Date range'}

@@ -12,7 +12,7 @@ function fromMDYToDateObj(dateDMY) {
   return moment(dateDMY, 'MMM Do YY').toDate()
 }
 
-export {
+export default {
   fromMDYToDateObj,
   fromNumberToMDY,
   fromNumberToDateObject

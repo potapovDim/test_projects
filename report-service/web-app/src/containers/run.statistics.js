@@ -3,8 +3,7 @@ import './styles/run.statistics.css'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {BuildItem} from '../components'
-import {filterFromUndefinedOrNull} from '../utils/common'
-import {getRangeFailesByBuild} from '../utils/data.formaters'
+import {commonsUtils, dataFormatter} from '../utils'
 
 class RunStatistics extends Component {
 
@@ -24,10 +23,10 @@ class RunStatistics extends Component {
   renderStatisticsByBuild = (cases, runStatistics) => {
 
     cases = cases
-      .filter(filterFromUndefinedOrNull)
+      .filter(commonsUtils.filterFromUndefinedOrNull)
       .filter((testCase, index, casesArr) => casesArr.findIndex(({id}) => testCase.id === id) === index)
 
-    runStatistics = runStatistics.filter(filterFromUndefinedOrNull)
+    runStatistics = runStatistics.filter(commonsUtils.filterFromUndefinedOrNull)
 
     const {
       buildsCount,
@@ -35,7 +34,7 @@ class RunStatistics extends Component {
       averageAmount,
       totalExecutedCases,
       ...buildsStatistics
-    } = getRangeFailesByBuild(cases, runStatistics)
+    } = dataFormatter.getRangeFailesByBuild(cases, runStatistics)
 
     return (
       <div className="runs_statistics">

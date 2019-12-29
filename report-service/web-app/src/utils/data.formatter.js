@@ -126,9 +126,15 @@ function getGroupedByCases(propName, testCases) {
     }, {})
 }
 
-export {
+function pubSubSubscribe(message, listener) {
+  PubSub.subscribe(message, listener)
+}
+
+export default {
   getFailReasons,
   getRangeFailesByBuild,
   getGroupedByCases,
-  mostFlakyCases
+  mostFlakyCases,
+  //TODO temp location
+  pubSubSubscribe
 }

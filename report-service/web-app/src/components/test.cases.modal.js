@@ -3,8 +3,8 @@ import Modal from 'react-modal'
 import {Button} from './button'
 import {TestCase} from './test.case'
 import {Pie} from 'react-chartjs-2'
-import {getFailReasons} from '../utils/data.formaters'
-import {colors} from '../utils/colors'
+import {dataFormatter, getFailReasons} from '../utils'
+import {colorsUtils} from '../utils'
 
 class TestCasesModal extends Component {
 
@@ -22,7 +22,7 @@ class TestCasesModal extends Component {
   getFailedReasonsPie = () => {
     const {config = {failedReasons: []}, cases = []} = this.props
 
-    const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
+    const failedReasonsStructure = dataFormatter.getFailReasons(config.failedReasons, cases)
     // failedReasonsStructureScope = failedReasonsStructure
     const labels = Object.keys(failedReasonsStructure)
 
@@ -31,7 +31,7 @@ class TestCasesModal extends Component {
       datasets: [
         {
           data: labels.map((item) => failedReasonsStructure[item].length),
-          backgroundColor: labels.map((item /**useless */, index) => colors[index])
+          backgroundColor: labels.map((_, index) => colorsUtils.colors[index])
         }
       ]
     }

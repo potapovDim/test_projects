@@ -7,7 +7,6 @@ class Button extends Component {
   render() {
     const {title, onClick, className = ''} = this.props
     const classNames = classnames('btn', className)
-    console.log(classNames)
     return (
       <button onClick={onClick} className={classNames}>
         {title}

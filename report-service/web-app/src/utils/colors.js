@@ -34,6 +34,6 @@ const colors = [
   '#00808'
 ]
 
-export {
+export default {
   colors
 }

@@ -9,6 +9,7 @@ import StatisticsFlakyCases from './containers/statistics.flaky.cases'
 import StatisticsFailedReasons from './containers/statistics.failed.reasons'
 import RunStatistics from './containers/run.statistics'
 import NavigationMenu from './containers/navigation.menu'
+import {locationStorage} from './utils'
 import lStorage from './utils/local.storage'
 
 import Modal from 'react-modal'
@@ -29,12 +30,14 @@ class App extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    const currentView = lStorage.lsGet('view')
-    currentView && this.toggleContent(currentView)
+    const currentViewHash = locationStorage.getLocationHash()
+    const currentView = currentViewHash ? currentViewHash : 'RunStatistics'
+    this.toggleContent(currentView)
   }
 
   toggleContent = (name) => {
     this.setState({content: name})
+    locationStorage.setLocationHash(name)
     lStorage.lsSet('view', name)
   }
 

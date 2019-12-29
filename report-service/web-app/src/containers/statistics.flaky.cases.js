@@ -1,13 +1,13 @@
 import './styles/statistics.flaky.cases.css'
 
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
 import {Button} from '../components/button'
-import {getFailReasons, mostFlakyCases} from '../utils/data.formaters'
-import {colors} from '../utils/colors'
-import {connect} from 'react-redux'
+import {dataFormatter} from '../utils'
+import {colorsUtils} from '../utils'
 
 
 class StatisticsFlakyCases extends Component {
@@ -21,7 +21,7 @@ class StatisticsFlakyCases extends Component {
       cases = []
     } = this.props
 
-    const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
+    const failedReasonsStructure = dataFormatter.getFailReasons(config.failedReasons, cases)
     failedReasonsStructureScope = failedReasonsStructure
     const labels = Object.keys(failedReasonsStructure)
 
@@ -29,14 +29,14 @@ class StatisticsFlakyCases extends Component {
       labels,
       datasets: [{
         data: labels.map((item) => failedReasonsStructure[item].length),
-        backgroundColor: labels.map((_ /**useless */, index) => colors[index])
+        backgroundColor: labels.map((_, index) => colorsUtils.colors[index])
       }]
     }
   }
 
   getFailedCases = () => {
     const {cases = [], testFlakyCount = 4} = this.props
-    const casesData = mostFlakyCases(cases)
+    const casesData = dataFormatter.mostFlakyCases(cases)
     Object.keys(casesData).forEach((caseId) => {
       if(casesData[caseId] < +testFlakyCount) {
         delete casesData[caseId]

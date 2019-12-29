@@ -4,12 +4,8 @@ import {Pie, Bar} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
 import {Button} from '../components/button'
-import {getFailReasons, mostFlakyCases} from '../utils/data.formaters'
-import {colors} from '../utils/colors'
-
-function getRandomColor() {
-  return colors[Math.floor(Math.random() * colors.length)]
-}
+import {dataFormatter} from '../utils'
+import {colorsUtils} from '../utils'
 
 let failedReasonsStructureScope = null
 
@@ -21,7 +17,7 @@ class StatisticsFailedReasons extends Component {
   getFailedReasonsPie = () => {
     const {config = {failedReasons: []}, cases = []} = this.props
 
-    const failedReasonsStructure = getFailReasons(config.failedReasons, cases)
+    const failedReasonsStructure = dataFormatter.getFailReasons(config.failedReasons, cases)
     failedReasonsStructureScope = failedReasonsStructure
     const labels = Object.keys(failedReasonsStructure)
 
@@ -30,7 +26,7 @@ class StatisticsFailedReasons extends Component {
       datasets: [
         {
           data: labels.map((item) => failedReasonsStructure[item].length),
-          backgroundColor: labels.map((item /**useless */, index) => colors[index])
+          backgroundColor: labels.map((_, index) => colorsUtils.colors[index])
         }
       ]
     }

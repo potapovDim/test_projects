@@ -1,14 +1,14 @@
 import './styles/navigation.menu.css'
 
 import React, {Component} from 'react'
-import lStorage from '../utils/local.storage'
 import {Button} from '../components/button'
+import {localStorage} from '../utils'
 
 class NavigationMenu extends Component {
 
   renderMenu = () => {
 
-    const currentView = lStorage.lsGet('view')
+    const currentView = localStorage.lsGet('view')
     const {toggleContent, navidationButtons} = this.props
 
     return navidationButtons.map((toggler, index) => {

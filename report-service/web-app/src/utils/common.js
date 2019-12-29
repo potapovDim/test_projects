@@ -13,7 +13,7 @@ function filterFromUndefinedOrNull(item) {
   return true
 }
 
-export {
+export default {
   stringify,
   filterFromUndefinedOrNull
 }

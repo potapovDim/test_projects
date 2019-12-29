@@ -1,6 +1,6 @@
 // polifill
 import 'whatwg-fetch'
-import {stringify} from '../utils/common'
+import {commonsUtils} from '../utils'
 import lStorage from '../utils/local.storage'
 
 function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
@@ -19,7 +19,7 @@ function fetchyBase(method = 'POST', path, body, cb = (arg) => arg) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: stringify(body)
+    body: commonsUtils.stringify(body)
   }).then((resp) => {
     const contentType = resp.headers.get('content-type')
     if(contentType.includes('application/json')) {

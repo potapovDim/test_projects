@@ -24,7 +24,7 @@ body {
 
 .report-service-header {
   position: relative;
-  height: 10vh;
+  /* height: 10vh; */
 }
 
 .report-service-content {

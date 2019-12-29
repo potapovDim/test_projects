@@ -53,7 +53,6 @@ class ReporterConfig extends Component {
   }
 
   syncConfig = () => {
-    console.log('!')
     lStorage.lsSet('config', JSON.stringify(this.state))
     this.props.dispatch(updateConfig(this.state))
     return updateReportConfig({config: this.state})

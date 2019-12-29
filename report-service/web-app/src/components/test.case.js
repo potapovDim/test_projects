@@ -2,7 +2,7 @@ import './styles/test.case.css'
 
 import React, {Component} from 'react';
 import {Button} from './button'
-import {fromNumberToMDY} from '../utils/date'
+import {dateFormatter, fromNumberToMDY} from '../utils'
 import classnames from 'classnames'
 
 /**
@@ -47,7 +47,7 @@ class TestCase extends Component {
           (
             <div className='test_case_body'>
               {onClick && <Button title={title} onClick={() => onClick(rest)} />}
-              <div> <span>Execution date   </span> {fromNumberToMDY(date)}          </div>
+              <div> <span>Execution date   </span> {dateFormatter.fromNumberToMDY(date)}          </div>
               <div> <span>Run number     </span> {run}                          </div>
               <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>
               {env && <div><span>Environment</span> {env}                           </div>}

@@ -5,6 +5,9 @@
   position: sticky;
 }
 
+.test_case_count {
+  width: 30px;
+}
 
 .drop_range {
   margin-left: 80vh;
