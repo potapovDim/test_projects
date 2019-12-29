@@ -54,7 +54,6 @@ class App extends Component {
           <ReportConfig />
         </Modal>
 
-
         <div className="report-service-header">
           <Header />
         </div>

@@ -1,3 +1,6 @@
+import url from 'url'
+
+
 function setLocationHash(val) {
   window.location.hash = val
 }

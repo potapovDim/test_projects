@@ -34,40 +34,38 @@ function renderMainApplication() {
  * 3.
  */
 
-const config = lsStore.lsGet('config')
 
-if(!config) {
-  console.error('localStorage does not have config will try to get config from origin server')
-  getReportConfig().then(({config}) => {
-    getRunsStatistics((res) => {
-      store.dispatch(updateRunStatistics(res))
-    })
+function initCases(testCases) {
+  if(Array.isArray(testCases)) {
+    store.dispatch(updateCasesList(testCases))
+  }
+}
 
-    if(typeof config === 'object' && Object.keys(config).length) {
+function initRuns(runs) {
+  if(Array.isArray(runs)) {
+    store.dispatch(updateRunStatistics(runs))
+  }
+}
+
+const existingConfig = lsStore.lsGet('config')
+
+getReportConfig()
+  .then(({config}) => {
+    if(config && Object.keys(config).length && existingConfig) {
+      const newConfig = {...existingConfig, ...config}
+      lsStore.lsSet('config', newConfig)
+      store.dispatch(updateConfig(newConfig))
+    } else if(config && Object.keys(config).length) {
       lsStore.lsSet('config', config)
       store.dispatch(updateConfig(config))
-      if(config.serverHost) {
-        return getTestCases()
-          .then((cases) => {
-            return store.dispatch(updateCasesList(cases))
-          })
-          .then(renderMainApplication)
-      }
     } else {
-      renderMainApplication()
+      lsStore.lsSet('config', {})
+      store.dispatch(updateConfig({}))
     }
   })
-} else {
-  store.dispatch(updateConfig(config))
-  getRunsStatistics((res) => {
-    store.dispatch(updateRunStatistics(res))
-  })
-  getTestCases()
-    .then((cases) => {
-      if(Array.isArray(cases)) {
-        store.dispatch(updateCasesList(cases))
-      }
-      return
-    })
-    .then(renderMainApplication)
-}
+  .then(getTestCases)
+  .then(initCases)
+  .then(getRunsStatistics)
+  .then(initRuns)
+  .then(renderMainApplication)
+

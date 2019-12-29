@@ -21,6 +21,7 @@ function getReportConfig(cb = (arg) => arg) {
 }
 
 function getRunsStatistics(cb = (arg) => arg) {
+  console.log(cb, 'AAAAAA')
   return fetchy.get(routerConstants.getRunsStatistics).then((respo) => cb(respo)).catch(cb)
 }
 
