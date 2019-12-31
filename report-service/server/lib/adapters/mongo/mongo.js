@@ -43,9 +43,31 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
   })
 }
 
+const createSetConfig = (config) => async (configData) => {
+  await config(configData).save()
+}
+
+const createGetConfig = (config) => async () => {
+  console.log(config)
+  return new Promise((res) => {
+    console.log('A')
+    config.find({}, function(err, configData) {
+      console.log('B')
+      if(err) {
+        res(err)
+      } else if(Array.isArray(configData)) {
+        res(configData[0])
+      } else {
+        res(configData)
+      }
+    })
+  })
+}
 
 module.exports = {
   createSetToStorage,
   createGetStorageData,
-  createGetStoragCount
+  createGetStoragCount,
+  createGetConfig,
+  createSetConfig
 }

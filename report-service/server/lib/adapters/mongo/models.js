@@ -12,15 +12,24 @@ const {Schema} = require('mongoose')
  * }
  */
 const addTestCaseItemModel = (connectionDb) => {
-  const relativeShema = Schema({
-    id: String,
-    date: Number,
-    build: String,
+  const testCaseSchema = Schema({
+    id: Schema.Types.String,
+    date: Schema.Types.Number,
+    build: Schema.Types.String,
     stack: Schema.Types.Mixed
   })
-  return connectionDb.model('testcase', relativeShema)
+  return connectionDb.model('testcase', testCaseSchema)
+}
+
+const updateConfigModel = (connectionDb) => {
+  const reportServiceConfigSchema = Schema({
+    serverUrl: Schema.Types.String,
+    failedReasons: Schema.Types.Array
+  })
+  return connectionDb.model('reportconfig', reportServiceConfigSchema)
 }
 
 module.exports = {
-  addTestCaseItemModel
+  addTestCaseItemModel,
+  updateConfigModel
 }

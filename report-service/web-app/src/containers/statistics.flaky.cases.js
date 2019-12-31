@@ -42,6 +42,7 @@ class StatisticsFlakyCases extends Component {
         delete casesData[caseId]
       }
     })
+
     const labels = Object.keys(casesData)
 
     return {
