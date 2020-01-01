@@ -2,7 +2,5 @@ node_modules
 package-lock.json
 playground.*
 *backup.json
-temp/*.json
-temp/data
-temp/meta
-temp/wal
+temp/*
+!temp/.temp

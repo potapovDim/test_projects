@@ -11,17 +11,29 @@ const {Schema} = require('mongoose')
  *  stack: 'Some stack trace'
  * }
  */
-const addTestCaseItemModel = (connectionDb) => {
+const testCaseModel = (connectionDb) => {
   const testCaseSchema = Schema({
     id: Schema.Types.String,
     date: Schema.Types.Number,
-    build: Schema.Types.String,
-    stack: Schema.Types.Mixed
+    run: Schema.Types.String,
+    env: Schema.Types.String,
+    stackTrace: Schema.Types.Mixed
   })
   return connectionDb.model('testcase', testCaseSchema)
 }
 
-const updateConfigModel = (connectionDb) => {
+
+const runModel = (connectionDb) => {
+  const runSchema = Schema({
+    run: Schema.Types.Mixed,
+    count: Schema.Types.Number,
+    runStatus: Schema.Types.Number
+  })
+
+  return connectionDb.model('run', runSchema)
+}
+
+const configModel = (connectionDb) => {
   const reportServiceConfigSchema = Schema({
     serverUrl: Schema.Types.String,
     failedReasons: Schema.Types.Array
@@ -30,6 +42,7 @@ const updateConfigModel = (connectionDb) => {
 }
 
 module.exports = {
-  addTestCaseItemModel,
-  updateConfigModel
+  testCaseModel,
+  configModel,
+  runModel
 }

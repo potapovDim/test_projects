@@ -34,9 +34,9 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
         * }
         */
       /* eslint-disable no-unused-vars */
-      for(const {id, build, date, stack, } of testCases) {
+      for(const testCase of testCases) {
         /* eslint-enable no-unused-vars */
-        testCasesData.push({id, build, date, stack})
+        testCasesData.push(testCase)
       }
       res(testCasesData.slice(0, limit || testCasesData.length))
     })
@@ -48,11 +48,8 @@ const createSetConfig = (config) => async (configData) => {
 }
 
 const createGetConfig = (config) => async () => {
-  console.log(config)
   return new Promise((res) => {
-    console.log('A')
     config.find({}, function(err, configData) {
-      console.log('B')
       if(err) {
         res(err)
       } else if(Array.isArray(configData)) {
@@ -64,10 +61,45 @@ const createGetConfig = (config) => async () => {
   })
 }
 
+const createSetToStorageRun = (run) => async (runData) => {
+  console.log(runData)
+  await run(runData).save()
+}
+
+const createGetStorageRunData = (run) => async (offset = 0, limit = 0) => {
+  return new Promise((res) => {
+    const emptyQueryObject = {}
+    const runsData = []
+
+    run.find(emptyQueryObject, null, {skip: offset}, function(err, runs) {
+      if(err) {
+        res(err)
+      }
+      /**
+        * @example item
+        * {
+        *  run: run identifier,
+        *  count: quantity of the runs  ,
+        *  runStatus: exit code status,
+        * }
+        */
+      for(const {run, count, runStatus} of runs) {
+        runsData.push({run, count, runStatus})
+      }
+      res(runsData.slice(0, limit || runsData.length))
+    })
+  })
+}
+
+
 module.exports = {
   createSetToStorage,
   createGetStorageData,
   createGetStoragCount,
+
   createGetConfig,
-  createSetConfig
+  createSetConfig,
+
+  createSetToStorageRun,
+  createGetStorageRunData
 }

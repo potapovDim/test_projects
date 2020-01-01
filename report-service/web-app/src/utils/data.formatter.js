@@ -54,8 +54,7 @@ function getRangeFailesByBuild(testCases, runStats = []) {
 
       acc[run] = {cases: [testCase]}
 
-      const runInfo = runStats.find((item) => item.run === run)
-
+      const runInfo = runStats.find((item) => item.run == run)
       if(!runInfo) {
         acc[run].buildExecutedCases = 0
 

@@ -10,7 +10,7 @@ const getRandomTimeName = () => ['days', 'hours'][getNumber(2)]
 const generateEnv = () => `feature-TICKET-${getNumber(50)}`
 const getDate = () => +moment().subtract(getNumber(3), getRandomTimeName())
 
-const cases = Array(100 * 1000).fill('_').map(() => ({
+const cases = Array(3000).fill('_').map(() => ({
   id: `TEST_CASE_ID-${getNumber(500)}`,
   stackTrace: new AssertionError(`
     EXPECTATION NUMBER :${getNumber(10)},
@@ -46,7 +46,6 @@ const config = {
     'EXPECTATION NUMBER :2'
   ]
 }
-
 
 addTestCases()
 async function addTestCases() {
