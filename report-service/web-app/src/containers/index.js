@@ -5,6 +5,7 @@ import RunStatistics from './run.statistics'
 import StatisticsFailedReasons from './statistics.failed.reasons'
 import StatisticsFlakyCases from './statistics.flaky.cases'
 import FailedCasesList from './test.cases.list'
+import TechnicalSpecifications from './technical'
 
 export {
   ReportConfig,
@@ -13,5 +14,6 @@ export {
   RunStatistics,
   StatisticsFailedReasons,
   StatisticsFlakyCases,
-  FailedCasesList
+  FailedCasesList,
+  TechnicalSpecifications
 }

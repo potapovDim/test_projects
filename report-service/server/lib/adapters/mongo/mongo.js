@@ -1,3 +1,8 @@
+const {omitProps} = require('../../utils')
+
+
+const skipIdAndV = {'_id': 0, '__v': 0}
+
 const createSetToStorage = (testCase) => async (testCaseData) => {
   await testCase(testCaseData).save()
 }
@@ -20,7 +25,7 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
     const emptyQueryObject = {}
     const testCasesData = []
 
-    testCase.find(emptyQueryObject, null, {skip: offset}, function(err, testCases) {
+    testCase.find(emptyQueryObject, skipIdAndV, {skip: offset}, function(err, testCases) {
       if(err) {
         res(err)
       }
@@ -44,16 +49,17 @@ const createGetStorageData = (testCase) => async (offset = 0, limit = 0) => {
 }
 
 const createSetConfig = (config) => async (configData) => {
-  await config(configData).save()
+
+  await config(configData).save().then(console.log)
 }
 
 const createGetConfig = (config) => async () => {
   return new Promise((res) => {
-    config.find({}, function(err, configData) {
+    config.find({}, skipIdAndV, function(err, configData) {
       if(err) {
         res(err)
       } else if(Array.isArray(configData)) {
-        res(configData[0])
+        res(configData[configData.length - 1])
       } else {
         res(configData)
       }
@@ -71,7 +77,7 @@ const createGetStorageRunData = (run) => async (offset = 0, limit = 0) => {
     const emptyQueryObject = {}
     const runsData = []
 
-    run.find(emptyQueryObject, null, {skip: offset}, function(err, runs) {
+    run.find(emptyQueryObject, skipIdAndV, {skip: offset}, function(err, runs) {
       if(err) {
         res(err)
       }

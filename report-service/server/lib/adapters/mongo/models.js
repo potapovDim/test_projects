@@ -36,7 +36,7 @@ const runModel = (connectionDb) => {
 const configModel = (connectionDb) => {
   const reportServiceConfigSchema = Schema({
     serverUrl: Schema.Types.String,
-    failedReasons: Schema.Types.Array
+    failedReasons: [{type: String}]
   })
   return connectionDb.model('reportconfig', reportServiceConfigSchema)
 }

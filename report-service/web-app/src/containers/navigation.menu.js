@@ -2,7 +2,7 @@ import './styles/navigation.menu.css'
 
 import React, {Component} from 'react'
 import {Button} from '../components/button'
-import {localStorage, locationStorage} from '../utils'
+import {locationStorage} from '../utils'
 
 class NavigationMenu extends Component {
 

@@ -10,7 +10,8 @@ import {
   StatisticsFlakyCases,
   StatisticsFailedReasons,
   RunStatistics,
-  NavigationMenu
+  NavigationMenu,
+  TechnicalSpecifications
 } from './containers'
 
 import {locationStorage} from './utils'
@@ -20,7 +21,8 @@ const contentMap = {
   FailedCasesList,
   ReportConfig,
   StatisticsFlakyCases,
-  StatisticsFailedReasons
+  StatisticsFailedReasons,
+  TechnicalSpecifications
 }
 
 class App extends Component {

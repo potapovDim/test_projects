@@ -95,6 +95,22 @@ async function writeFile(filePath, data) {
   }).catch((e) => e)
 }
 
+/**
+ *
+ * @param {object} obj
+ * @param {array|string} props
+ * @returns {object}
+ */
+function omitProps(obj, props) {
+  props = Array.isArray(props) ? props : [props]
+  // const tempObj = Object.assign({}, obj)
+  // console.log(obj)
+  props.forEach((prop) => {
+    Reflect.deleteProperty(obj, prop)
+  })
+  return obj
+}
+
 class ReportServiceError extends Error {
   constructor(...args) {
     super(...args)
@@ -105,11 +121,14 @@ class ReportServiceError extends Error {
   }
 }
 
+
+
 module.exports = {
   parseIntCustom,
   ReportServiceError,
   readFile,
   writeFile,
   tryParseJson,
-  tryStringifyJson
+  tryStringifyJson,
+  omitProps
 }
