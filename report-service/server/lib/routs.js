@@ -16,7 +16,9 @@ const {
   getRunsStatistics,
 
   dropCurrentStatistics,
-  storeCurrentStatistics
+  storeCurrentStatistics,
+
+  getTechnicalInfo
 } = require('./actions')
 
 router.post('/add-run-statistics', addRunsStatistics)
@@ -33,6 +35,9 @@ router.post('/add-new-case', addTestCase)
 
 router.get('/drop-current-statistics', dropCurrentStatistics)
 router.get('/store-current-statistics', storeCurrentStatistics)
+
+router.get('/report-service-get-technical-info', getTechnicalInfo)
+
 
 module.exports = {
   router

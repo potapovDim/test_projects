@@ -44,5 +44,5 @@ async function addTestCase(ctx) {
 
 module.exports = {
   getTestCases,
-  addTestCase
+  addTestCase,
 }

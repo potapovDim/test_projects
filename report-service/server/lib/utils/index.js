@@ -103,8 +103,6 @@ async function writeFile(filePath, data) {
  */
 function omitProps(obj, props) {
   props = Array.isArray(props) ? props : [props]
-  // const tempObj = Object.assign({}, obj)
-  // console.log(obj)
   props.forEach((prop) => {
     Reflect.deleteProperty(obj, prop)
   })
