@@ -1,8 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const {getFilesWithSubDirs} = require('./storage.utils')
 const {readFile, tryParseJson} = require('../../utils')
-
 
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
@@ -28,9 +26,70 @@ async function getFreeBackUpFilePathName(dirName, backUpfileNamePart) {
 }
 
 /**
+ *
+ * @param {string} dirName
+ * @returns {array} filesArray
+ * @example filesArray
+ * [
+ *  'a.js', 'b.js', 'readme.md'
+ * ]
+ */
+function getFilesList(dirName) {
+  return new Promise(function(res, rej) {
+    fs.readdir(dirName, function(err, files) {
+      if(err) {rej(err)}
+      else {res(files)}
+    })
+  })
+}
+
+/**
+ *
+ * @param {string} itemPath
+ * @returns {fs.stat object}nodeStatsObject
+ */
+function getStats(itemPath) {
+  return new Promise(function(res, rej) {
+    fs.stat(itemPath, function(err, stats) {
+      if(err) {rej(err)}
+      else {res(stats)}
+    })
+  }).catch((e) => e)
+}
+
+/**
+ *
+ * @param {string} dirName
+ * @param {array} filesList
+ */
+async function getFilesWithSubDirs(dirName, filesList = []) {
+
+  if(dirName.match(/node_modules$/ig)) {
+    // eslint-disable-next-line no-console
+    console.log('It is a bad idea read "node_modules" directory')
+    return []
+  }
+
+  const files = await getFilesList(dirName)
+
+  for(let file of files) {
+    const resolvedPath = path.resolve(dirName, file)
+    const fileStat = await getStats(resolvedPath)
+    if(fileStat.isDirectory()) {
+      filesList.push(...(await getFilesWithSubDirs(resolvedPath, [])))
+    } else {
+      filesList.push(resolvedPath)
+    }
+  }
+  return filesList
+}
+
+
+/**
  * @returns {array} filesList
  */
 async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
+
   const backUpFileName = (await getFilesWithSubDirs(backUpDir))
     .filter((filePath) => filePath.includes(backUpFilePattern))
 
@@ -43,13 +102,14 @@ async function tryToRestoreStorageFromBackups(storage) {
   await restoreDataToStorage(storage, backUpFilesList)
 }
 
-async function restoreDataToStorage(storageArr, fileList) {
+async function restoreDataToStorage(storage, fileList) {
+
   if(fileList.length) {
     const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
     for(const file of lastTwoBackups) {
       const backUpFileData = tryParseJson(await readFile(file))
       if(Array.isArray(backUpFileData)) {
-        storageArr.push(...backUpFileData)
+        storage.push(...backUpFileData)
       }
     }
   }
@@ -60,26 +120,10 @@ async function tryToRestorerunsStorageFromBackups(runsStorage) {
   await restoreDataToStorage(runsStorage, backUpFilesList)
 }
 
-
-function enableAutoStoreStorageItems(storage, expectedExidQuantity, restoreCount, backupPath, backupFilePattern, intervalTimer = 1500) {
-  const workerInterval = setInterval(function() {
-    if(storage.length >= expectedExidQuantity) {
-      return getFreeBackUpFilePathName(backupPath, backupFilePattern)
-        .then((backUpFileName) => {
-          const storagePart = storage.dropStorage(+restoreCount)
-          return fs.writeFile(backUpFileName, JSON.stringify(storagePart))
-        })
-    }
-  }, intervalTimer)
-
-  return workerInterval
-}
-
 module.exports = {
   getAvaliableBackUpFiles,
   getFilesWithSubDirs,
   getFreeBackUpFilePathName,
   tryToRestoreStorageFromBackups,
-  tryToRestorerunsStorageFromBackups,
-  enableAutoStoreStorageItems
+  tryToRestorerunsStorageFromBackups
 }

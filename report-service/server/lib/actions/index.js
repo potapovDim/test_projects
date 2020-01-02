@@ -4,6 +4,13 @@ const {getStaticHtml, getStaticScripts} = require('./static')
 const {addRunsStatistics, getRunsStatistics} = require('./run.statistics')
 const {dropCurrentStatistics, storeCurrentStatistics} = require('./common')
 
+async function getTechnicalInfo() {
+  return {
+    ADDAPTER,
+
+  }
+}
+
 module.exports = {
   addTestCase,
   getTestCases,

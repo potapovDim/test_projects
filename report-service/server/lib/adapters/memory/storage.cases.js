@@ -1,51 +1,27 @@
-const {Readable} = require('stream')
-const {tryParseJson} = require('../../utils')
+const testCasesStorage = []
 
-let testCasesStorage = Buffer.from([])
-
-async function _dropStorage() {
+function setToStorage(testCaseItem) {
+  // add item should be async
   return new Promise((res) => {
-    testCasesStorage = Buffer.from('')
-    res()
-  }).catch((e) => e)
+    res(testCasesStorage.push(testCaseItem))
+  })
 }
 
-async function addNewTestCase(testCaseData) {
-  try {
-    testCasesStorage = Buffer.concat(testCasesStorage, [testCaseData])
-    return {data: 'ok'}
-  } catch(error) {
-    // eslint-disable-next-line no-console
-    console.error(error)
-    return {error}
-  }
+function getStorageData({offset = 0, limit = testCasesStorage.length} = {}) {
+  return new Promise((res) => res([...testCasesStorage].slice(offset, limit)))
 }
 
-async function getTestCases() {
-  const readable = new Readable()
-  readable.push(testCasesStorage.toString('utf8'))
-  readable.push(null)
-  return readable
+function dropStorage(quantity = runstStorage.length) {
+  return new Promise((res) => res(runstStorage.splice(0, quantity)))
 }
 
-async function removeStorageItems(itemsCountToRemove) {
-  return new Promise((res) => {
-    const parsedStorage = tryParseJson(testCasesStorage.toString())
-    if(Array.isArray(parsedStorage)) {
-      const removedItems = parsedStorage.splice(0, itemsCountToRemove)
-      // setNewStorage
-      testCasesStorage = Buffer.from(JSON.stringify(parsedStorage))
-
-      res(removedItems)
-    } else {
-      res([])
-    }
-  }).catch((e) => e)
+function push(...items) {
+  return new Promise((res) => res(testCasesStorage.push(...items)))
 }
 
 module.exports = {
-  addNewTestCase,
-  getTestCases,
-  removeStorageItems,
-  _dropStorage
+  setToStorage,
+  getStorageData,
+  dropStorage,
+  push
 }

@@ -4,9 +4,12 @@ const {readFile, tryParseJson} = require('../../utils')
 const {
   getFreeBackUpFilePathName,
   getFilesWithSubDirs,
+
   tryToRestoreStorageFromBackups,
-  tryToRestorerunsStorageFromBackups
-} = require('./storage.restore')
+  tryToRestorerunsStorageFromBackups,
+
+} = require('./_storage.restore')
+const {enableAutoStoreStorageItems} = require('./storage.restore')
 
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
@@ -19,10 +22,55 @@ const {
 } = process.env
 
 
+
+
+// * new PART
+const testCasesStorageNew = require('./storage.cases')
+const runsStorageNew = require('./storage.runs')
+
+const restoreWorker = storagesBackUpsInterface()
+function storagesBackUpsInterface() {
+  let testCaseRestoreWatcher = null
+  let runstRestoreWatcher = null
+
+  function disableWatcher(watcherItem) {
+    if(watcherItem) {
+      clearInterval(watcherItem)
+    }
+  }
+
+  function enableResoreTestCases() {
+    testCaseRestoreWatcher = enableAutoStoreStorageItems(
+      testCasesStorageNew,
+      +EXPECTED_CASES_COUNT,
+      +RESTORE_CASES_COUNT,
+      BACKUP_PATH,
+      BACKUP_TEST_FILES_PATTERN
+    )
+  }
+
+  function enableResoreRuns() {
+    runstRestoreWatcher = enableAutoStoreStorageItems(
+      runsStorageNew,
+      +EXPECTED_RUNST_COUNT,
+      +RESTORE_RUNST_COUNT,
+      BACKUP_PATH,
+      BACKUP_RUNS_FILES_PATTERN
+    )
+  }
+
+  return {
+    enableResoreTestCases,
+    disableRestoreTestCases: () => disableWatcher(testCaseRestoreWatcher),
+    enableResoreRuns,
+    disableRestoreRuns: () => disableWatcher(runstRestoreWatcher)
+  }
+}
+
+
+
 const storage = []
 const runsStorage = []
-
-
 /**
  * @example description
  * try to restore data from FS
@@ -42,6 +90,7 @@ async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
 
   return backUpFileName
 }
+
 
 async function getAvaliableDateRangeForData() {
 
@@ -68,37 +117,6 @@ async function getAvaliableDateRangeForData() {
   return avaliableDataRange
 }
 
-/**
- * @example description
- * this interval is using for storing cases from memory
- * to storage backuk, for inMemory approach it is JSON files
- * in pre-defined directory, by default is /temp in root of the project
- *
- */
-setInterval(async function() {
-  // if cases more than 3500 - remove first 1000 and store them in file
-  if(storage.length >= +EXPECTED_CASES_COUNT) {
-    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
-    const storagePart = storage.splice(0, +RESTORE_CASES_COUNT)
-    await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
-      if(err) {
-        // eslint-disable-next-line no-console
-        console.log(err)
-      }
-    })
-  }
-
-  if(runsStorage.length >= +EXPECTED_RUNST_COUNT) {
-    const backUpFileName = await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
-    const storagePart = runsStorage.splice(0, +RESTORE_RUNST_COUNT)
-    await require('fs').writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
-      if(err) {
-        // eslint-disable-next-line no-console
-        console.log(err)
-      }
-    })
-  }
-}, 1500)
 
 /**
  *
@@ -112,19 +130,6 @@ setInterval(async function() {
  *  stack: 'Some stack trace'
  * }
  */
-function setToStorage(item) {
-  // add item should be async
-  return new Promise((res) => {
-    res(storage.push(item))
-  })
-}
-
-function setToRunsStorage(item) {
-  // add item should be async
-  return new Promise((res) => {
-    res(runsStorage.push(item))
-  })
-}
 
 /**
  * @returns {array} storage
@@ -138,13 +143,8 @@ function setToRunsStorage(item) {
  *   }
  * ]
  */
-function getStorageData(offset = 0, limit = storage.length) {
-  return new Promise((res) => res([...storage].slice(offset, limit)))
-}
+// TODO replaced to storage.cases.js
 
-function getStorageRunsData(offset = 0, limit = runsStorage.length) {
-  return new Promise((res) => res([...runsStorage].slice(offset, limit)))
-}
 /**
  * @returns countObject
  * @example countObject
@@ -157,11 +157,10 @@ function getStorageDataCount() {
 }
 
 function dropMemoryStatistics() {
-  return new Promise((res) => {
-    runsStorage.splice(0, runsStorage.length)
-    storage.splice(0, storage.length)
-    res(true)
-  })
+  return runsStorageNew
+    .dropStorage()
+    .then(testCasesStorageNew.dropStorage)
+    .catch(console.error)
 }
 
 function storeCurrentStatistics() {
@@ -192,8 +191,8 @@ function storeCurrentStatistics() {
 }
 
 module.exports = {
-  getStorageData,
-  setToStorage,
+  getStorageData: testCasesStorageNew.getStorageData,
+  setToStorage: testCasesStorageNew.setToStorage,
 
   getStorageDataCount,
   getAvaliableDateRangeForData,
@@ -201,8 +200,8 @@ module.exports = {
   getConfig,
   setConfig,
 
-  setToRunsStorage,
-  getStorageRunsData,
+  setToRunsStorage: runsStorageNew.setToStorage,
+  getStorageRunsData: runsStorageNew.getStorageData,
 
   dropMemoryStatistics,
   storeCurrentStatistics
