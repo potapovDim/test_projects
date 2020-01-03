@@ -10,18 +10,6 @@ import {dataFormatter} from '../utils'
 class FailedCasesList extends Component {
   state = {
     modalCases: [],
-    /**
-     * @example
-     * {
-     *  build: [
-     *    {
-     *      id: 'testcaseid',
-     *      stack: 'a',
-     *      date: 'bb'
-     *    }
-     *  ]
-     * }
-     */
     groupedCases: null
   }
 
@@ -38,9 +26,16 @@ class FailedCasesList extends Component {
   renderTestCaseList = (cases) => {
     return cases
       .filter(commonsUtils.filterFromUndefinedOrNull)
+      .sort((a, b) => b.date > a.date)
+      .filter((testCase, _, arr) => {
+        const sameCases = arr.filter((_testCase) => _testCase.id === testCase.id && testCase.date !== _testCase.date)
+        if(sameCases.length === 0) {return true}
+        return sameCases.every((_testCase) => testCase.date > _testCase.date)
+      })
       .map((testCase, index) =>
         <TestCase
-          key={index} {...testCase}
+          {...testCase}
+          key={index}
           title={"Test case history"}
           onClick={() => this.getTestCaseHistory(testCase)}
         />

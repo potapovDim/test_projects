@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Pie, Bar} from 'react-chartjs-2'
+import {Pie} from 'react-chartjs-2'
 import Modal from 'react-modal'
 import {TestCase} from '../components/test.case'
 import {Button} from '../components/button'

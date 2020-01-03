@@ -21,7 +21,6 @@ class RunStatistics extends Component {
   }
 
   renderStatisticsByBuild = (cases, runStatistics) => {
-
     cases = cases
       .filter(commonsUtils.filterFromUndefinedOrNull)
       .filter((testCase, index, casesArr) => casesArr.findIndex(({id}) => testCase.id === id) === index)
@@ -36,13 +35,21 @@ class RunStatistics extends Component {
       ...buildsStatistics
     } = dataFormatter.getRangeFailesByBuild(cases, runStatistics)
 
+    const isStatisticsAvaliable = !!allBuildsFails && !!totalExecutedCases
     return (
       <div className="runs_statistics">
         <div className="count">Runs count: {buildsCount}</div>
-        <div className="total">Total count of fails: {allBuildsFails}</div>
-        <div className="total_executed_cases">Total executed cases: {totalExecutedCases} </div>
-        <div className="fail_persentage">Average fail persentage is {Math.floor(allBuildsFails / (totalExecutedCases / 100))} %</div>
-        <div className="average_amount">Average amount of failed cases: {averageAmount}</div>
+        <div>
+          {
+            isStatisticsAvaliable &&
+            <div>
+              <div className="total">Total count of fails: {allBuildsFails}</div>
+              <div className="total_executed_cases">Total executed cases: {totalExecutedCases} </div>
+              <div className="fail_persentage">Average fail persentage is {Math.floor(allBuildsFails / (totalExecutedCases / 100))} %</div>
+              <div className="average_amount">Average amount of failed cases: {averageAmount}</div>
+            </div>
+          }
+        </div>
         {
           Object.keys(buildsStatistics)
             .map((runNumber, index) =>

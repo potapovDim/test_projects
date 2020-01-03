@@ -3,12 +3,13 @@ const path = require('path')
 const {getFilesWithSubDirs} = require('./storage.utils')
 const {readFile, tryParseJson} = require('../../utils')
 
-
+/*
 const {
   BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
-  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
   BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
+  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
 } = process.env
+*/
 
 /**
  *
@@ -37,12 +38,6 @@ async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
   return backUpFileName
 }
 
-
-async function tryToRestoreStorageFromBackups(storage) {
-  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
-  await restoreDataToStorage(storage, backUpFilesList)
-}
-
 async function restoreDataToStorage(storageArr, fileList) {
   if(fileList.length) {
     const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
@@ -55,19 +50,35 @@ async function restoreDataToStorage(storageArr, fileList) {
   }
 }
 
+/*
+async function tryToRestoreStorageFromBackups(storage) {
+  const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN)
+  await restoreDataToStorage(storage, backUpFilesList)
+}
+
 async function tryToRestorerunsStorageFromBackups(runsStorage) {
   const backUpFilesList = await getAvaliableBackUpFiles(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN)
   await restoreDataToStorage(runsStorage, backUpFilesList)
 }
+*/
 
 
-function enableAutoStoreStorageItems(storage, expectedExidQuantity, restoreCount, backupPath, backupFilePattern, intervalTimer = 1500) {
+function enableAutoStoreStorageItems(
+  {testCasesStorage /*, runsStorage */},
+  storage, expectedExidQuantity, restoreCount, backupPath, backupFilePattern, intervalTimer = 1500
+) {
   const workerInterval = setInterval(function() {
-    if(storage.length >= expectedExidQuantity) {
+    if(testCasesStorage.count() >= expectedExidQuantity) {
+
       return getFreeBackUpFilePathName(backupPath, backupFilePattern)
         .then((backUpFileName) => {
-          const storagePart = storage.dropStorage(+restoreCount)
-          return fs.writeFile(backUpFileName, JSON.stringify(storagePart))
+          return storage.dropStorage(+restoreCount).then((storagePart) => {
+
+            return fs.writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
+
+              if(err) throw err
+            })
+          })
         })
     }
   }, intervalTimer)
@@ -79,7 +90,8 @@ module.exports = {
   getAvaliableBackUpFiles,
   getFilesWithSubDirs,
   getFreeBackUpFilePathName,
-  tryToRestoreStorageFromBackups,
-  tryToRestorerunsStorageFromBackups,
-  enableAutoStoreStorageItems
+  // tryToRestoreStorageFromBackups,
+  // tryToRestorerunsStorageFromBackups,
+  enableAutoStoreStorageItems,
+  restoreDataToStorage
 }

@@ -2,11 +2,11 @@ import './styles/configuration.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import lStorage from '../utils/local.storage'
 import {updateReportConfig} from '../server-client/actions'
 import {updateConfig} from '../reducers/action.creators'
 import {Button} from '../components/button'
 import ReactJSON from 'react-json-view'
+import lStorage from '../utils/local.storage'
 
 const defaultConfig = {
   testCaseStructure: {},
@@ -16,9 +16,7 @@ const defaultConfig = {
 
 class ReportConfig extends Component {
 
-  state = {
-    // showExample: false
-  }
+  state = {}
 
   componentDidMount() {
     const existingConfig = lStorage.lsGet('config')
@@ -47,9 +45,6 @@ class ReportConfig extends Component {
   }
 
   render() {
-
-    const {showExample} = this.state
-
     let lStorageConfig = lStorage.lsGet('config')
 
     if(!lStorageConfig) {
@@ -59,25 +54,14 @@ class ReportConfig extends Component {
 
     return (
       <div className="configuration">
-        {/* <h3>Configuration </h3> */}
-        {/* <input placeholder="Reporter failed reasons" onChange={this.updateConfig}></input> */}
         <Button onClick={this.syncConfig} title={'Sync config'} />
-        {/* <Button onClick={this.showExample} title={'Show config example'} /> */}
-        {/* <h3>Backend service storage url</h3> */}
-        {/* <h3>Configuration</h3> */}
         <div className="configuration_editor">
           <ReactJSON src={lStorageConfig}
             onEdit={this.updateConfig}
             onDelete={this.updateConfig}
             onAdd={this.updateConfig}
           />
-          {
-            // showExample ?
-            // <div>Example</div> :
-          }
         </div>
-
-
       </div>
     )
   }

@@ -41,9 +41,9 @@ class Header extends Component {
 
       return (
         <InformationMessage
+          {...messageInfo}
           key={index}
           onClick={removeMessage}
-          {...messageInfo}
         />
       )
     })
@@ -55,9 +55,7 @@ class Header extends Component {
 
   getTestCaseByTime = (hours) => {
     const {dispatch, endDate} = this.props
-
     const dateRange = {startDate: Date.now() - (3600000 * hours), endDate}
-
     return getTestCases((casesFromBackend) => {
       const cases = casesFromBackend.filter(function({date}) {
         return dateRange.startDate <= date && date <= dateRange.endDate
@@ -90,15 +88,11 @@ class Header extends Component {
     return getTestCases((casesFromBackend) => {
 
       if(startDate <= dateObjNumber && dateObjNumber <= endDate) {
-
         dateRange[name] = dateObjNumber
-
         const cases = casesFromBackend.filter(function({date}) {
           return dateRange.startDate <= date && date <= dateRange.endDate
         })
-
         dispatch(updateCasesList(cases))
-
       } else {
         console.log('Date range is out of')
       }
@@ -107,7 +101,7 @@ class Header extends Component {
 
   render() {
     let {startDate, endDate, cases = []} = this.props
-    const {fromDateOpen, toDateOpen, autosync} = this.state
+    const {autosync} = this.state
 
     if(cases.length) {
       startDate = startDate ? startDate : cases[0].date

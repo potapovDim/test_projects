@@ -7,7 +7,7 @@ const getNumber = (n = 1000, from = 0) => Math.floor((Math.random() * (n - from)
 
 const getRandomTimeName = () => ['days', 'hours'][getNumber(2)]
 
-const generateEnv = () => `feature-TICKET-${getNumber(50)}`
+const generateEnv = () => `feature-TICKET-${getNumber(255)}`
 const getDate = () => +moment().subtract(getNumber(3), getRandomTimeName())
 
 const cases = Array(3000).fill('_').map(() => ({
@@ -18,7 +18,7 @@ const cases = Array(3000).fill('_').map(() => ({
   `).toString(),
   env: generateEnv(),
   date: getDate(),
-  run: getNumber(40)
+  run: getNumber(255)
 }))
 
 
