@@ -47,6 +47,16 @@ class StatisticsFlakyCases extends Component {
 
     return {
       labels,
+      options: {
+        scales: {
+          xAxes: [{
+            stacked: true
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
+      },
       datasets: [
         {
           label: 'Flaky cases',
@@ -85,7 +95,7 @@ class StatisticsFlakyCases extends Component {
         </Modal>
         <div>
           <HorizontalBar
-            height={dataBar.labels.length * 2}
+            height={dataBar.labels.length * 4}
             data={dataBar}
             getElementAtEvent={this.handleClickBar}
           />

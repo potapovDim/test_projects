@@ -20,12 +20,13 @@ class RunStatistics extends Component {
     )
   }
 
-  renderStatisticsByBuild = (cases, runStatistics) => {
-    cases = cases
-      .filter(commonsUtils.filterFromUndefinedOrNull)
-      .filter((testCase, index, casesArr) => casesArr.findIndex(({id}) => testCase.id === id) === index)
+  renderStatisticsByBuild = (testCases, runStatistics) => {
 
+    testCases = testCases.filter(commonsUtils.filterFromUndefinedOrNull)
     runStatistics = runStatistics.filter(commonsUtils.filterFromUndefinedOrNull)
+
+    console.log(JSON.stringify(dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics)))
+
 
     const {
       buildsCount,
@@ -33,7 +34,7 @@ class RunStatistics extends Component {
       averageAmount,
       totalExecutedCases,
       ...buildsStatistics
-    } = dataFormatter.getRangeFailesByBuild(cases, runStatistics)
+    } = dataFormatter.getRangeFailesByBuild(testCases, runStatistics)
 
     const isStatisticsAvaliable = !!allBuildsFails && !!totalExecutedCases
     return (
