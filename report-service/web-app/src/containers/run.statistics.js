@@ -25,7 +25,8 @@ class RunStatistics extends Component {
     testCases = testCases.filter(commonsUtils.filterFromUndefinedOrNull)
     runStatistics = runStatistics.filter(commonsUtils.filterFromUndefinedOrNull)
 
-    console.log(JSON.stringify(dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics)))
+    // TODO implement new dataFormatter
+    console.log(dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics))
 
 
     const {

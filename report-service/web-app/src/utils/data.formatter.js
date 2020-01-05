@@ -32,65 +32,84 @@ function getFailReasons(failedReasons = {}, testCases = []) {
 }
 
 function mostFlakyCases(testCases) {
-  return testCases.map(function({id}) {
-    return id
-  }).reduce(function(acc, caseId) {
-    if(acc[caseId] === undefined) {
-      acc[caseId] = 1
-    } else {
-      acc[caseId]++
-    }
+  return testCases.reduce(function(acc, {id}) {
+    acc[id] === undefined ? (acc[id] = 1) : (acc[id]++)
     return acc
   }, {})
 }
 
 
 function getRangeFailedByBuildNew(testCases, runs) {
-  return testCases
-    .sort((a, b) => b.date - a.date)
-    .reduce((acc, testCase, _, originalArr) => {
-      console.log(originalArr.length)
-      // in case if acc has test case we expecte that test case was added from next operation
-      if(acc.some(({id}) => testCase.id === id)) {
-        // console.log('case is in storage', acc.find(({id}) => testCase.id === id))
-        return acc
-      }
-      // test case history
-      const historyCases = originalArr.filter(({date, id, run}) =>
-        testCase.date !== date && testCase.id === id && run === testCase.run
-      )
-      // add test case history to initial object item
-      if(historyCases.length) {
-        testCase = {...testCase, historyCases}
-      }
-      // add new test case
-      acc.push(testCase)
-      console.log('new case added', testCase, acc.length)
-      return acc
-    }, [])
-    .reduce((acc, testCase) => {
-      const {run} = testCase
-      if(acc[run]) {
-        acc[run].cases.push(testCase)
-      } else {
-        acc[run] = {cases: [testCase]}
-        const runInfo = runs.find((item) => item.run == run)
-        if(!runInfo) {
-          /**
-           * publish info to pubsub for error message generation
-           */
-          acc[run].buildExecutedCases = 0
-        } else {
-          acc[run].buildExecutedCases = runInfo.count
-          acc[run].runStatus = runInfo.runStatus
+  return runs.reduce((acc, runInfo) => {
+    const testCasesRun = testCases
+      .filter((_testCase) => _testCase.run === runInfo.run)
+      .sort((a, b) => b.date - a.date)
+      .reduce((_acc, __testCase, _, testCasesArrFiltered) => {
+        console.log(_acc.some)
+        if(_acc.some(({id}) => id === __testCase.id)) {
+          return _acc
         }
+
+        const historyCases = testCasesArrFiltered.filter(
+          ({date, id}) => __testCase.date >= date && __testCase.id === id)
+
+        if(historyCases.length) {
+          _acc.push({...__testCase, historyCases})
+        }
+        return _acc
+      }, [])
+
+    acc[runInfo.run] = {cases: testCasesRun}
+
+    return acc
+  }, {})
+
+
+  // return testCases
+  //   .sort((a, b) => b.date - a.date)
+  //   .reduce((acc, testCase, _, originalArr) => {
+  //     // in case if acc has test case we expecte that test case was added from next operation
+
+  //     if(acc.some(({id, run}) => testCase.id === id && testCase.run === run)) {
+  //       return acc
+  //     }
+
+  //     // console.log(originalArr.length)
+  //     // test case history
+  //     const historyCasesInRun = originalArr.filter(({date, id, run}) =>
+  //       testCase.date >= date && testCase.id === id && run === testCase.run
+  //     )
+  //     // console.log(historyCases.length)
+  //     // add test case history to initial object item
+  //     if(historyCases.length) {
+  //       // console.log(historyCases)
+  //       testCase = {...testCase, historyCases}
+  //     }
+  //     // add new test case
+  //     acc.push(testCase)
+
+  //     return acc
+  //   }, [], runs)
+
+
+  /*.reduce((acc, testCase) => {
+    const {run} = testCase
+    if(acc[run]) {
+      acc[run].cases.push(testCase)
+    } else {
+      acc[run] = {cases: [testCase]}
+      const runInfo = runs.find((item) => item.run == run)
+      if(!runInfo) {
+        acc[run].buildExecutedCases = 0
+      } else {
+        acc[run].buildExecutedCases = runInfo.count
+        acc[run].runStatus = runInfo.runStatus
       }
-      return acc
-    }, {})
+    }
+    return acc
+  }, {})
+  */
 }
-
-
-
 
 function getRangeFailesByBuild(testCases, runStats = []) {
   const items = testCases.reduce(function(acc, testCase) {
@@ -162,11 +181,6 @@ function getRangeFailesByBuild(testCases, runStats = []) {
     return acc
   }, {})
 }
-
-
-
-
-
 
 function getGroupedByCases(propName, testCases) {
   return testCases

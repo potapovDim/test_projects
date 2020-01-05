@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getTestCases} from '../server-client/actions'
 import {updateCasesList} from '../reducers/action.creators'
-import {InformationMessage, Button, ReporterCalendar} from '../components'
+import {InformationMessage, Button} from '../components'
 import {dataFormatter} from '../utils'
 import {DropList} from '../components/drop.list'
 
@@ -35,9 +35,6 @@ class Header extends Component {
         newState.messages.splice(index, 1)
         this.setState({...newState})
       }
-
-      // automremoving error message
-      setTimeout(removeMessage, 1000 * (index + 1))
 
       return (
         <InformationMessage

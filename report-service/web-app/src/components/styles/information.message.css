@@ -5,12 +5,47 @@
   margin: 10px;
 }
 
+/* The alert message box */
+
+.alert {
+  padding-left: 30px;
+  position: absolute;
+  width: 80%;
+  z-index: 99999999;
+  margin: 10px;
+  padding: 20px;
+  margin-left: 10%;
+  border-radius: 10px;
+  background-color: #f44336;
+  /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* The close button */
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+
+.closebtn:hover {
+  color: black;
+}
+
 .information_message .message {
   border: 1px solid;
   border-radius: 5px;
   display: flex;
   margin: 10px 0px;
-
   margin-left: 10%;
   padding: 15px 10px 15px 50px;
   background-repeat: no-repeat;
@@ -25,14 +60,14 @@
   margin-left: 80%;
 }
 
-.information_message > .warning {
+.information_message>.warning {
   background: rgba(255, 255, 0, 1);
 }
 
-.information_message > .info {
+.information_message>.info {
   background: rgba(30, 139, 195, 1);
 }
 
-.information_message > .error {
+.information_message>.error {
   background: rgba(255, 0, 0, 1);
 }

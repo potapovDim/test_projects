@@ -1,7 +1,7 @@
 const {AssertionError} = require('chai')
 const moment = require('moment')
 const {ReportServiceClient} = require('./index')
-const client = new ReportServiceClient('http://0.0.0.0:3000')
+const client = new ReportServiceClient('http://localhost:3000')
 
 const getNumber = (n = 1000, from = 0) => Math.floor((Math.random() * (n - from) + from))
 
@@ -47,6 +47,8 @@ const config = {
   ]
 }
 
+client.setReportConfig({config})
+
 addTestCases()
 async function addTestCases() {
   for(const testCase of cases) {
@@ -61,5 +63,4 @@ async function addRuns() {
   for(const run of runst) {
     await client.addRunStatistics({data: run})
   }
-  await client.setReportConfig({config})
 }
