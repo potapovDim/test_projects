@@ -17,15 +17,21 @@ import classnames from 'classnames'
  * @returns {body: object<{isAutoApproveUploads: boolean}>}
  */
 class TestCase extends Component {
+
   state = {
     isOpened: false
+  }
+
+  componentDidMount() {
+    const {isOpened = false} = this.props
+    this.setState({isOpened})
   }
 
   toggleTestCaseInfo = () => this.setState({isOpened: !this.state.isOpened})
 
   render() {
     const {isOpened} = this.state
-    const {onClick, ...rest} = this.props
+    const {onClick, onOpen, ...rest} = this.props
 
     const {
       id,
@@ -37,22 +43,21 @@ class TestCase extends Component {
       title = 'Action button',
       className = ''
     } = rest
-
+    console.log(rest)
     const classNames = classnames('test_case', className)
 
     return (
       <div className={classNames}>
-        <div className="test_case_id" onClick={() => this.toggleTestCaseInfo()}>Test case id: {id}</div>
+        <div className="test_case_id" onClick={() => onOpen ? onOpen(rest) : this.toggleTestCaseInfo()}>Test case id: {id}</div>
         {isOpened &&
-          (
-            <div className='test_case_body'>
-              {onClick && <Button title={title} onClick={() => onClick(rest)} />}
-              <div> <span>Execution date   </span> {dateFormatter.fromNumberToMDY(date)}          </div>
-              <div> <span>Run number     </span> {run}                          </div>
-              <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>
-              {env && <div><span>Environment</span> {env}                           </div>}
-            </div>
-          )}
+          <div className='test_case_body'>
+            {onClick && <Button title={title} onClick={() => onClick(rest)} />}
+            <div> <span>Execution date   </span> {dateFormatter.fromNumberToMDY(date)}          </div>
+            <div> <span>Run number     </span> {run}                          </div>
+            <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>
+            {env && <div><span>Environment</span> {env}                           </div>}
+          </div>
+        }
       </div>
     )
   }

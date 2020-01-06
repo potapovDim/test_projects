@@ -1,19 +1,14 @@
 import './styles/statistics.flaky.cases.css'
 
 import React, {Component} from 'react'
+import pubsub from 'pubsub-js'
 import {connect} from 'react-redux'
 import {HorizontalBar} from 'react-chartjs-2'
-import Modal from 'react-modal'
-import {TestCase} from '../components/test.case'
-import {Button} from '../components/button'
 import {dataFormatter} from '../utils'
 import {colorsUtils} from '../utils'
 
 
 class StatisticsFlakyCases extends Component {
-  state = {
-    modalCases: []
-  }
 
   getFailedReasonsPie = () => {
     const {
@@ -75,31 +70,20 @@ class StatisticsFlakyCases extends Component {
     const {cases} = this.props
     if(data.length) {
       const [{_model: {label}}] = data
-      this.setState({modalCases: cases.filter(({id}) => id === label)})
+      pubsub.publish('modal_view', {cases: cases.filter(({id}) => id === label)})
     }
   }
 
-  askToClose = () => {
-    this.setState({modalCases: []})
-  }
-
   render() {
-    const {modalCases} = this.state
     const dataBar = this.getFailedCases()
 
     return (
       <div className="statistics-flaky-cases">
-        <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-          <Button onClick={this.askToClose} title={'Close'} />
-          {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
-        </Modal>
-        <div>
-          <HorizontalBar
-            height={dataBar.labels.length * 4}
-            data={dataBar}
-            getElementAtEvent={this.handleClickBar}
-          />
-        </div>
+        <HorizontalBar
+          height={dataBar.labels.length * 4}
+          data={dataBar}
+          getElementAtEvent={this.handleClickBar}
+        />
       </div>
     )
   }

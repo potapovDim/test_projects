@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
+import pubsub from 'pubsub-js'
 import {connect} from 'react-redux'
 import {Pie} from 'react-chartjs-2'
-import Modal from 'react-modal'
-import {TestCase} from '../components/test.case'
-import {Button} from '../components/button'
 import {dataFormatter} from '../utils'
 import {colorsUtils} from '../utils'
 
@@ -35,7 +33,7 @@ class StatisticsFailedReasons extends Component {
   handleClickPie = (data) => {
     if(data.length) {
       const [{_model: {label}}] = data
-      this.setState({modalCases: failedReasonsStructureScope[label]})
+      pubsub.publish('modal_view', {cases: failedReasonsStructureScope[label]})
     }
   }
 
@@ -44,23 +42,15 @@ class StatisticsFailedReasons extends Component {
   }
 
   render() {
-    const {modalCases} = this.state
     const dataPie = this.getFailedReasonsPie()
-
     return (
       <div>
-        <Modal isOpen={!!modalCases.length} ariaHideApp={false}>
-          <Button onClick={this.askToClose} title={'Close'} />
-          {modalCases.map((testCase, index) => <TestCase key={index} {...testCase} />)}
-        </Modal>
-        <div>
-          <Pie
-            width={50}
-            height={20}
-            data={dataPie}
-            getElementAtEvent={this.handleClickPie}
-          />
-        </div>
+        <Pie
+          width={50}
+          height={20}
+          data={dataPie}
+          getElementAtEvent={this.handleClickPie}
+        />
       </div>
     )
   }

@@ -3,12 +3,17 @@
 }
 
 .test_case {
-  border: solid;
-  border-color: rgba(44, 130, 201, 0.3);
-  border-radius: 3px;
+  /* border: solid; */
+  /* border-color: rgba(44, 130, 201, 0.3); */
+  /* border-radius: 3px; */
+}
+
+.cases_list {
+  width: 50%;
 }
 
 .small_case {
-  font-weight: lighter;
-  border: dotted;
+  /* font-weight: lighter; */
+  /* border: dotted; */
+  /* width: 30%; */
 }

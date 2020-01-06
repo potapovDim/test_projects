@@ -1,8 +1,8 @@
 import './styles/test.cases.list.css'
 
 import React, {Component} from 'react'
+import pubsub from 'pubsub-js'
 import {connect} from 'react-redux'
-import {TestCasesModal} from '../components/test.cases.modal'
 import {TestCase} from '../components/test.case'
 import {commonsUtils} from '../utils'
 import {dataFormatter} from '../utils'
@@ -15,12 +15,13 @@ class FailedCasesList extends Component {
 
   getTestCaseHistory = (currentTestCase) => {
     const {cases = [], config: {historyBy = 'id'} = {}} = this.props
+    console.log('!')
 
-    const modalCases = cases
-      .filter(commonsUtils.filterFromUndefinedOrNull)
-      .filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
+    pubsub.publish('modal_view', {
+      cases: cases.filter(commonsUtils.filterFromUndefinedOrNull)
+        .filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
+    })
 
-    this.setState({modalCases})
   }
 
   renderTestCaseList = (cases) => {
@@ -82,10 +83,9 @@ class FailedCasesList extends Component {
 
   render() {
     const {cases = [], config} = this.props
-    const {modalCases, groupedCases} = this.state
+    const {groupedCases} = this.state
     return (
       <div>
-        <TestCasesModal cases={modalCases} askToClose={this.askToClose} config={config} />
         {
           cases.length && (
             <div>

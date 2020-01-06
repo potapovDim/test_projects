@@ -38,77 +38,36 @@ function mostFlakyCases(testCases) {
   }, {})
 }
 
-
 function getRangeFailedByBuildNew(testCases, runs) {
-  return runs.reduce((acc, runInfo) => {
-    const testCasesRun = testCases
-      .filter((_testCase) => _testCase.run === runInfo.run)
+  const info = runs.reduce((acc, runVal) => {
+    const testCasesForRequiredRun = testCases
+      .filter(({run}) => run === runVal.run)
       .sort((a, b) => b.date - a.date)
-      .reduce((_acc, __testCase, _, testCasesArrFiltered) => {
-        console.log(_acc.some)
-        if(_acc.some(({id}) => id === __testCase.id)) {
-          return _acc
-        }
 
-        const historyCases = testCasesArrFiltered.filter(
-          ({date, id}) => __testCase.date >= date && __testCase.id === id)
-
-        if(historyCases.length) {
-          _acc.push({...__testCase, historyCases})
-        }
+    const cases = testCasesForRequiredRun.reduce((_acc, item, _, arr) => {
+      if(_acc.some(({id}) => id === item.id)) {
         return _acc
-      }, [])
-
-    acc[runInfo.run] = {cases: testCasesRun}
-
-    return acc
-  }, {})
-
-
-  // return testCases
-  //   .sort((a, b) => b.date - a.date)
-  //   .reduce((acc, testCase, _, originalArr) => {
-  //     // in case if acc has test case we expecte that test case was added from next operation
-
-  //     if(acc.some(({id, run}) => testCase.id === id && testCase.run === run)) {
-  //       return acc
-  //     }
-
-  //     // console.log(originalArr.length)
-  //     // test case history
-  //     const historyCasesInRun = originalArr.filter(({date, id, run}) =>
-  //       testCase.date >= date && testCase.id === id && run === testCase.run
-  //     )
-  //     // console.log(historyCases.length)
-  //     // add test case history to initial object item
-  //     if(historyCases.length) {
-  //       // console.log(historyCases)
-  //       testCase = {...testCase, historyCases}
-  //     }
-  //     // add new test case
-  //     acc.push(testCase)
-
-  //     return acc
-  //   }, [], runs)
-
-
-  /*.reduce((acc, testCase) => {
-    const {run} = testCase
-    if(acc[run]) {
-      acc[run].cases.push(testCase)
-    } else {
-      acc[run] = {cases: [testCase]}
-      const runInfo = runs.find((item) => item.run == run)
-      if(!runInfo) {
-        acc[run].buildExecutedCases = 0
-      } else {
-        acc[run].buildExecutedCases = runInfo.count
-        acc[run].runStatus = runInfo.runStatus
       }
-    }
+      const historyCases = arr.filter(
+        ({id, stackTrace}) => item.id === id && item.stackTrace !== stackTrace
+      )
+
+      _acc.push({...item, historyCases})
+
+      return _acc
+    }, [])
+
+    acc[runVal.run] = {cases, ...runVal}
+
     return acc
   }, {})
-  */
+
+  info.allBuildsFails = Object.keys(info).reduce((acc, k) => {acc += info[k].cases.length; return acc}, 0)
+  info.totalExecutedCases = runs.reduce((acc, {count}) => {acc += count; return acc}, 0)
+  info.buildsCount = runs.length
+  info.averageAmount = (info.allBuildsFails / info.buildsCount).toFixed(2)
+
+  return info
 }
 
 function getRangeFailesByBuild(testCases, runStats = []) {

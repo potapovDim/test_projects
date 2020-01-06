@@ -26,16 +26,13 @@ class RunStatistics extends Component {
     runStatistics = runStatistics.filter(commonsUtils.filterFromUndefinedOrNull)
 
     // TODO implement new dataFormatter
-    console.log(dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics))
-
-
     const {
       buildsCount,
       allBuildsFails,
       averageAmount,
       totalExecutedCases,
       ...buildsStatistics
-    } = dataFormatter.getRangeFailesByBuild(testCases, runStatistics)
+    } = dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics)
 
     const isStatisticsAvaliable = !!allBuildsFails && !!totalExecutedCases
     return (
@@ -47,7 +44,7 @@ class RunStatistics extends Component {
             <div>
               <div className="total">Total count of fails: {allBuildsFails}</div>
               <div className="total_executed_cases">Total executed cases: {totalExecutedCases} </div>
-              <div className="fail_persentage">Average fail persentage is {Math.floor(allBuildsFails / (totalExecutedCases / 100))} %</div>
+              <div className="fail_persentage">Average fail persentage is {(allBuildsFails / (totalExecutedCases / 100)).toFixed(2)} %</div>
               <div className="average_amount">Average amount of failed cases: {averageAmount}</div>
             </div>
           }
@@ -56,11 +53,9 @@ class RunStatistics extends Component {
           Object.keys(buildsStatistics)
             .map((runNumber, index) =>
               <BuildItem
+                {...buildsStatistics[runNumber]}
                 key={index}
-                runNumber={runNumber}
-                buildExecutedCases={buildsStatistics[runNumber].buildExecutedCases}
-                cases={buildsStatistics[runNumber].cases}
-                isSuccess={this.getBuildResult(buildsStatistics[runNumber].runStatus)}
+                isSuccess={this.getBuildResult}
               />
             )
         }

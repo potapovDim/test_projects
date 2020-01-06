@@ -8,3 +8,15 @@
 .build_item.warning {
   color: gray;
 }
+
+.build_content {
+  display: flex;
+}
+
+.cases_list {
+  width: 100%;
+}
+
+.case_content {
+
+}
