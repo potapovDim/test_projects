@@ -11,13 +11,9 @@ import {colorsUtils} from '../utils'
 class StatisticsFlakyCases extends Component {
 
   getFailedReasonsPie = () => {
-    const {
-      config = {failedReasons: []},
-      cases = []
-    } = this.props
+    const {config = {failedReasons: []}, cases = []} = this.props
 
     const failedReasonsStructure = dataFormatter.getFailReasons(config.failedReasons, cases)
-    failedReasonsStructureScope = failedReasonsStructure
     const labels = Object.keys(failedReasonsStructure)
 
     return {
@@ -76,7 +72,6 @@ class StatisticsFlakyCases extends Component {
 
   render() {
     const dataBar = this.getFailedCases()
-
     return (
       <div className="statistics-flaky-cases">
         <HorizontalBar

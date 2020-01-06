@@ -14,8 +14,8 @@ const {
 const testCasesStorage = require('./storage.cases')
 const runsStorage = require('./storage.runs')
 // TODO temp solution
-// const restoreWorker = storagesBackUpsInterface()
-// restoreWorker.enableResore()
+const restoreWorker = storagesBackUpsInterface()
+restoreWorker.enableResore()
 
 function storagesBackUpsInterface() {
   let restoreWorker = null

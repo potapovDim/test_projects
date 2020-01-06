@@ -24,14 +24,13 @@ body {
 
 .report-service-header {
   position: relative;
-  /* height: 10vh; */
 }
 
 .report-service-content {
   margin: 4px, 4px;
   padding: 4px;
   width: 100%;
-  height: 90vh;
+  height: 93vh;
   overflow-x: hidden;
   overflow-x: auto;
   text-align: justify;

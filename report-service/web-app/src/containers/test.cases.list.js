@@ -15,11 +15,13 @@ class FailedCasesList extends Component {
 
   getTestCaseHistory = (currentTestCase) => {
     const {cases = [], config: {historyBy = 'id'} = {}} = this.props
-    console.log('!')
 
     pubsub.publish('modal_view', {
+      ...this.props,
+      pie: true,
       cases: cases.filter(commonsUtils.filterFromUndefinedOrNull)
-        .filter((testCase) => testCase[historyBy] === currentTestCase[historyBy])
+        .filter((testCase) => testCase[historyBy] === currentTestCase[historyBy]),
+
     })
 
   }

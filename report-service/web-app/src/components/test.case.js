@@ -51,7 +51,7 @@ class TestCase extends Component {
         <div className="test_case_id" onClick={() => onOpen ? onOpen(rest) : this.toggleTestCaseInfo()}>Test case id: {id}</div>
         {isOpened &&
           <div className='test_case_body'>
-            {onClick && <Button title={title} onClick={() => onClick(rest)} />}
+            {onClick && <Button title={title} onClick={() => onClick(rest)} className="regular_blue" />}
             <div> <span>Execution date   </span> {dateFormatter.fromNumberToMDY(date)}          </div>
             <div> <span>Run number     </span> {run}                          </div>
             <div> <span>Stack trace      </span> {stackTrace ? stackTrace : stack}</div>
