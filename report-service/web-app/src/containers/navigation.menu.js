@@ -9,6 +9,7 @@ class NavigationMenu extends Component {
   renderMenu = () => {
     const currentView = locationStorage.getLocationHash()
     const {toggleContent, navidationButtons} = this.props
+
     return navidationButtons.map((toggler, index) =>
       <Button
         key={index}

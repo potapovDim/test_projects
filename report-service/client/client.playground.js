@@ -33,6 +33,7 @@ const runs = cases
 
 
 const config = {
+  isSuccess: 0,
   failedReasons: [
     'EXPECTATION NUMBER :6',
     'EXPECTATION NUMBER :0',

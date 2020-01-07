@@ -43,7 +43,7 @@ class TestCase extends Component {
       title = 'Action button',
       className = ''
     } = rest
-    console.log(rest)
+
     const classNames = classnames('test_case', className)
 
     return (

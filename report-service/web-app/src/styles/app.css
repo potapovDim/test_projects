@@ -31,7 +31,38 @@ body {
   padding: 4px;
   width: 100%;
   height: 93vh;
-  overflow-x: hidden;
   overflow-x: auto;
   text-align: justify;
+}
+
+.lol {
+  display: flex;
+}
+
+div.ex1 {
+  background-color: lightblue;
+  height: 40px;
+  width: 200px;
+  overflow-y: scroll;
+}
+
+div.ex2 {
+  background-color: lightblue;
+  height: 40px;
+  width: 200px;
+  overflow-y: hidden;
+}
+
+div.ex3 {
+  background-color: lightblue;
+  height: 40px;
+  width: 200px;
+  overflow-y: auto;
+}
+
+div.ex4 {
+  background-color: lightblue;
+  height: 40px;
+  width: 200px;
+  overflow-y: visible;
 }

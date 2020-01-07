@@ -51,6 +51,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -58,7 +62,7 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.css$|.scss$/,
         use: [
           // Creates `style` nodes from JS strings
           'style-loader',

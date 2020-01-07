@@ -1,9 +1,16 @@
 const {resolve} = require('path')
 const {readFile, tryParseJson} = require('../../utils')
 const {getAvaliableBackUpFiles, restoreDataToStorage} = require('./storage.restore')
-const {BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json'} = process.env
+const {
+  BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json', DEMO
+} = process.env
 
 const runstStorage = []
+
+if(DEMO) {
+  const runs = require('../../../demo/runs.json')
+  runstStorage.push(...runs)
+}
 
 /**
  *

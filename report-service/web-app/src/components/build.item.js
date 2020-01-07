@@ -1,6 +1,8 @@
 import './styles/build.item.css'
 
 import React, {Component} from 'react'
+import pubsub from 'pubsub-js'
+import {ArrowDown, ArrowUp} from '../icons'
 import {Dot} from './dot'
 import {TestCase} from './test.case'
 import classnames from 'classnames'
@@ -9,6 +11,12 @@ class BuildItem extends Component {
   state = {
     isOpened: false,
     caseInfo: null
+  }
+
+  openCaseHistory = (data) => {
+    if(data.historyCases.length) {
+      pubsub.publish('modal_view', {cases: data.historyCases})
+    }
   }
 
   toggleBuilInfo = () => this.setState({isOpened: !this.state.isOpened})
@@ -23,42 +31,60 @@ class BuildItem extends Component {
     }
   }
 
-  render() {
-    const {isOpened, caseInfo} = this.state
-    const {run, count, cases, isSuccess, runStatus, ...rest} = this.props
+  renderTestCaseInfo = () => {
+    const {caseInfo} = this.state
 
+    if(caseInfo) {
+      return (<TestCase
+        {...caseInfo}
+        isOpened={true}
+        onClick={caseInfo.historyCases.length ? this.openCaseHistory : undefined}
+        title={'Test case history'}
+      />)
+    }
+  }
+
+  renderTestCasesList = () => {
+    const {cases} = this.props
+
+    return cases.map((testCase, index) => <TestCase
+      {...testCase}
+      onOpen={this.openTestCaseInfo}
+      key={index}
+      className={'small_case'}
+    />)
+  }
+
+  renderDescriptor = () => {
+    const {isOpened} = this.state
+    return isOpened ? <ArrowUp size={25} /> : <ArrowDown size={25} />
+  }
+
+  render() {
+    const {isOpened} = this.state
+    const {run, count, cases, isSuccess, runStatus} = this.props
     const classNames = classnames('build_item', !count ? 'warning' : '')
 
-    console.log(caseInfo)
     return (
       <div className={classNames}>
-        <div onClick={this.toggleBuilInfo}>Run number: {run} Failes tests quantity is: {cases.length}  {this.renderDots(cases)}  </div>
+        <div onClick={this.toggleBuilInfo}>
+          {this.renderDescriptor()} Run number: {run} Failed tests quantity is: {cases.length}  {this.renderDots(cases)}
+        </div>
+
         {isOpened &&
           <div>
             <div>Run status is: {isSuccess(runStatus) ? 'success' : 'fail'}</div>
-            {!count && (
-              <h3>WARNING: this build does not have enough information, builds results will not take part in common statistics</h3>
-            )}
-            {!!count && (
+            {!count && <h3>WARNING: this build does not have enough information, builds results will not take part in common statistics</h3>}
+            {!!count &&
               <div>
                 <div>Executed cases in build: {count}</div>
                 <div>Failed persentage is: {Math.floor(cases.length / (count / 100))} %</div>
               </div>
-            )}
-
+            }
             <div>Failed cases in build cases is: {cases.length}</div>
             <div className="build_content">
-              <div className="cases_list">
-                {
-                  cases.map((testCase, index) => <TestCase
-                    {...testCase}
-                    onOpen={this.openTestCaseInfo}
-                    key={index}
-                    className={'small_case'}
-                  />)
-                }
-              </div>
-              <div className="case_content">{!!caseInfo && <TestCase {...caseInfo} isOpened={true} />}</div>
+              <div className="cases_list">{this.renderTestCasesList()}</div>
+              <div className="case_content">{this.renderTestCaseInfo()}</div>
             </div>
           </div>
         }

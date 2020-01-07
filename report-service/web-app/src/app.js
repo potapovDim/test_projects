@@ -52,9 +52,7 @@ class App extends Component {
 
     return (
       <div className="report-service-app">
-
         <ModalWrapper {...modalData} askToClose={() => this.setState({...this.state, modalData: null})} />
-
         <div className="report-service-header">
           <Header />
         </div>

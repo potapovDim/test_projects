@@ -4,3 +4,6 @@ playground.*
 *backup.json
 temp/*
 !temp/.temp
+.metals
+project
+target

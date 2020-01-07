@@ -1,9 +1,16 @@
 const {resolve} = require('path')
 const {readFile, tryParseJson} = require('../../utils')
 const {getAvaliableBackUpFiles, restoreDataToStorage} = require('./storage.restore')
-const {BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_TEST_FILES_PATTERN = 'tests_backup.json'} = process.env
+const {
+  BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_TEST_FILES_PATTERN = 'tests_backup.json', DEMO
+} = process.env
 
 const testCasesStorage = []
+
+if(DEMO) {
+  const cases = require('../../../demo/tests.json')
+  testCasesStorage.push(...cases)
+}
 
 async function setToStorage(testCaseItem) {
   return new Promise((res) => res(testCasesStorage.push(testCaseItem)))
