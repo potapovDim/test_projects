@@ -61,8 +61,8 @@ async function _getStorageContentLength() {
   return new Promise((res) => setTimeout(() => res(JSON.stringify(testCasesStorage).length)))
 }
 
-async function tryToStoreCases() {
-  if(EXPECTED_CASES_COUNT > await count()) {
+async function tryToStore() {
+  if(EXPECTED_CASES_COUNT < await count()) {
     const toBuilds = testCasesStorage
       .sort((a, b) => b.date - a.date)
       .reduce((acc, testCase) => {
@@ -76,20 +76,17 @@ async function tryToStoreCases() {
 
     // firstItem
     const runNames = Object.keys(toBuilds)
-    const runWhatShouldBeStored = toBuilds[runNames[0]]
-
-    const casesFromStoreRun = toBuilds[runWhatShouldBeStored]
+    const casesFromStoreRun = toBuilds[runNames[0]]
     // write file to disk
     await writeFile(await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN), casesFromStoreRun)
     // remove all items from torage
     await dropStorage()
     // set new items scope to storage
-
     await push(
-      runNames
+      ...runNames
         .filter((_, index) => index !== 0)
         .reduce((acc, k) => {
-          acc.push(toBuilds[k])
+          acc.push(...toBuilds[k])
           return acc
         }, [])
     )
@@ -107,5 +104,5 @@ module.exports = {
   push,
   count,
   _getStorageContentLength,
-  tryToStoreCases
+  tryToStore
 }

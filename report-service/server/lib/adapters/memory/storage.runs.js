@@ -1,6 +1,6 @@
 const {resolve} = require('path')
-const {readFile, tryParseJson} = require('../../utils')
-const {getAvaliableBackUpFiles, restoreDataToStorage} = require('./storage.restore')
+const {readFile, tryParseJson, writeFile} = require('../../utils')
+const {getAvaliableBackUpFiles, restoreDataToStorage, getFreeBackUpFilePathName} = require('./storage.restore')
 const {
   BACKUP_PATH = resolve(__dirname, '../../../temp'),
   BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
@@ -60,7 +60,22 @@ async function count() {
   return new Promise((res) => setTimeout(() => res(runstStorage.length)))
 }
 
+async function tryToStore(runWhatWhatShouldBeStored) {
+  // temp solution for storage blocker, should not start in case if error
+  if(!runWhatWhatShouldBeStored) {
+    return
+  }
+  const runDataWhatShouldBeStored = runstStorage.find(({run}) => run === runWhatWhatShouldBeStored)
+  const runsWithoutStored = runstStorage.filter(({run}) => run !== runWhatWhatShouldBeStored)
 
+  await dropStorage()
+  await push(...runsWithoutStored)
+  if(runDataWhatShouldBeStored) {
+    await writeFile(
+      await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_RUNS_FILES_PATTERN), [runDataWhatShouldBeStored]
+    )
+  }
+}
 
 module.exports = {
   tryToRestore,
@@ -69,5 +84,6 @@ module.exports = {
   dropStorage,
   getAvaliableStorateItems,
   push,
-  count
+  count,
+  tryToStore,
 }

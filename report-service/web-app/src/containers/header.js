@@ -2,8 +2,8 @@ import './styles/header.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getTestCases} from '../server-client/actions'
-import {updateCasesList} from '../reducers/action.creators'
+import {getTestCases, getRunsStatistics} from '../server-client/actions'
+import {updateCasesList, updateRunStatistics} from '../reducers/action.creators'
 import {InformationMessage, Button} from '../components'
 import {dataFormatter} from '../utils'
 import {DropList} from '../components/drop.list'
@@ -74,6 +74,8 @@ class Header extends Component {
   resyncCases = () => {
     const {dispatch} = this.props
     return getTestCases((cases) => dispatch(updateCasesList(cases)))
+      .then(getRunsStatistics)
+      .then((runs) => dispatch(updateRunStatistics(runs)))
   }
 
   filterTestCasesByDay = (name, dateObj) => {
@@ -133,6 +135,7 @@ class Header extends Component {
               {name: 'Four hours', click: () => this.getTestCaseByTime(4)},
               {name: 'One day', click: () => this.getTestCaseByTime(24)},
               {name: 'Two days', click: () => this.getTestCaseByTime(48)},
+              {name: 'Three days', click: () => this.getTestCaseByTime(72)},
             ]}
           />
         </div>

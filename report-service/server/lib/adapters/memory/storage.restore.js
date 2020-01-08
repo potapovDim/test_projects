@@ -1,15 +1,6 @@
-const fs = require('fs')
 const path = require('path')
 const {getFilesWithSubDirs} = require('./storage.utils')
 const {readFile, tryParseJson} = require('../../utils')
-
-/*
-const {
-  BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
-  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
-  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
-} = process.env
-*/
 
 /**
  *
@@ -64,29 +55,12 @@ async function tryToRestorerunsStorageFromBackups(runsStorage) {
 }
 */
 
-
-function enableAutoStoreStorageItems(
-  {testCasesStorage /*, runsStorage */},
-  storage, expectedExidQuantity, restoreCount, backupPath, backupFilePattern, intervalTimer = 1500
-) {
+function enableAutoStoreStorageItems({testCasesStorage, runsStorage}, intervalTimer = 1000) {
   const workerInterval = setInterval(function() {
-    if(testCasesStorage.count() >= expectedExidQuantity) {
-
-      return getFreeBackUpFilePathName(backupPath, backupFilePattern)
-        .then((backUpFileName) => {
-
-
-
-          return storage.dropStorage(+restoreCount).then((storagePart) => {
-
-            return fs.writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
-              if(err) throw err
-            })
-          })
-        })
-    }
+    return testCasesStorage
+      .tryToStore()
+      .then(runsStorage.tryToStore)
   }, intervalTimer)
-
   return workerInterval
 }
 

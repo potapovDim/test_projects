@@ -1,15 +1,5 @@
-const path = require('path')
 const {getConfig, setConfig} = require('../config')
 const {enableAutoStoreStorageItems} = require('./storage.restore')
-
-// const CONTENT_LENGTH = 150 * 10000
-
-const {
-  BACKUP_PATH = path.resolve(__dirname, '../../../temp'),
-  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
-  EXPECTED_CASES_COUNT = 3500,
-  RESTORE_CASES_COUNT = 1000,
-} = process.env
 
 const testCasesStorage = require('./storage.cases')
 const runsStorage = require('./storage.runs')
@@ -27,14 +17,7 @@ function storagesBackUpsInterface() {
   }
 
   function enableResore() {
-    restoreWorker = enableAutoStoreStorageItems(
-      {testCasesStorage, runsStorage},
-      testCasesStorage,
-      +EXPECTED_CASES_COUNT,
-      +RESTORE_CASES_COUNT,
-      BACKUP_PATH,
-      BACKUP_TEST_FILES_PATTERN
-    )
+    restoreWorker = enableAutoStoreStorageItems({testCasesStorage, runsStorage})
   }
 
   return {
