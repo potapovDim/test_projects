@@ -1,15 +1,18 @@
 const {resolve} = require('path')
-const {readFile, tryParseJson} = require('../../utils')
-const {getAvaliableBackUpFiles, restoreDataToStorage} = require('./storage.restore')
+const {readFile, tryParseJson, writeFile} = require('../../utils')
+const {getAvaliableBackUpFiles, restoreDataToStorage, getFreeBackUpFilePathName} = require('./storage.restore')
 const {
-  BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_TEST_FILES_PATTERN = 'tests_backup.json', DEMO
+  BACKUP_PATH = resolve(__dirname, '../../../temp'),
+  BACKUP_TEST_FILES_PATTERN = 'tests_backup.json',
+  EXPECTED_CASES_COUNT = 3500,
+  DEMO
 } = process.env
 
 const testCasesStorage = []
 
 if(DEMO) {
   const cases = require('../../../demo/tests.json')
-  testCasesStorage.push(...cases)
+  push(...cases)
 }
 
 async function setToStorage(testCaseItem) {
@@ -50,12 +53,49 @@ async function getAvaliableStorateItems() {
   return itemsWithStorage
 }
 
-function count() {
-  return testCasesStorage.length
+async function count() {
+  return new Promise((res) => setTimeout(() => res(testCasesStorage.length)))
 }
 
-function _getStorageContentLength() {
-  return JSON.stringify(testCasesStorage).length
+async function _getStorageContentLength() {
+  return new Promise((res) => setTimeout(() => res(JSON.stringify(testCasesStorage).length)))
+}
+
+async function tryToStoreCases() {
+  if(EXPECTED_CASES_COUNT > await count()) {
+    const toBuilds = testCasesStorage
+      .sort((a, b) => b.date - a.date)
+      .reduce((acc, testCase) => {
+        if(acc[testCase.run]) {
+          acc[testCase.run].push(testCase)
+        } else {
+          acc[testCase.run] = [testCase]
+        }
+        return acc
+      }, {})
+
+    // firstItem
+    const runNames = Object.keys(toBuilds)
+    const runWhatShouldBeStored = toBuilds[runNames[0]]
+
+    const casesFromStoreRun = toBuilds[runWhatShouldBeStored]
+    // write file to disk
+    await writeFile(await getFreeBackUpFilePathName(BACKUP_PATH, BACKUP_TEST_FILES_PATTERN), casesFromStoreRun)
+    // remove all items from torage
+    await dropStorage()
+    // set new items scope to storage
+
+    await push(
+      runNames
+        .filter((_, index) => index !== 0)
+        .reduce((acc, k) => {
+          acc.push(toBuilds[k])
+          return acc
+        }, [])
+    )
+    // return run what shoult be stored
+    return runNames[0]
+  }
 }
 
 module.exports = {
@@ -67,4 +107,5 @@ module.exports = {
   push,
   count,
   _getStorageContentLength,
+  tryToStoreCases
 }

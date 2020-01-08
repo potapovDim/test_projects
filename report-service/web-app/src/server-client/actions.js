@@ -21,10 +21,15 @@ function getRunsStatistics(cb = (arg) => arg) {
   return fetchy.get(routerConstants.getRunsStatistics).then(cb).catch(cb)
 }
 
+function getTechnicalInfo(cb = (arg) => arg) {
+  return fetchy.get(routerConstants.getTechnicalInfo).then(cb).catch(cb)
+}
+
 export {
   getTestCases,
   getTestCaseCount,
   getReportConfig,
   getRunsStatistics,
   updateReportConfig,
+  getTechnicalInfo,
 }

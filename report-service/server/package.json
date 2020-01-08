@@ -7,7 +7,8 @@
   "scripts": {
     "test": "mocha ./__specs__/**/*.spec.js",
     "dev": "node ./index.js",
-    "dev:nodemon": "nodemon ./service.playground.js"
+    "dev:nodemon": "nodemon ./service.playground.js",
+    "start:nodemon": "DEMO=1 nodemon ./service.playground.js"
   },
   "author": "",
   "license": "ISC",

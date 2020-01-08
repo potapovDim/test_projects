@@ -2,14 +2,16 @@ const {resolve} = require('path')
 const {readFile, tryParseJson} = require('../../utils')
 const {getAvaliableBackUpFiles, restoreDataToStorage} = require('./storage.restore')
 const {
-  BACKUP_PATH = resolve(__dirname, '../../../temp'), BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json', DEMO
+  BACKUP_PATH = resolve(__dirname, '../../../temp'),
+  BACKUP_RUNS_FILES_PATTERN = 'runs_backup.json',
+  DEMO
 } = process.env
 
 const runstStorage = []
 
 if(DEMO) {
   const runs = require('../../../demo/runs.json')
-  runstStorage.push(...runs)
+  push(...runs)
 }
 
 /**
@@ -54,9 +56,11 @@ async function getAvaliableStorateItems() {
   return itemsWithStorage
 }
 
-function count() {
-  return runstStorage.length
+async function count() {
+  return new Promise((res) => setTimeout(() => res(runstStorage.length)))
 }
+
+
 
 module.exports = {
   tryToRestore,

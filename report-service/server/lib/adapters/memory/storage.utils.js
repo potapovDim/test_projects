@@ -1,7 +1,6 @@
 const path = require('path')
 const fs = require('fs')
 
-
 /**
  *
  * @param {string} itemPath

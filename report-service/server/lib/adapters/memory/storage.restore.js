@@ -39,6 +39,7 @@ async function getAvaliableBackUpFiles(backUpDir, backUpFilePattern) {
 }
 
 async function restoreDataToStorage(storageArr, fileList) {
+
   if(fileList.length) {
     const lastTwoBackups = fileList.slice(fileList.length - 2, fileList.length)
     for(const file of lastTwoBackups) {
@@ -48,6 +49,7 @@ async function restoreDataToStorage(storageArr, fileList) {
       }
     }
   }
+
 }
 
 /*
@@ -72,10 +74,12 @@ function enableAutoStoreStorageItems(
 
       return getFreeBackUpFilePathName(backupPath, backupFilePattern)
         .then((backUpFileName) => {
+
+
+
           return storage.dropStorage(+restoreCount).then((storagePart) => {
 
             return fs.writeFile(backUpFileName, JSON.stringify(storagePart), function(err) {
-
               if(err) throw err
             })
           })

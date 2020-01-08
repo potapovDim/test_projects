@@ -4,7 +4,8 @@ const routerConstants = {
   setReportConfig: '/set-report-config',
   getReportConfig: '/get-report-config',
   addRunsStatistics: '/add-run-statistics',
-  getRunsStatistics: '/get-run-statistics'
+  getRunsStatistics: '/get-run-statistics',
+  getTechnicalInfo: '/report-service-get-technical-info'
 }
 
 export {

@@ -19,7 +19,6 @@ async function getStoredTestCasesCount(dirName, backUpfileNamePart) {
   return files.length * 1000
 }
 
-
 module.exports = {
   getStoredTestCasesCount
 }
