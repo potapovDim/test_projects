@@ -4,6 +4,7 @@ const {enableAutoStoreStorageItems} = require('./storage.restore')
 const testCasesStorage = require('./storage.cases')
 const runsStorage = require('./storage.runs')
 // TODO temp solution
+
 const restoreWorker = storagesBackUpsInterface()
 restoreWorker.enableResore()
 

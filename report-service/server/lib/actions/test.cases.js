@@ -42,7 +42,17 @@ async function addTestCase(ctx) {
   return ctx
 }
 
+/**
+ *
+ * @param {koa context object} ctx
+ */
+async function getProjects(ctx) {
+  ctx.status = 200
+  ctx.body = await storage.getProjectList()
+  return ctx
+}
 module.exports = {
   getTestCases,
   addTestCase,
+  getProjects
 }

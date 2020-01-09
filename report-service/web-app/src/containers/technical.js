@@ -32,8 +32,8 @@ class TechnicalSpecifications extends Component {
       <div className="technical_specifications">
         <h3>Technical information about Report-Service</h3>
         <div> <Dot className={"medium"} /> Reporter addapter is {ADDAPTER}</div>
-        {ADDAPTER === 'memory' &&
-          <div><Button title={"Eneble store to disk"}/></div>
+        {
+          ADDAPTER === 'memory' && <div><Button title={"Eneble store to disk"} /></div>
         }
         <div> <Dot className={"medium"} /> Available tests count is {testCasesStorageCount} </div>
         <div> <Dot className={"medium"} /> Available runs count is {runsStorageCount} </div>

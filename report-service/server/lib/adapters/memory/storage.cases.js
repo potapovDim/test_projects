@@ -8,6 +8,18 @@ const {
   DEMO
 } = process.env
 
+
+/**
+ * @example
+ * {
+ *   id: string,
+ *   run: any,
+ *   date: number,
+ *   stackTrace: string,
+ *   env?: string, //optional
+ *   project?: any, //optional
+ * }
+ */
 const testCasesStorage = []
 
 if(DEMO) {
@@ -95,6 +107,17 @@ async function tryToStore() {
   }
 }
 
+async function getProjectList() {
+  return new Promise((res) => setTimeout(() => {
+    res(testCasesStorage.reduce((acc, {project}) => {
+      if(project && acc.includes(project)) {
+        acc.push(project)
+      }
+      return acc
+    }, []))
+  }))
+}
+
 module.exports = {
   tryToRestore,
   setToStorage,
@@ -104,5 +127,6 @@ module.exports = {
   push,
   count,
   _getStorageContentLength,
-  tryToStore
+  tryToStore,
+  getProjectList
 }
