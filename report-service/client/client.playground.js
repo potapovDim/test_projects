@@ -6,6 +6,7 @@ const client = new ReportServiceClient('http://localhost:3000')
 const getNumber = (n = 1000, from = 0) => Math.floor((Math.random() * (n - from) + from))
 
 const getRandomTimeName = () => ['hours', 'days'][getNumber(2)]
+const getProject = () => ['project 1', 'project 2', 'project 3', 'project 4'][getNumber(4)]
 
 const generateEnv = () => `feature-TICKET-${getNumber(100)}`
 const getDate = () => +moment().subtract(getNumber(3), getRandomTimeName())
@@ -18,6 +19,7 @@ const cases = Array(3000).fill('_').map(() => ({
   `).toString(),
   env: generateEnv(),
   date: getDate(),
+  project: getProject(),
   run: getNumber(100)
 }))
 
@@ -28,8 +30,10 @@ const runs = cases
   .map((item) => ({
     run: item,
     count: getNumber(500, 150),
-    runStatus: getNumber(0, 2)
+    runStatus: getNumber(0, 2),
+    project: getProject(),
   }))
+
 
 
 const config = {
