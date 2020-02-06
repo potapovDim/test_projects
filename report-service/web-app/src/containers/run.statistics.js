@@ -25,14 +25,13 @@ class RunStatistics extends Component {
     testCases = testCases.filter(commonsUtils.filterFromUndefinedOrNull)
     runStatistics = runStatistics.filter(commonsUtils.filterFromUndefinedOrNull)
 
-    // TODO implement new dataFormatter
     const {
       buildsCount,
       allBuildsFails,
       averageAmount,
       totalExecutedCases,
       ...buildsStatistics
-    } = dataFormatter.getRangeFailedByBuildNew(testCases, runStatistics)
+    } = dataFormatter.getRangeFailedByBuild(testCases, runStatistics)
 
     const isStatisticsAvaliable = !!allBuildsFails && !!totalExecutedCases
     return (

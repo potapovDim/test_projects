@@ -107,10 +107,10 @@ async function tryToStore() {
   }
 }
 
-async function getProjectList() {
+async function getProjects() {
   return new Promise((res) => setTimeout(() => {
-    res(testCasesStorage.reduce((acc, {project}) => {
-      if(project && acc.includes(project)) {
+    res(testCasesStorage.reduce((acc, {project = 'Without project'}) => {
+      if(!acc.includes(project)) {
         acc.push(project)
       }
       return acc
@@ -128,5 +128,5 @@ module.exports = {
   count,
   _getStorageContentLength,
   tryToStore,
-  getProjectList
+  getProjects
 }

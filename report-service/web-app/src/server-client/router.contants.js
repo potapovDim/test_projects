@@ -5,7 +5,8 @@ const routerConstants = {
   getReportConfig: '/get-report-config',
   addRunsStatistics: '/add-run-statistics',
   getRunsStatistics: '/get-run-statistics',
-  getTechnicalInfo: '/report-service-get-technical-info'
+  getTechnicalInfo: '/report-service-get-technical-info',
+  getProjects: '/get-projects'
 }
 
 export {

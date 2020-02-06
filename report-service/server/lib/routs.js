@@ -18,7 +18,8 @@ const {
   dropCurrentStatistics,
   storeCurrentStatistics,
 
-  getTechnicalInfo
+  getTechnicalInfo,
+  getProjects
 } = require('./actions')
 
 router.post('/add-run-statistics', addRunsStatistics)
@@ -32,6 +33,8 @@ router.get('/get-report-config', getReporterConfig)
 
 router.get('/get-test-cases', getTestCases)
 router.post('/add-new-case', addTestCase)
+
+router.get('/get-projects', getProjects)
 
 router.get('/drop-current-statistics', dropCurrentStatistics)
 router.get('/store-current-statistics', storeCurrentStatistics)

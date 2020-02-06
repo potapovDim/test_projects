@@ -48,7 +48,7 @@ async function addTestCase(ctx) {
  */
 async function getProjects(ctx) {
   ctx.status = 200
-  ctx.body = await storage.getProjectList()
+  ctx.body = await storage.getProjects()
   return ctx
 }
 module.exports = {

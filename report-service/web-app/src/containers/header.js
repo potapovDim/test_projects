@@ -2,7 +2,7 @@ import './styles/header.css'
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getTestCases, getRunsStatistics} from '../server-client/actions'
+import {getTestCases, getRunsStatistics, getProjects} from '../server-client/actions'
 import {updateCasesList, updateRunStatistics} from '../reducers/action.creators'
 import {InformationMessage, Button} from '../components'
 import {dataFormatter} from '../utils'
@@ -25,6 +25,7 @@ class Header extends Component {
         messages: [...this.state.messages, data]
       })
     })
+    getProjects((projects) => this.setState({...this.state, projects}))
   }
 
   renderMessages = () => {
@@ -44,10 +45,6 @@ class Header extends Component {
         />
       )
     })
-  }
-
-  toggleCalendar = (name) => {
-    this.setState({[name]: !this.state[name]})
   }
 
   getTestCaseByTime = (hours) => {
@@ -100,7 +97,7 @@ class Header extends Component {
 
   render() {
     let {startDate, endDate, cases = []} = this.props
-    const {autosync} = this.state
+    const {autosync, projects} = this.state
 
     if(cases.length) {
       startDate = startDate ? startDate : cases[0].date

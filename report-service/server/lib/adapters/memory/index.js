@@ -64,6 +64,7 @@ function dropMemoryStatistics() {
 }
 
 module.exports = {
+  getProjects: testCasesStorage.getProjects,
   getStorageData: testCasesStorage.getStorageData,
   setToStorage: testCasesStorage.setToStorage,
   getAvaliableTestCases: testCasesStorage.getAvaliableStorateItems,

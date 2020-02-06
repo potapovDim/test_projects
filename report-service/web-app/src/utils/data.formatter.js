@@ -38,7 +38,7 @@ function mostFlakyCases(testCases) {
   }, {})
 }
 
-function getRangeFailedByBuildNew(testCases, runs) {
+function getRangeFailedByBuild(testCases, runs) {
   const info = runs.reduce((acc, runVal) => {
     const testCasesForRequiredRun = testCases
       .filter(({run}) => run === runVal.run)
@@ -158,7 +158,7 @@ function pubSubSubscribe(message, listener) {
 export default {
   getFailReasons,
   getRangeFailesByBuild,
-  getRangeFailedByBuildNew,
+  getRangeFailedByBuild,
   getGroupedByCases,
   mostFlakyCases,
   //TODO temp location
